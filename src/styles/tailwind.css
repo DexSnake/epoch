@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.SingleDatePicker {
+	width: 100% !important;
+}
+
+.SingleDatePickerInput {
+	width: 100% !important;
+}
+
+.date-picker-no-border .SingleDatePickerInput {
+	border-bottom: 1px solid #eaeaee !important;
+}
+
+.SingleDatePickerInput__withBorder {
+	border: 1px solid #eaeaee !important;
+	border-radius: 0.125rem !important;
+}
+
+.DateInput {
+	width: 100% !important;
+}
+
+.DateInput input {
+	width: 100% !important;
+	padding: 0.5rem !important;
+	font-weight: inherit !important;
+	font-size: inherit !important;
+	line-height: inherit !important;
+	color: inherit !important;
+	border-radius: 0.125rem !important;
+	border: none !important;
+}
+
+.date-picker-no-border input {
+	padding-top: 0 !important;
+	padding-bottom: 0.25rem !important;
+	padding-left: 0.5rem !important;
+	padding-right: 0.5rem !important;
+}
+
+.DateInput_input__focused {
+	border: none !important;
+}
+
+.DayPickerKeyboardShortcuts_show__bottomRight {
+	display: none !important;
+}
