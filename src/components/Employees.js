@@ -1,8 +1,7 @@
-import React, { useState, useEffect, Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from './Layout'
 import Employee from './Employee'
 import { db } from '../firebase/firebase'
-import moment from 'moment'
 
 const Employees = () => {
 	const [employees, setEmployees] = useState([])

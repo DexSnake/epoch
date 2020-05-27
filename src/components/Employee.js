@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import safeJsonStringify from 'safe-json-stringify'
 
 const Employee = ({ employees }) => {
 	return employees.map((e) => {
@@ -8,7 +7,7 @@ const Employee = ({ employees }) => {
 			<div key={e.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3 pb-6">
 				<div className="flex flex-col items-center text-center p-4 bg-white shadow-lg">
 					{e.imageUrl ? (
-						<img src={e.imageUrl} alt="photo" className="rounded-full h-24 w-24 mb-3" />
+						<img src={e.imageUrl} alt="employee headshot" className="rounded-full h-24 w-24 mb-3" />
 					) : (
 						<div className="rounded-full bg-purp-light h-24 w-24 mb-3 flex items-center justify-center">
 							<span className="font-semibold text-2xl">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Layout from './Layout'
-import { db } from '../firebase/firebase'
+import { db, storage } from '../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Icon from '@mdi/react'
@@ -16,21 +16,24 @@ import { TextInput, Select } from './EditEmployeeInputFields'
 const EditEmployee = (props) => {
 	// Convert the dates back to Moment objects then set loaded to true to conditionally render the date pickers
 	useEffect(() => {
-		setState((prevState) => ({ ...prevState, dateOfBirth: moment.unix(dateOfBirth.seconds), startDate: moment.unix(startDate.seconds) }))
+		setState((prevState) => ({ ...prevState, dateOfBirth: moment.unix(dateOfBirth.seconds), startDate: moment.unix(startDate.seconds), profileImage: null }))
 		setLoaded(true)
 	}, [])
 
 	const data = props.location.state.data
 	const [
-		{ id, firstName, lastName, middleName, startDate, dateOfBirth, ssn, title, ethnicity, gender, imageUrl, maritalStatus, phoneNumber, alternatePhoneNumber, email, address1, address2, city, state, zipCode, salary, emergencyContacts },
+		{ id, firstName, lastName, middleName, startDate, dateOfBirth, ssn, title, ethnicity, gender, imageUrl, profileImage, maritalStatus, phoneNumber, alternatePhoneNumber, email, address1, address2, city, state, zipCode, salary, emergencyContacts },
 		setState,
 	] = useState(data)
 	const [saving, setSaving] = useState(false)
 	const [removing, setRemoving] = useState(false)
-	const [showModal, setShowModal] = useState(false)
+	const [showRemoveEmployeeModal, setShowRemoveEmployeeModal] = useState(false)
+	const [showRemoveContactModal, setShowRemoveContactModal] = useState(false)
 	const [loaded, setLoaded] = useState(false)
 	const [showSsn, setShowSsn] = useState(false)
 	const [dobFocus, setDobFocus] = useState(false)
+	const [startDateFocus, setStartDateFocus] = useState(false)
+	const [modalIndex, setModalIndex] = useState(null)
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
@@ -44,8 +47,25 @@ const EditEmployee = (props) => {
 		setState((prevState) => ({ ...prevState, emergencyContacts: newEc }))
 	}
 
+	const addEmergencyContact = () => {
+		let Ec = [...emergencyContacts]
+		let newEc = { firstName: '', lastName: '', relationship: '', phoneNumber: '' }
+		Ec.push(newEc)
+		setState((prevState) => ({ ...prevState, emergencyContacts: Ec }))
+	}
+
+	const removeEmergencyContact = (i) => {
+		let Ec = [...emergencyContacts]
+		Ec.splice(i, 1)
+		setState((prevState) => ({ ...prevState, emergencyContacts: Ec }))
+		setShowRemoveContactModal(false)
+		setModalIndex(null)
+	}
+
 	const handleCancel = () => {
-		setShowModal(false)
+		setShowRemoveEmployeeModal(false)
+		setShowRemoveContactModal(false)
+		setModalIndex(null)
 	}
 
 	const handleDobChange = (dateOfBirth) => {
@@ -54,6 +74,34 @@ const EditEmployee = (props) => {
 
 	const handleStartDateChange = (startDate) => {
 		setState((prevState) => ({ ...prevState, startDate }))
+	}
+
+	const handleFile = (e) => {
+		const { name, files } = e.target
+		setState((prevState) => ({ ...prevState, [name]: files[0] }))
+	}
+
+	const handleUpload = (e) => {
+		if (profileImage) {
+			const uploadTask = storage.ref(`employee-photos/${profileImage.name}`).put(profileImage)
+			uploadTask.on(
+				'state_changed',
+				(snapshot) => {},
+				(error) => {
+					console.log(error)
+				},
+				() => {
+					storage
+						.ref('employee-photos')
+						.child(profileImage.name)
+						.getDownloadURL()
+						.then((url) => {
+							setState((prevState) => ({ ...prevState, imageUrl: url }))
+						})
+				}
+			)
+		}
+		e.stopPropagation()
 	}
 
 	const handleUpdate = (e) => {
@@ -99,7 +147,7 @@ const EditEmployee = (props) => {
 			.doc(data.id)
 			.delete()
 			.then(function () {
-				setShowModal(false)
+				setShowRemoveEmployeeModal(false)
 				props.history.push('/employees')
 			})
 	}
@@ -109,7 +157,7 @@ const EditEmployee = (props) => {
 			<div className="bg-white pb-6 pt-8 px-8 flex">
 				<div className="w-40 mx-2">
 					{imageUrl ? (
-						<img src={imageUrl} alt="photo" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
+						<img src={imageUrl} alt="employee headshot" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
 					) : (
 						<div className="rounded-full bg-purp-light h-32 w-32 mb-3 flex items-center justify-center">
 							<span className="font-semibold text-2xl text-purp-normal">
@@ -118,6 +166,11 @@ const EditEmployee = (props) => {
 							</span>
 						</div>
 					)}
+					<div className="relative">
+						<Label name="Upload..." htmlFor="profileImage" className="cursor-pointer" />
+						<input type="file" onChange={handleFile} name="profileImage" className="opacity-0 absolute left-0" />
+					</div>
+					<button onClick={handleUpload}>upload</button>
 				</div>
 				<div className="w-full mx-2 flex">
 					<div className="w-1/2">
@@ -145,8 +198,8 @@ const EditEmployee = (props) => {
 						</p>
 					</div>
 					<div className="w-1/4 flex justify-end">
-						<button className="h-px text-red-600 hover:text-red-800 font-bold uppercase text-sm focus:outline-none transition duration-200 ease" onClick={() => setShowModal(true)} style={{ display: saving ? 'none' : 'block' }}>
-							<Icon path={mdiDelete} size={1} />
+						<button className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease" onClick={() => setShowRemoveEmployeeModal(true)} style={{ display: saving ? 'none' : 'block' }}>
+							Remove Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
 						</button>
 					</div>
 				</div>
@@ -157,15 +210,15 @@ const EditEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="First Name" htmlFor="firstName" />
-							<TextInput name="firstName" value={firstName} placeholder="First Name" onChange={handleChange} />
+							<TextInput name="firstName" value={firstName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Middle Name" htmlFor="middleName" />
-							<TextInput name="middleName" value={middleName} placeholder="Middle Name" onChange={handleChange} />
+							<TextInput name="middleName" value={middleName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Last Name" htmlFor="lastName" />
-							<TextInput name="lastName" value={lastName} placeholder="Last Name" onChange={handleChange} />
+							<TextInput name="lastName" value={lastName} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -180,7 +233,6 @@ const EditEmployee = (props) => {
 										onDateChange={handleDobChange}
 										focused={dobFocus}
 										onFocusChange={() => setDobFocus(!dobFocus)}
-										placeholder="Date of Birth"
 										numberOfMonths={1}
 										isOutsideRange={() => false}
 										anchorDirection="left"
@@ -190,13 +242,14 @@ const EditEmployee = (props) => {
 								) : null}
 							</div>
 						</div>
-						<div className="w-1/5 px-3">
+						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" />
-							<TextInput name="ssn" value={ssn} placeholder="SSN" onChange={handleChange} />
+							{showSsn ? <TextInput name="ssn" value={ssn} onChange={handleChange} /> : <TextInput name="ssn" disabled value="XXX-XX-XXXX" />}
+							<Icon path={showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer absolute right-20" onClick={() => setShowSsn(!showSsn)} />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Gender" htmlFor="gender" />
-							<Select name="gender" value={gender} placeholder="Gender" onChange={handleChange}>
+							<Select name="gender" value={gender} onChange={handleChange}>
 								<option value="Male">Male</option>
 								<option value="Female">Female</option>
 								<option value="Other">Other</option>
@@ -204,7 +257,7 @@ const EditEmployee = (props) => {
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Ethnicity" htmlFor="ethnicity" />
-							<Select name="ethnicity" value={ethnicity} placeholder="Ethnicity" onChange={handleChange}>
+							<Select name="ethnicity" value={ethnicity} onChange={handleChange}>
 								<option value="American Indian">American Indian</option>
 								<option value="Asian">Asian</option>
 								<option value="Black">Black</option>
@@ -216,7 +269,7 @@ const EditEmployee = (props) => {
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Marital Status" htmlFor="maritalStatus" />
-							<Select name="maritalStatus" value={maritalStatus} placeholder="Marital Status" onChange={handleChange}>
+							<Select name="maritalStatus" value={maritalStatus} onChange={handleChange}>
 								<option value="Single">Single</option>
 								<option value="Married">Married</option>
 								<option value="Divorced">Divorced</option>
@@ -228,19 +281,52 @@ const EditEmployee = (props) => {
 			</EditEmployeeInfoContainer>
 			<EditEmployeeInfoContainer>
 				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Employment Info</p>
+					<div className="flex">
+						<div className="w-1/3 px-3">
+							<Label name="Hire Date" htmlFor="startDate" />
+							<div className="date-picker-no-border">
+								{loaded ? (
+									<SingleDatePicker
+										date={startDate}
+										onDateChange={handleStartDateChange}
+										focused={startDateFocus}
+										onFocusChange={() => setStartDateFocus(!startDateFocus)}
+										numberOfMonths={1}
+										isOutsideRange={() => false}
+										anchorDirection="left"
+										noBorder={true}
+										id="dateOfBirth"
+									/>
+								) : null}
+							</div>
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Salary" htmlFor="salary" />
+							<TextInput name="salary" value={salary} onChange={handleChange} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Title" htmlFor="title" />
+							<TextInput name="title" value={title} onChange={handleChange} />
+						</div>
+					</div>
+				</div>
+			</EditEmployeeInfoContainer>
+			<EditEmployeeInfoContainer>
+				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Contact Info</p>
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="Phone Number" htmlFor="phoneNumber" />
-							<TextInput name="phoneNumber" value={phoneNumber} placeholder="Phone Number" onChange={handleChange} />
+							<TextInput name="phoneNumber" value={phoneNumber} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
-							<TextInput name="alternatePhoneNumber" value={alternatePhoneNumber} placeholder="Alt Phone Number" onChange={handleChange} />
+							<TextInput name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Email" htmlFor="email" />
-							<TextInput name="email" value={email} placeholder="Email" onChange={handleChange} />
+							<TextInput name="email" value={email} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -248,49 +334,66 @@ const EditEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/5 px-3">
 							<Label name="Address 1" htmlFor="address1" />
-							<TextInput name="address1" value={address1} placeholder="Address 1" onChange={handleChange} />
+							<TextInput name="address1" value={address1} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Address 2" htmlFor="address2" />
-							<TextInput name="address2" value={address2} placeholder="Address 2" onChange={handleChange} />
+							<TextInput name="address2" value={address2} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="City" htmlFor="city" />
-							<TextInput name="city" value={city} placeholder="City" onChange={handleChange} />
+							<TextInput name="city" value={city} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="State" htmlFor="state" />
-							<TextInput name="state" value={state} placeholder="State" onChange={handleChange} />
+							<TextInput name="state" value={state} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Zip Code" htmlFor="zipCode" />
-							<TextInput name="zipCode" value={zipCode} placeholder="Zip Code" onChange={handleChange} />
+							<TextInput name="zipCode" value={zipCode} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
 			</EditEmployeeInfoContainer>
 			<EditEmployeeInfoContainer>
 				<div className="p-8">
-					<p className="uppercase text-purp-normal font-semibold mb-5">Emergency Contacts</p>
-
+					<div className="flex justify-between">
+						<p className="uppercase text-purp-normal font-semibold">Emergency Contacts</p>
+						<button className="bg-purp-normal text-white font-semibold text-sm px-3 py-2 rounded hover:bg-purp-dark outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={addEmergencyContact}>
+							Add Contact
+						</button>
+					</div>
 					{emergencyContacts.map((ec, i) => {
 						return (
-							<div className="flex" key={i}>
-								<div className="w-1/4 px-3">
-									<Label name="First Name" htmlFor="firstName" />
-									<TextInput name="firstName" value={ec.firstName} placeholder="First Name" onChange={(e) => handleEcChange(e, i)} />
+							<div key={i}>
+								<div className="flex mb-3 mt-6">
+									<p className="uppercase text-purp-normal text-sm font-semibold">Contact #{i + 1} </p>
+									<button
+										className="text-purp-medium ml-1 hover:text-red-600 focus:outline-none transition duration-200 ease"
+										onClick={() => {
+											setShowRemoveContactModal(true)
+											setModalIndex(i)
+										}}>
+										<Icon path={mdiDelete} size={0.7} />
+									</button>
 								</div>
-								<div className="w-1/4 px-3">
-									<Label name="Last Name" htmlFor="lastName" />
-									<TextInput name="lastName" value={ec.lastName} placeholder="Last Name" onChange={(e) => handleEcChange(e, i)} />
-								</div>
-								<div className="w-1/4 px-3">
-									<Label name="Relationship" htmlFor="relationship" />
-									<TextInput name="relationship" value={ec.relationship} placeholder="Relationship" onChange={(e) => handleEcChange(e, i)} />
-								</div>
-								<div className="w-1/4 px-3">
-									<Label name="Phone Number" htmlFor="phoneNumber" />
-									<TextInput name="phoneNumber" value={ec.phoneNumber} placeholder="Phone Number" onChange={(e) => handleEcChange(e, i)} />
+								<div className="flex">
+									<div className="w-1/4 px-3">
+										<Label name="First Name" htmlFor="firstName" />
+										<TextInput name="firstName" value={ec.firstName} onChange={(e) => handleEcChange(e, i)} />
+									</div>
+									<div className="w-1/4 px-3">
+										<Label name="Last Name" htmlFor="lastName" />
+										<TextInput name="lastName" value={ec.lastName} onChange={(e) => handleEcChange(e, i)} />
+									</div>
+									<div className="w-1/4 px-3">
+										<Label name="Relationship" htmlFor="relationship" />
+										<TextInput name="relationship" value={ec.relationship} onChange={(e) => handleEcChange(e, i)} />
+									</div>
+									<div className="w-1/4 px-3">
+										<Label name="Phone Number" htmlFor="phoneNumber" />
+										<TextInput name="phoneNumber" value={ec.phoneNumber} onChange={(e) => handleEcChange(e, i)} />
+									</div>
 								</div>
 							</div>
 						)
@@ -303,8 +406,8 @@ const EditEmployee = (props) => {
 					{saving ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Update'}
 				</button>
 			</div>
-			{/* Modal */}
-			{showModal ? (
+			{/* Modals */}
+			{showRemoveEmployeeModal ? (
 				<>
 					<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
 						<div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -313,7 +416,7 @@ const EditEmployee = (props) => {
 									<h3 className="text-2xl text-purp-normal">Remove Employee?</h3>
 									<button
 										className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none transition duration-300 ease transform hover:rotate-45"
-										onClick={() => setShowModal(false)}>
+										onClick={() => setShowRemoveEmployeeModal(false)}>
 										<span className="bg-transparent text-purp-normal opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">×</span>
 									</button>
 								</div>
@@ -330,6 +433,42 @@ const EditEmployee = (props) => {
 										Cancel
 									</button>
 									<button type="submit" className="bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={handleDelete}>
+										{removing ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Remove'}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+				</>
+			) : null}
+			{showRemoveContactModal ? (
+				<>
+					<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+						<div className="relative w-auto my-6 mx-auto max-w-3xl">
+							<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white overflow-y-auto outline-none focus:outline-none" style={{ maxHeight: '80vh' }}>
+								<div className="flex items-start p-5 rounded-t bg-purp-lightest">
+									<h3 className="text-2xl text-purp-normal">Remove Contact?</h3>
+									<button
+										className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none transition duration-300 ease transform hover:rotate-45"
+										onClick={() => setShowRemoveContactModal(false)}>
+										<span className="bg-transparent text-purp-normal opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">×</span>
+									</button>
+								</div>
+								<div className="relative p-6 flex-auto">
+									<div className="flex flex-col">
+										<p className="mb-3">Are you sure you want to remove this emergency contact?</p>
+										<p>This action cannot be un-done.</p>
+									</div>
+								</div>
+								<div className="flex items-center justify-end px-5 pb-5 rounded-b">
+									<button className="text-purp-light hover:text-purp-normal font-bold uppercase px-6 py-2 text-sm focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={handleCancel}>
+										Cancel
+									</button>
+									<button
+										type="submit"
+										className="bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease"
+										onClick={() => removeEmergencyContact(modalIndex)}>
 										{removing ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Remove'}
 									</button>
 								</div>

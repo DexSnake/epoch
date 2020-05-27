@@ -8,6 +8,11 @@ module.exports = {
 			'3/4': '75%',
 			full: '100%',
 		},
+		inset: {
+			'0': 0,
+			auto: 'auto',
+			'20': '20px',
+		},
 		extend: {
 			colors: {
 				purp: {
@@ -25,6 +30,7 @@ module.exports = {
 	variants: {
 		textColor: ['responsive', 'hover', 'focus', 'group-hover'],
 		opacity: ['responsive', 'hover', 'focus', 'group-hover'],
+		backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
 	},
 	plugins: [],
 }
