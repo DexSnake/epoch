@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
 import { mdiAccountGroup, mdiAccountPlus } from '@mdi/js'
 import AddEmployeeModal from './AddEmployeeModal'
+import { AuthContext } from '../context/Auth'
+import { auth } from '../firebase/firebase'
 
 const Layout = (props) => {
 	const [showModal, setShowModal] = useState(false)
@@ -11,15 +13,24 @@ const Layout = (props) => {
 		setShowModal(modalState)
 	}
 
+	const { currentUser } = useContext(AuthContext)
+
 	return (
 		<React.Fragment>
 			<div className="flex flex-col min-h-screen">
 				<header>
 					<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
 						<p className="text-white font-bold">KSTG PTO Tracker</p>
-						<Link to="/dashboard">
-							<p className="text-purp-light hover:text-white">Dashboard</p>
-						</Link>
+						<div className="flex">
+							<Link to="/dashboard">
+								<p className="text-purp-light hover:text-white">Dashboard</p>
+							</Link>
+							{currentUser ? (
+								<button className="text-purp-light hover:text-white pl-3" onClick={() => auth.signOut()}>
+									Sign Out
+								</button>
+							) : null}
+						</div>
 					</div>
 				</header>
 				<main className="flex flex-grow">

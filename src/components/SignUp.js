@@ -1,15 +1,14 @@
-import React, { useContext, useCallback } from 'react'
-import { withRouter, Redirect } from 'react-router'
+import React, { useCallback } from 'react'
+import { withRouter } from 'react-router'
 import { auth } from '../firebase/firebase'
-import { AuthContext } from '../context/Auth'
 
-const Login = ({ history }) => {
-	const handleLogin = useCallback(
+const SignUp = ({ history }) => {
+	const handleSignUp = useCallback(
 		async (e) => {
 			e.preventDefault()
 			const { email, password } = e.target
 			try {
-				await auth.signInWithEmailAndPassword(email.value, password.value)
+				await auth.createUserWithEmailAndPassword(email.value, password.value)
 				history.push('/dashboard')
 			} catch (error) {
 				alert(error)
@@ -17,12 +16,6 @@ const Login = ({ history }) => {
 		},
 		[history]
 	)
-
-	const { currentUser } = useContext(AuthContext)
-
-	if (currentUser) {
-		return <Redirect to="/dashboard" />
-	}
 
 	return (
 		<div className="flex flex-col min-h-screen">
@@ -33,8 +26,8 @@ const Login = ({ history }) => {
 			</header>
 			<main className="flex flex-grow items-center justify-center bg-purp-lightest">
 				<div className="bg-white p-8 shadow-lg">
-					<h1 className="text-purp-normal text-2xl font-bold">Login</h1>
-					<form className="pt-4" onSubmit={handleLogin}>
+					<h1 className="text-purp-normal text-2xl font-bold">Sign Up</h1>
+					<form className="pt-4" onSubmit={handleSignUp}>
 						<label htmlFor="email" className="block text-purp-normal">
 							email
 						</label>
@@ -53,4 +46,4 @@ const Login = ({ history }) => {
 	)
 }
 
-export default withRouter(Login)
+export default withRouter(SignUp)
