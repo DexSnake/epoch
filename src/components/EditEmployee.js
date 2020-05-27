@@ -4,7 +4,7 @@ import { db, storage } from '../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Icon from '@mdi/react'
-import { mdiLoading, mdiEyeCheck, mdiEyeMinus, mdiDelete } from '@mdi/js'
+import { mdiLoading, mdiEyeCheck, mdiEyeMinus, mdiDelete, mdiCameraOutline } from '@mdi/js'
 import moment from 'moment'
 import { SingleDatePicker } from 'react-dates'
 import 'react-dates/initialize'
@@ -81,27 +81,30 @@ const EditEmployee = (props) => {
 		setState((prevState) => ({ ...prevState, [name]: files[0] }))
 	}
 
-	const handleUpload = (e) => {
+	useEffect(() => {
 		if (profileImage) {
-			const uploadTask = storage.ref(`employee-photos/${profileImage.name}`).put(profileImage)
-			uploadTask.on(
-				'state_changed',
-				(snapshot) => {},
-				(error) => {
-					console.log(error)
-				},
-				() => {
-					storage
-						.ref('employee-photos')
-						.child(profileImage.name)
-						.getDownloadURL()
-						.then((url) => {
-							setState((prevState) => ({ ...prevState, imageUrl: url }))
-						})
-				}
-			)
+			handleUpload()
 		}
-		e.stopPropagation()
+	}, [profileImage])
+
+	const handleUpload = () => {
+		const uploadTask = storage.ref(`employee-photos/${profileImage.name}`).put(profileImage)
+		uploadTask.on(
+			'state_changed',
+			(snapshot) => {},
+			(error) => {
+				console.log(error)
+			},
+			() => {
+				storage
+					.ref('employee-photos')
+					.child(profileImage.name)
+					.getDownloadURL()
+					.then((url) => {
+						setState((prevState) => ({ ...prevState, imageUrl: url }))
+					})
+			}
+		)
 	}
 
 	const handleUpdate = (e) => {
@@ -155,7 +158,7 @@ const EditEmployee = (props) => {
 	return (
 		<Layout>
 			<div className="bg-white pb-6 pt-8 px-8 flex">
-				<div className="w-40 mx-2">
+				<div className="w-40 mx-2 relative">
 					{imageUrl ? (
 						<img src={imageUrl} alt="employee headshot" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
 					) : (
@@ -166,11 +169,14 @@ const EditEmployee = (props) => {
 							</span>
 						</div>
 					)}
-					<div className="relative">
-						<Label name="Upload..." htmlFor="profileImage" className="cursor-pointer" />
-						<input type="file" onChange={handleFile} name="profileImage" className="opacity-0 absolute left-0" />
+					<div className="absolute" style={{ bottom: 50, right: 50 }}>
+						<div className="relative">
+							<label htmlFor="profileImage" className="text-purp-normal absolute flex items-center justify-center shadow left-0 top-0 h-8 w-8 bg-white hover:text-purp-lightest rounded-full">
+								<Icon path={mdiCameraOutline} size={0.8} style={{ marginTop: 2 }} />
+							</label>
+							<input type="file" onChange={handleFile} name="profileImage" className="cursor-pointer opacity-0 absolute left-0 top-0 w-6" />
+						</div>
 					</div>
-					<button onClick={handleUpload}>upload</button>
 				</div>
 				<div className="w-full mx-2 flex">
 					<div className="w-1/2">
@@ -194,7 +200,7 @@ const EditEmployee = (props) => {
 							) : null}
 						</p>
 						<p className="text-purp-normal mb-3">
-							Salary: <span className="font-semibold">${salary.toLocaleString('en')}</span>
+							Salary: <span className="font-semibold">${salary}</span>
 						</p>
 					</div>
 					<div className="w-1/4 flex justify-end">
