@@ -9,8 +9,9 @@ import moment from 'moment'
 import { SingleDatePicker } from 'react-dates'
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
-import NumberFormat from 'react-number-format'
-import MaskedInput from 'react-text-mask'
+import EditEmployeeInfoContainer from './EditEmployeeInfoContainer'
+import Label from './EditEmployeeInfoLabel'
+import { TextInput, Select } from './EditEmployeeInputFields'
 
 const EditEmployee = (props) => {
 	// Convert the dates back to Moment objects then set loaded to true to conditionally render the date pickers
@@ -20,18 +21,27 @@ const EditEmployee = (props) => {
 	}, [])
 
 	const data = props.location.state.data
-	const [{ id, firstName, lastName, middleName, startDate, dateOfBirth, ssn, title, imageUrl }, setState] = useState(data)
+	const [
+		{ id, firstName, lastName, middleName, startDate, dateOfBirth, ssn, title, ethnicity, gender, imageUrl, maritalStatus, phoneNumber, alternatePhoneNumber, email, address1, address2, city, state, zipCode, salary, emergencyContacts },
+		setState,
+	] = useState(data)
 	const [saving, setSaving] = useState(false)
 	const [removing, setRemoving] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [loaded, setLoaded] = useState(false)
 	const [showSsn, setShowSsn] = useState(false)
 	const [dobFocus, setDobFocus] = useState(false)
-	const ssnPlaceHolder = 'XXX-XX-XXXX'
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
 		setState((prevState) => ({ ...prevState, [name]: value }))
+	}
+
+	const handleEcChange = (e, i) => {
+		const { name, value } = e.target
+		let newEc = [...emergencyContacts]
+		newEc[i][name] = value
+		setState((prevState) => ({ ...prevState, emergencyContacts: newEc }))
 	}
 
 	const handleCancel = () => {
@@ -60,6 +70,19 @@ const EditEmployee = (props) => {
 				ssn,
 				imageUrl,
 				title,
+				ethnicity,
+				gender,
+				maritalStatus,
+				phoneNumber,
+				alternatePhoneNumber,
+				email,
+				address1,
+				address2,
+				city,
+				state,
+				zipCode,
+				salary,
+				emergencyContacts,
 			})
 			.then(function () {
 				toast.success('Profile Saved!')
@@ -104,9 +127,7 @@ const EditEmployee = (props) => {
 						<p className="text-purp-normal mt-2 font-semibold">{title}</p>
 					</div>
 					<div className="w-1/4">
-						<p className="text-purp-normal mb-3">
-							Hired on: <span className="font-semibold">{startDate ? moment.unix(startDate.seconds).format('MMMM DD, YYYY') : null}</span>
-						</p>
+						<p className="text-purp-normal mb-3">Hired on: {loaded ? <span className="font-semibold">{startDate ? startDate.format('MMMM DD, YYYY') : null}</span> : null}</p>
 						<p className="text-purp-normal mb-3">
 							SSN: <span className={`font-semibold ${showSsn ? 'tracking-widest' : null}`}>{showSsn ? ssn : 'XXX-XXX-XXXX'}</span>
 							<Icon path={showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer" onClick={() => setShowSsn(!showSsn)} />
@@ -119,6 +140,9 @@ const EditEmployee = (props) => {
 								</span>
 							) : null}
 						</p>
+						<p className="text-purp-normal mb-3">
+							Salary: <span className="font-semibold">${salary.toLocaleString('en')}</span>
+						</p>
 					</div>
 					<div className="w-1/4 flex justify-end">
 						<button className="h-px text-red-600 hover:text-red-800 font-bold uppercase text-sm focus:outline-none transition duration-200 ease" onClick={() => setShowModal(true)} style={{ display: saving ? 'none' : 'block' }}>
@@ -127,58 +151,152 @@ const EditEmployee = (props) => {
 					</div>
 				</div>
 			</div>
-			<div className="bg-white shadow-lg border-t-4 border-purp-medium m-10">
-				<div className="flex pt-8 pb-10 px-8">
-					<div className="w-1/3 px-3">
-						<label htmlFor="firstName" className="text-purp-medium text-sm">
-							First Name
-						</label>
-						<input type="text" name="firstName" value={firstName} placeholder="First Name" onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2" />
-					</div>
-					<div className="w-1/3 px-3">
-						<label htmlFor="middleName" className="text-purp-medium text-sm">
-							Middle Name
-						</label>
-						<input type="text" name="middleName" value={middleName} placeholder="Middle Name" onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2" />
-					</div>
-					<div className="w-1/3 px-3">
-						<label htmlFor="lastName" className="text-purp-medium text-sm">
-							Last Name
-						</label>
-						<input type="text" name="lastName" value={lastName} placeholder="Last Name" onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2" />
-					</div>
-				</div>
-				<hr className="border-purp-light" />
-				<div className="flex p-8">
-					<div className="w-1/3 px-3">
-						<label htmlFor="dateOfBirth" className="text-purp-medium text-sm">
-							DOB
-						</label>
-						<div className="date-picker-no-border">
-							{loaded ? (
-								<SingleDatePicker
-									date={dateOfBirth}
-									onDateChange={handleDobChange}
-									focused={dobFocus}
-									onFocusChange={() => setDobFocus(!dobFocus)}
-									placeholder="Date of Birth"
-									numberOfMonths={1}
-									isOutsideRange={() => false}
-									anchorDirection="left"
-									noBorder={true}
-									id="dateOfBirth"
-								/>
-							) : null}
+			<EditEmployeeInfoContainer>
+				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Personal Info</p>
+					<div className="flex">
+						<div className="w-1/3 px-3">
+							<Label name="First Name" htmlFor="firstName" />
+							<TextInput name="firstName" value={firstName} placeholder="First Name" onChange={handleChange} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Middle Name" htmlFor="middleName" />
+							<TextInput name="middleName" value={middleName} placeholder="Middle Name" onChange={handleChange} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Last Name" htmlFor="lastName" />
+							<TextInput name="lastName" value={lastName} placeholder="Last Name" onChange={handleChange} />
 						</div>
 					</div>
-					<div className="w-1/3 px-3">
-						<label htmlFor="ssn" className="text-purp-medium text-sm">
-							SSN
-						</label>
-						<MaskedInput mask={[/\d{3}/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]} name="ssn" value={showSsn ? ssn : ssnPlaceHolder} onChange={handleChange} placeholder="SSN" className="w-full text-purp-normal border-b pb-1 px-2" />
+				</div>
+				<div className="p-8">
+					<div className="flex">
+						<div className="w-1/5 px-3">
+							<Label name="DOB" htmlFor="dob" />
+							<div className="date-picker-no-border">
+								{loaded ? (
+									<SingleDatePicker
+										date={dateOfBirth}
+										onDateChange={handleDobChange}
+										focused={dobFocus}
+										onFocusChange={() => setDobFocus(!dobFocus)}
+										placeholder="Date of Birth"
+										numberOfMonths={1}
+										isOutsideRange={() => false}
+										anchorDirection="left"
+										noBorder={true}
+										id="dateOfBirth"
+									/>
+								) : null}
+							</div>
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="SSN" htmlFor="ssn" />
+							<TextInput name="ssn" value={ssn} placeholder="SSN" onChange={handleChange} />
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="Gender" htmlFor="gender" />
+							<Select name="gender" value={gender} placeholder="Gender" onChange={handleChange}>
+								<option value="Male">Male</option>
+								<option value="Female">Female</option>
+								<option value="Other">Other</option>
+							</Select>
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="Ethnicity" htmlFor="ethnicity" />
+							<Select name="ethnicity" value={ethnicity} placeholder="Ethnicity" onChange={handleChange}>
+								<option value="American Indian">American Indian</option>
+								<option value="Asian">Asian</option>
+								<option value="Black">Black</option>
+								<option value="Hispanic">Hispanic</option>
+								<option value="Two or More Races">Two or More Races</option>
+								<option value="Unknown">Unknown</option>
+								<option value="White/Caucasian">White/Caucasian</option>
+							</Select>
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="Marital Status" htmlFor="maritalStatus" />
+							<Select name="maritalStatus" value={maritalStatus} placeholder="Marital Status" onChange={handleChange}>
+								<option value="Single">Single</option>
+								<option value="Married">Married</option>
+								<option value="Divorced">Divorced</option>
+								<option value="Widowed">Widowed</option>
+							</Select>
+						</div>
 					</div>
 				</div>
-			</div>
+			</EditEmployeeInfoContainer>
+			<EditEmployeeInfoContainer>
+				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Contact Info</p>
+					<div className="flex">
+						<div className="w-1/3 px-3">
+							<Label name="Phone Number" htmlFor="phoneNumber" />
+							<TextInput name="phoneNumber" value={phoneNumber} placeholder="Phone Number" onChange={handleChange} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
+							<TextInput name="alternatePhoneNumber" value={alternatePhoneNumber} placeholder="Alt Phone Number" onChange={handleChange} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Email" htmlFor="email" />
+							<TextInput name="email" value={email} placeholder="Email" onChange={handleChange} />
+						</div>
+					</div>
+				</div>
+				<div className="p-8">
+					<div className="flex">
+						<div className="w-1/5 px-3">
+							<Label name="Address 1" htmlFor="address1" />
+							<TextInput name="address1" value={address1} placeholder="Address 1" onChange={handleChange} />
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="Address 2" htmlFor="address2" />
+							<TextInput name="address2" value={address2} placeholder="Address 2" onChange={handleChange} />
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="City" htmlFor="city" />
+							<TextInput name="city" value={city} placeholder="City" onChange={handleChange} />
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="State" htmlFor="state" />
+							<TextInput name="state" value={state} placeholder="State" onChange={handleChange} />
+						</div>
+						<div className="w-1/5 px-3">
+							<Label name="Zip Code" htmlFor="zipCode" />
+							<TextInput name="zipCode" value={zipCode} placeholder="Zip Code" onChange={handleChange} />
+						</div>
+					</div>
+				</div>
+			</EditEmployeeInfoContainer>
+			<EditEmployeeInfoContainer>
+				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Emergency Contacts</p>
+
+					{emergencyContacts.map((ec, i) => {
+						return (
+							<div className="flex" key={i}>
+								<div className="w-1/4 px-3">
+									<Label name="First Name" htmlFor="firstName" />
+									<TextInput name="firstName" value={ec.firstName} placeholder="First Name" onChange={(e) => handleEcChange(e, i)} />
+								</div>
+								<div className="w-1/4 px-3">
+									<Label name="Last Name" htmlFor="lastName" />
+									<TextInput name="lastName" value={ec.lastName} placeholder="Last Name" onChange={(e) => handleEcChange(e, i)} />
+								</div>
+								<div className="w-1/4 px-3">
+									<Label name="Relationship" htmlFor="relationship" />
+									<TextInput name="relationship" value={ec.relationship} placeholder="Relationship" onChange={(e) => handleEcChange(e, i)} />
+								</div>
+								<div className="w-1/4 px-3">
+									<Label name="Phone Number" htmlFor="phoneNumber" />
+									<TextInput name="phoneNumber" value={ec.phoneNumber} placeholder="Phone Number" onChange={(e) => handleEcChange(e, i)} />
+								</div>
+							</div>
+						)
+					})}
+				</div>
+			</EditEmployeeInfoContainer>
 			{/* Save/Remove Section */}
 			<div className="pb-6 px-10 flex justify-end items-center">
 				<button onClick={handleUpdate} className="bg-purp-normal text-white px-3 py-2 font-semibold">
