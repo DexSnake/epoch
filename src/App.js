@@ -9,6 +9,9 @@ import Employees from './components/Employees'
 import EditEmployee from './components/EditEmployee'
 import { AuthProvider } from './context/Auth'
 import PrivateRoute from './components/PrivateRoute'
+import NewRequest from './components/NewRequest'
+import Account from './components/Account'
+import ResetPassword from './components/ResetPassword'
 
 function App() {
 	return (
@@ -17,9 +20,12 @@ function App() {
 				<Route path="/" exact component={Home} />
 				<Route path="/signup" component={SignUp} />
 				<Route path="/login" component={Login} />
+				<Route path="/reset-password" component={ResetPassword} />
 				<PrivateRoute path="/dashboard" component={Dashboard} />
 				<PrivateRoute path="/employees" exact component={Employees} />
 				<PrivateRoute path="/employees/edit/:id" component={EditEmployee} />
+				<PrivateRoute path="/new-request" component={NewRequest} />
+				<PrivateRoute path="/account" component={Account} />
 			</Router>
 		</AuthProvider>
 	)

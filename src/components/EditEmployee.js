@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Layout from './Layout'
 import { db, storage } from '../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
@@ -12,8 +12,11 @@ import 'react-dates/lib/css/_datepicker.css'
 import EditEmployeeInfoContainer from './EditEmployeeInfoContainer'
 import Label from './EditEmployeeInfoLabel'
 import { TextInput, Select } from './EditEmployeeInputFields'
+import { AuthContext } from '../context/Auth'
 
 const EditEmployee = (props) => {
+	const { userProfile } = useContext(AuthContext)
+
 	// Convert the dates back to Moment objects then set loaded to true to conditionally render the date pickers
 	useEffect(() => {
 		setState((prevState) => ({ ...prevState, dateOfBirth: moment.unix(dateOfBirth.seconds), startDate: moment.unix(startDate.seconds), profileImage: null }))
@@ -34,6 +37,10 @@ const EditEmployee = (props) => {
 	const [dobFocus, setDobFocus] = useState(false)
 	const [startDateFocus, setStartDateFocus] = useState(false)
 	const [modalIndex, setModalIndex] = useState(null)
+	const [confirmDelete, setConfirmDelete] = useState('')
+	const [removeButton, setRemoveButton] = useState(true)
+
+	console.log(removeButton)
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
@@ -116,7 +123,7 @@ const EditEmployee = (props) => {
 				firstName,
 				lastName,
 				middleName,
-				dateofBirth: dateOfBirth._d,
+				dateOfBirth: dateOfBirth._d,
 				startDate: startDate._d,
 				ssn,
 				imageUrl,
@@ -155,6 +162,14 @@ const EditEmployee = (props) => {
 			})
 	}
 
+	useEffect(() => {
+		if (confirmDelete === `${firstName} ${lastName}`) {
+			setRemoveButton(false)
+		} else {
+			setRemoveButton(true)
+		}
+	}, [confirmDelete])
+
 	return (
 		<Layout>
 			<div className="bg-white pb-6 pt-8 px-8 flex">
@@ -180,9 +195,7 @@ const EditEmployee = (props) => {
 				</div>
 				<div className="w-full mx-2 flex">
 					<div className="w-1/2">
-						<h1 className="font-thin leading-none text-5xl text-purp-normal">
-							{firstName} {lastName}
-						</h1>
+						<h1 className="font-thin leading-none text-5xl text-purp-normal">{firstName || lastName ? `${firstName} ${lastName}` : 'No Name Specified'}</h1>
 						<p className="text-purp-normal mt-2 font-semibold">{title}</p>
 					</div>
 					<div className="w-1/4">
@@ -203,11 +216,13 @@ const EditEmployee = (props) => {
 							Salary: <span className="font-semibold">${salary}</span>
 						</p>
 					</div>
-					<div className="w-1/4 flex justify-end">
-						<button className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease" onClick={() => setShowRemoveEmployeeModal(true)} style={{ display: saving ? 'none' : 'block' }}>
-							Remove Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
-						</button>
-					</div>
+					{userProfile.isAdmin ? (
+						<div className="w-1/4 flex justify-end">
+							<button className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease" onClick={() => setShowRemoveEmployeeModal(true)} style={{ display: saving ? 'none' : 'block' }}>
+								Remove Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
+							</button>
+						</div>
+					) : null}
 				</div>
 			</div>
 			<EditEmployeeInfoContainer>
@@ -216,15 +231,15 @@ const EditEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="First Name" htmlFor="firstName" />
-							<TextInput name="firstName" value={firstName} onChange={handleChange} />
+							<TextInput name="firstName" disabled={!userProfile.isAdmin} value={firstName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Middle Name" htmlFor="middleName" />
-							<TextInput name="middleName" value={middleName} onChange={handleChange} />
+							<TextInput name="middleName" disabled={!userProfile.isAdmin} value={middleName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Last Name" htmlFor="lastName" />
-							<TextInput name="lastName" value={lastName} onChange={handleChange} />
+							<TextInput name="lastName" disabled={!userProfile.isAdmin} value={lastName} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -243,6 +258,7 @@ const EditEmployee = (props) => {
 										isOutsideRange={() => false}
 										anchorDirection="left"
 										noBorder={true}
+										disabled={!userProfile.isAdmin}
 										id="dateOfBirth"
 									/>
 								) : null}
@@ -250,7 +266,7 @@ const EditEmployee = (props) => {
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" />
-							{showSsn ? <TextInput name="ssn" value={ssn} onChange={handleChange} /> : <TextInput name="ssn" disabled value="XXX-XX-XXXX" />}
+							{showSsn ? <TextInput name="ssn" disabled={!userProfile.isAdmin} value={ssn} onChange={handleChange} /> : <TextInput name="ssn" disabled value="XXX-XX-XXXX" />}
 							<Icon path={showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer absolute right-20" onClick={() => setShowSsn(!showSsn)} />
 						</div>
 						<div className="w-1/5 px-3">
@@ -302,6 +318,7 @@ const EditEmployee = (props) => {
 										isOutsideRange={() => false}
 										anchorDirection="left"
 										noBorder={true}
+										disabled={!userProfile.isAdmin}
 										id="dateOfBirth"
 									/>
 								) : null}
@@ -309,11 +326,11 @@ const EditEmployee = (props) => {
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Salary" htmlFor="salary" />
-							<TextInput name="salary" value={salary} onChange={handleChange} />
+							<TextInput name="salary" disabled={!userProfile.isAdmin} value={salary} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Title" htmlFor="title" />
-							<TextInput name="title" value={title} onChange={handleChange} />
+							<TextInput name="title" disabled={!userProfile.isAdmin} value={title} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -428,17 +445,24 @@ const EditEmployee = (props) => {
 								</div>
 								<div className="relative p-6 flex-auto">
 									<div className="flex flex-col">
-										<p className="mb-3">
-											Are you sure you want to remove {firstName} {lastName}?
+										<p>
+											Confirm you want to remove this emplooyee by typing their name:{' '}
+											<span className="font-semibold">
+												{firstName} {lastName}
+											</span>
 										</p>
-										<p>This action cannot be un-done.</p>
+										<input type="text" name="confirmDelete" onChange={(e) => setConfirmDelete(e.target.value)} placeholder={`${firstName} ${lastName}`} className="border border-purp-light px-4 py-2 mt-3 w-64" />
 									</div>
 								</div>
 								<div className="flex items-center justify-end px-5 pb-5 rounded-b">
 									<button className="text-purp-light hover:text-purp-normal font-bold uppercase px-6 py-2 text-sm focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={handleCancel}>
 										Cancel
 									</button>
-									<button type="submit" className="bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={handleDelete}>
+									<button
+										type="submit"
+										disabled={removeButton}
+										className={`bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease ${removeButton ? 'opacity-50 cursor-not-allowed' : null}`}
+										onClick={handleDelete}>
 										{removing ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Remove'}
 									</button>
 								</div>

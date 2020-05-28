@@ -1,9 +1,12 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useState } from 'react'
 import { withRouter, Redirect } from 'react-router'
+import { Link } from 'react-router-dom'
 import { auth } from '../firebase/firebase'
 import { AuthContext } from '../context/Auth'
 
 const Login = ({ history }) => {
+	const [errorMsg, setErrorMsg] = useState('')
+
 	const handleLogin = useCallback(
 		async (e) => {
 			e.preventDefault()
@@ -12,7 +15,11 @@ const Login = ({ history }) => {
 				await auth.signInWithEmailAndPassword(email.value, password.value)
 				history.push('/dashboard')
 			} catch (error) {
-				alert(error)
+				if (error.code === 'auth/wrong-password') {
+					setErrorMsg('Incorrect email or password')
+				} else {
+					setErrorMsg(error.message)
+				}
 			}
 		},
 		[history]
@@ -47,6 +54,10 @@ const Login = ({ history }) => {
 							Sign In
 						</button>
 					</form>
+					<Link to="/reset-password">
+						<small>Forgot Password?</small>
+					</Link>
+					<p className="text-red-600">{errorMsg}</p>
 				</div>
 			</main>
 		</div>

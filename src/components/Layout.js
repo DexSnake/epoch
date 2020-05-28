@@ -1,59 +1,51 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Icon from '@mdi/react'
-import { mdiAccountGroup, mdiAccountPlus } from '@mdi/js'
-import AddEmployeeModal from './AddEmployeeModal'
 import { AuthContext } from '../context/Auth'
 import { auth } from '../firebase/firebase'
+import UserNav from './UserNav'
+import AdminNav from './AdminNav'
 
 const Layout = (props) => {
-	const [showModal, setShowModal] = useState(false)
-
-	const handleModal = (modalState) => {
-		setShowModal(modalState)
-	}
-
-	const { currentUser } = useContext(AuthContext)
+	const { currentUser, userProfile } = useContext(AuthContext)
+	const [showProfileMenu, setShowProfileMenu] = useState(false)
 
 	return (
 		<React.Fragment>
 			<div className="flex flex-col min-h-screen">
 				<header>
 					<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
-						<p className="text-white font-bold">KSTG PTO Tracker</p>
+						<Link to="/dashboard">
+							<p className="text-white font-bold">KSTG PTO Tracker</p>
+						</Link>
 						<div className="flex">
-							<Link to="/dashboard">
-								<p className="text-purp-light hover:text-white">Dashboard</p>
-							</Link>
 							{currentUser ? (
-								<button className="text-purp-light hover:text-white pl-3" onClick={() => auth.signOut()}>
-									Sign Out
-								</button>
+								<div>
+									<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex">
+										<p className="text-purp-light hover:text-white pl-3">{userProfile.firstName}</p>
+										<img src={userProfile.imageUrl} alt={userProfile.firstName} className="h-6 w-6 rounded-full ml-2" />
+									</button>
+								</div>
 							) : null}
 						</div>
 					</div>
 				</header>
 				<main className="flex flex-grow">
-					<div className="bg-purp-normal w-64 py-10 px-4">
-						<ul>
-							<button onClick={() => setShowModal(true)}>
-								<li className="text-purp-light mb-3">
-									<Icon path={mdiAccountPlus} size={1} className="mr-2 inline pb-1" />
-									Add Employee
-								</li>
-							</button>
-							<Link to="/employees">
-								<li className="text-purp-light">
-									<Icon path={mdiAccountGroup} size={1} className="mr-2 inline pb-1" />
-									Employee List
-								</li>
-							</Link>
-						</ul>
+					<div className="bg-purp-normal w-64 py-10 px-4">{userProfile.isAdmin ? <AdminNav /> : <UserNav />}</div>
+					<div className="bg-purp-lightest flex-grow relative">
+						<div className="absolute bg-purp-normal right-20 top-0 py-2 px-4" style={{ display: showProfileMenu ? 'block' : 'none' }}>
+							<ul>
+								<Link to="/account">
+									<li className="text-purp-light hover:text-white">Account</li>
+								</Link>
+								<button className="text-purp-light hover:text-white" onClick={() => auth.signOut()}>
+									<li>Sign Out</li>
+								</button>
+							</ul>
+						</div>
+						{props.children}
 					</div>
-					<div className="bg-purp-lightest flex-grow">{props.children}</div>
 				</main>
 			</div>
-			<AddEmployeeModal showModal={showModal} onUpdate={handleModal} />
 		</React.Fragment>
 	)
 }
