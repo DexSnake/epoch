@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
-import Layout from './Layout'
-import { db, storage } from '../firebase/firebase'
+import Layout from '../Layout'
+import { db, storage } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Icon from '@mdi/react'
@@ -9,10 +9,11 @@ import moment from 'moment'
 import { SingleDatePicker } from 'react-dates'
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
-import EditEmployeeInfoContainer from './EditEmployeeInfoContainer'
-import Label from './EditEmployeeInfoLabel'
-import { TextInput, Select } from './EditEmployeeInputFields'
-import { AuthContext } from '../context/Auth'
+import EditEmployeeInfoContainer from '../EditEmployeeInfoContainer'
+import { Label, TextInput, Select } from '../FormFields'
+import { AuthContext } from '../../context/Auth'
+import EmployeeHeader from '../EmployeeHeader'
+import RemoveEmployeeModal from '../modals/RemoveEmployeeModal'
 
 const EditEmployee = (props) => {
 	const { userProfile } = useContext(AuthContext)
@@ -37,16 +38,17 @@ const EditEmployee = (props) => {
 	const [dobFocus, setDobFocus] = useState(false)
 	const [startDateFocus, setStartDateFocus] = useState(false)
 	const [modalIndex, setModalIndex] = useState(null)
-	const [confirmDelete, setConfirmDelete] = useState('')
-	const [removeButton, setRemoveButton] = useState(true)
 
-	console.log(removeButton)
+	// Data variable to send to the EmployeeHeader component
+	const EmployeeHeaderData = { userProfile, loaded, showSsn, firstName, lastName, ssn, title, startDate, dateOfBirth, imageUrl, salary }
 
+	// Function to handle the onChange events for the inputs
 	const handleChange = (e) => {
 		const { name, value } = e.target
 		setState((prevState) => ({ ...prevState, [name]: value }))
 	}
 
+	// Function to handle the onChange events for the emergency contacts
 	const handleEcChange = (e, i) => {
 		const { name, value } = e.target
 		let newEc = [...emergencyContacts]
@@ -54,6 +56,7 @@ const EditEmployee = (props) => {
 		setState((prevState) => ({ ...prevState, emergencyContacts: newEc }))
 	}
 
+	// Function to add and emergency contact
 	const addEmergencyContact = () => {
 		let Ec = [...emergencyContacts]
 		let newEc = { firstName: '', lastName: '', relationship: '', phoneNumber: '' }
@@ -61,6 +64,7 @@ const EditEmployee = (props) => {
 		setState((prevState) => ({ ...prevState, emergencyContacts: Ec }))
 	}
 
+	// Function to remove an emergency contact
 	const removeEmergencyContact = (i) => {
 		let Ec = [...emergencyContacts]
 		Ec.splice(i, 1)
@@ -69,31 +73,36 @@ const EditEmployee = (props) => {
 		setModalIndex(null)
 	}
 
+	// Function to handle the closing of the remove emergency contact modal
 	const handleCancel = () => {
-		setShowRemoveEmployeeModal(false)
 		setShowRemoveContactModal(false)
 		setModalIndex(null)
 	}
 
+	// Function to handle the onChange event of the dateOfBirth input
 	const handleDobChange = (dateOfBirth) => {
 		setState((prevState) => ({ ...prevState, dateOfBirth }))
 	}
 
+	// Function to handle the onChange event of the startDate input
 	const handleStartDateChange = (startDate) => {
 		setState((prevState) => ({ ...prevState, startDate }))
 	}
 
+	// Function to set the state of profileImage
 	const handleFile = (e) => {
 		const { name, files } = e.target
 		setState((prevState) => ({ ...prevState, [name]: files[0] }))
 	}
 
+	// Calls the handleUpload function when a new profileImage is selected from the file explorer
 	useEffect(() => {
 		if (profileImage) {
 			handleUpload()
 		}
 	}, [profileImage])
 
+	// Function that uploads the new profileImage to Firebase then sets the new file url as imageUrl
 	const handleUpload = () => {
 		const uploadTask = storage.ref(`employee-photos/${profileImage.name}`).put(profileImage)
 		uploadTask.on(
@@ -114,6 +123,7 @@ const EditEmployee = (props) => {
 		)
 	}
 
+	// Function that gets called when save button is clicked. Uploads the current state of all values to Firebase
 	const handleUpdate = (e) => {
 		e.preventDefault()
 		setSaving(true)
@@ -151,6 +161,7 @@ const EditEmployee = (props) => {
 			})
 	}
 
+	// Function that gets called when the remove button inside the RemoveEmployeeModal components gets clicked
 	const handleDelete = () => {
 		setRemoving(true)
 		db.collection('Employees')
@@ -162,69 +173,19 @@ const EditEmployee = (props) => {
 			})
 	}
 
-	useEffect(() => {
-		if (confirmDelete === `${firstName} ${lastName}`) {
-			setRemoveButton(false)
-		} else {
-			setRemoveButton(true)
-		}
-	}, [confirmDelete])
+	// Gets passed to RemoveEmployeeModal component
+	const handleShowRemoveEmployeeModal = () => {
+		setShowRemoveEmployeeModal(true)
+	}
+
+	// Gets passed to RemoveEmployeeModal component
+	const handleCloseRemoveEmployeeModal = () => {
+		setShowRemoveEmployeeModal(false)
+	}
 
 	return (
 		<Layout>
-			<div className="bg-white pb-6 pt-8 px-8 flex">
-				<div className="w-40 mx-2 relative">
-					{imageUrl ? (
-						<img src={imageUrl} alt="employee headshot" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
-					) : (
-						<div className="rounded-full bg-purp-light h-32 w-32 mb-3 flex items-center justify-center">
-							<span className="font-semibold text-2xl text-purp-normal">
-								{firstName.charAt(0)}
-								{lastName.charAt(0)}
-							</span>
-						</div>
-					)}
-					<div className="absolute" style={{ bottom: 50, right: 50 }}>
-						<div className="relative">
-							<label htmlFor="profileImage" className="text-purp-normal absolute flex items-center justify-center shadow left-0 top-0 h-8 w-8 bg-white hover:text-purp-lightest rounded-full">
-								<Icon path={mdiCameraOutline} size={0.8} style={{ marginTop: 2 }} />
-							</label>
-							<input type="file" onChange={handleFile} name="profileImage" className="cursor-pointer opacity-0 absolute left-0 top-0 w-6" />
-						</div>
-					</div>
-				</div>
-				<div className="w-full mx-2 flex">
-					<div className="w-1/2">
-						<h1 className="font-thin leading-none text-5xl text-purp-normal">{firstName || lastName ? `${firstName} ${lastName}` : 'No Name Specified'}</h1>
-						<p className="text-purp-normal mt-2 font-semibold">{title}</p>
-					</div>
-					<div className="w-1/4">
-						<p className="text-purp-normal mb-3">Hired on: {loaded ? <span className="font-semibold">{startDate ? startDate.format('MMMM DD, YYYY') : null}</span> : null}</p>
-						<p className="text-purp-normal mb-3">
-							SSN: <span className={`font-semibold ${showSsn ? 'tracking-widest' : null}`}>{showSsn ? ssn : 'XXX-XXX-XXXX'}</span>
-							<Icon path={showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer" onClick={() => setShowSsn(!showSsn)} />
-						</p>
-						<p className="text-purp-normal mb-3">
-							DOB:{' '}
-							{loaded ? (
-								<span className="font-semibold">
-									{dateOfBirth ? dateOfBirth.format('MMMM DD, YYYY') : null} ({moment().diff(dateOfBirth, 'years')})
-								</span>
-							) : null}
-						</p>
-						<p className="text-purp-normal mb-3">
-							Salary: <span className="font-semibold">${salary}</span>
-						</p>
-					</div>
-					{userProfile.isAdmin ? (
-						<div className="w-1/4 flex justify-end">
-							<button className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease" onClick={() => setShowRemoveEmployeeModal(true)} style={{ display: saving ? 'none' : 'block' }}>
-								Remove Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
-							</button>
-						</div>
-					) : null}
-				</div>
-			</div>
+			<EmployeeHeader data={EmployeeHeaderData} handleFile={handleFile} showModal={handleShowRemoveEmployeeModal} />
 			<EditEmployeeInfoContainer>
 				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Personal Info</p>
@@ -430,48 +391,7 @@ const EditEmployee = (props) => {
 				</button>
 			</div>
 			{/* Modals */}
-			{showRemoveEmployeeModal ? (
-				<>
-					<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-						<div className="relative w-auto my-6 mx-auto max-w-3xl">
-							<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white overflow-y-auto outline-none focus:outline-none" style={{ maxHeight: '80vh' }}>
-								<div className="flex items-start p-5 rounded-t bg-purp-lightest">
-									<h3 className="text-2xl text-purp-normal">Remove Employee?</h3>
-									<button
-										className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none transition duration-300 ease transform hover:rotate-45"
-										onClick={() => setShowRemoveEmployeeModal(false)}>
-										<span className="bg-transparent text-purp-normal opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">×</span>
-									</button>
-								</div>
-								<div className="relative p-6 flex-auto">
-									<div className="flex flex-col">
-										<p>
-											Confirm you want to remove this emplooyee by typing their name:{' '}
-											<span className="font-semibold">
-												{firstName} {lastName}
-											</span>
-										</p>
-										<input type="text" name="confirmDelete" onChange={(e) => setConfirmDelete(e.target.value)} placeholder={`${firstName} ${lastName}`} className="border border-purp-light px-4 py-2 mt-3 w-64" />
-									</div>
-								</div>
-								<div className="flex items-center justify-end px-5 pb-5 rounded-b">
-									<button className="text-purp-light hover:text-purp-normal font-bold uppercase px-6 py-2 text-sm focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={handleCancel}>
-										Cancel
-									</button>
-									<button
-										type="submit"
-										disabled={removeButton}
-										className={`bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease ${removeButton ? 'opacity-50 cursor-not-allowed' : null}`}
-										onClick={handleDelete}>
-										{removing ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Remove'}
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-				</>
-			) : null}
+			{showRemoveEmployeeModal ? <RemoveEmployeeModal firstName={firstName} lastName={lastName} closeModal={handleCloseRemoveEmployeeModal} delete={handleDelete} /> : null}
 			{showRemoveContactModal ? (
 				<>
 					<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

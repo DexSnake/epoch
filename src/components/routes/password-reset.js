@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { auth } from '../firebase/firebase'
+import { auth } from '../../firebase/firebase'
 import { Redirect } from 'react-router'
-import { AuthContext } from '../context/Auth'
+import { AuthContext } from '../../context/Auth'
 
-const ResetPassword = () => {
+const PasswordReset = () => {
 	const { currentUser } = useContext(AuthContext)
 	const [email, setEmail] = useState('')
 	const [msg, setMsg] = useState('')
@@ -50,4 +50,4 @@ const ResetPassword = () => {
 	)
 }
 
-export default ResetPassword
+export default PasswordReset

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Layout from './Layout'
-import Employee from './Employee'
-import { db } from '../firebase/firebase'
+import Layout from '../Layout'
+import Employee from '../Employee'
+import { db } from '../../firebase/firebase'
 
 const Employees = () => {
 	const [employees, setEmployees] = useState([])
