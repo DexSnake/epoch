@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Icon from '@mdi/react'
 import { mdiEyeCheck, mdiEyeMinus, mdiDelete, mdiCameraOutline } from '@mdi/js'
 import moment from 'moment'
+import { AuthContext } from '../context/Auth'
 
-const EmployeeHeader = ({ data, handleFile, showModal }) => {
+const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
+	const { currentUser } = useContext(AuthContext)
 	return (
 		<div className="bg-white pb-6 pt-8 px-8 flex">
 			<div className="w-40 mx-2 relative">
@@ -35,7 +37,7 @@ const EmployeeHeader = ({ data, handleFile, showModal }) => {
 					<p className="text-purp-normal mb-3">Hired on: {data.loaded ? <span className="font-semibold">{data.startDate ? data.startDate.format('MMMM DD, YYYY') : null}</span> : null}</p>
 					<p className="text-purp-normal mb-3">
 						SSN: <span className={`font-semibold ${data.showSsn ? 'tracking-widest' : null}`}>{data.showSsn ? data.ssn : 'XXX-XXX-XXXX'}</span>
-						<Icon path={data.showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer" />
+						<Icon onClick={showSsn} path={data.showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer" />
 					</p>
 					<p className="text-purp-normal mb-3">
 						DOB:{' '}
@@ -46,10 +48,14 @@ const EmployeeHeader = ({ data, handleFile, showModal }) => {
 						) : null}
 					</p>
 					<p className="text-purp-normal mb-3">
-						Salary: <span className="font-semibold">${data.salary}</span>
+						Salary:{' '}
+						<span className="font-semibold">
+							${data.salary}
+							<span className="text-sm text-purp-normal">{data.salaryRate}</span>
+						</span>
 					</p>
 				</div>
-				{data.userProfile.isAdmin ? (
+				{currentUser.isAdmin ? (
 					<div className="w-1/4 flex justify-end">
 						<button onClick={showModal} className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
 							Remove Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />

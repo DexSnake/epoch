@@ -9,14 +9,15 @@ import moment from 'moment'
 import { SingleDatePicker } from 'react-dates'
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
-import EditEmployeeInfoContainer from '../EditEmployeeInfoContainer'
+import EmployeeInfoContainer from '../EmployeeInfoContainer'
 import { Label, TextInput, Select } from '../FormFields'
 import { AuthContext } from '../../context/Auth'
 import EmployeeHeader from '../EmployeeHeader'
 import RemoveEmployeeModal from '../modals/RemoveEmployeeModal'
+import NumberFormat from 'react-number-format'
 
 const EditEmployee = (props) => {
-	const { userProfile } = useContext(AuthContext)
+	const { userProfile, currentUser } = useContext(AuthContext)
 
 	// Convert the dates back to Moment objects then set loaded to true to conditionally render the date pickers
 	useEffect(() => {
@@ -26,7 +27,32 @@ const EditEmployee = (props) => {
 
 	const data = props.location.state.data
 	const [
-		{ id, firstName, lastName, middleName, startDate, dateOfBirth, ssn, title, ethnicity, gender, imageUrl, profileImage, maritalStatus, phoneNumber, alternatePhoneNumber, email, address1, address2, city, state, zipCode, salary, emergencyContacts },
+		{
+			id,
+			firstName,
+			lastName,
+			middleName,
+			startDate,
+			dateOfBirth,
+			ssn,
+			title,
+			ethnicity,
+			gender,
+			imageUrl,
+			profileImage,
+			maritalStatus,
+			phoneNumber,
+			alternatePhoneNumber,
+			email,
+			address1,
+			address2,
+			city,
+			state,
+			zipCode,
+			salary,
+			salaryRate,
+			emergencyContacts,
+		},
 		setState,
 	] = useState(data)
 	const [saving, setSaving] = useState(false)
@@ -40,7 +66,7 @@ const EditEmployee = (props) => {
 	const [modalIndex, setModalIndex] = useState(null)
 
 	// Data variable to send to the EmployeeHeader component
-	const EmployeeHeaderData = { userProfile, loaded, showSsn, firstName, lastName, ssn, title, startDate, dateOfBirth, imageUrl, salary }
+	const EmployeeHeaderData = { userProfile, loaded, showSsn, firstName, lastName, ssn, title, startDate, dateOfBirth, imageUrl, salary, salaryRate }
 
 	// Function to handle the onChange events for the inputs
 	const handleChange = (e) => {
@@ -150,6 +176,7 @@ const EditEmployee = (props) => {
 				state,
 				zipCode,
 				salary,
+				salaryRate,
 				emergencyContacts,
 			})
 			.then(function () {
@@ -183,24 +210,29 @@ const EditEmployee = (props) => {
 		setShowRemoveEmployeeModal(false)
 	}
 
+	// Gets passed to RemoveEmployeeModal component
+	const handleShowSsn = () => {
+		setShowSsn(!showSsn)
+	}
+
 	return (
 		<Layout>
-			<EmployeeHeader data={EmployeeHeaderData} handleFile={handleFile} showModal={handleShowRemoveEmployeeModal} />
-			<EditEmployeeInfoContainer>
+			<EmployeeHeader data={EmployeeHeaderData} handleFile={handleFile} showModal={handleShowRemoveEmployeeModal} showSsn={handleShowSsn} />
+			<EmployeeInfoContainer>
 				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Personal Info</p>
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="First Name" htmlFor="firstName" />
-							<TextInput name="firstName" disabled={!userProfile.isAdmin} value={firstName} onChange={handleChange} />
+							<TextInput name="firstName" disabled={!currentUser.isAdmin} value={firstName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Middle Name" htmlFor="middleName" />
-							<TextInput name="middleName" disabled={!userProfile.isAdmin} value={middleName} onChange={handleChange} />
+							<TextInput name="middleName" disabled={!currentUser.isAdmin} value={middleName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Last Name" htmlFor="lastName" />
-							<TextInput name="lastName" disabled={!userProfile.isAdmin} value={lastName} onChange={handleChange} />
+							<TextInput name="lastName" disabled={!currentUser.isAdmin} value={lastName} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -219,7 +251,7 @@ const EditEmployee = (props) => {
 										isOutsideRange={() => false}
 										anchorDirection="left"
 										noBorder={true}
-										disabled={!userProfile.isAdmin}
+										disabled={!currentUser.isAdmin}
 										id="dateOfBirth"
 									/>
 								) : null}
@@ -227,7 +259,11 @@ const EditEmployee = (props) => {
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" />
-							{showSsn ? <TextInput name="ssn" disabled={!userProfile.isAdmin} value={ssn} onChange={handleChange} /> : <TextInput name="ssn" disabled value="XXX-XX-XXXX" />}
+							{showSsn ? (
+								<NumberFormat format="###-##-####" disabled={!currentUser.isAdmin} name="ssn" value={ssn} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+							) : (
+								<TextInput name="ssn" disabled value="XXX-XX-XXXX" />
+							)}
 							<Icon path={showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer absolute right-20" onClick={() => setShowSsn(!showSsn)} />
 						</div>
 						<div className="w-1/5 px-3">
@@ -261,12 +297,12 @@ const EditEmployee = (props) => {
 						</div>
 					</div>
 				</div>
-			</EditEmployeeInfoContainer>
-			<EditEmployeeInfoContainer>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
 				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Employment Info</p>
 					<div className="flex">
-						<div className="w-1/3 px-3">
+						<div className="w-1/4 px-3">
 							<Label name="Hire Date" htmlFor="startDate" />
 							<div className="date-picker-no-border">
 								{loaded ? (
@@ -279,34 +315,44 @@ const EditEmployee = (props) => {
 										isOutsideRange={() => false}
 										anchorDirection="left"
 										noBorder={true}
-										disabled={!userProfile.isAdmin}
+										disabled={!currentUser.isAdmin}
 										id="dateOfBirth"
 									/>
 								) : null}
 							</div>
 						</div>
-						<div className="w-1/3 px-3">
+						<div className="w-1/4 px-3">
 							<Label name="Salary" htmlFor="salary" />
-							<TextInput name="salary" disabled={!userProfile.isAdmin} value={salary} onChange={handleChange} />
+							<TextInput name="salary" disabled={!currentUser.isAdmin} value={salary} onChange={handleChange} />
 						</div>
-						<div className="w-1/3 px-3">
+						<div className="w-1/4 px-3">
+							<Label name="salaryRate" htmlFor="salaryRate" />
+							<Select name="salaryRate" value={salaryRate} onChange={handleChange}>
+								<option disabled defaultValue value=""></option>
+								<option value="/year">Per Year</option>
+								<option value="/hour">Per Hour</option>
+								<option value="/week">Per Week</option>
+								<option value="/month">Per Month</option>
+							</Select>
+						</div>
+						<div className="w-1/4 px-3">
 							<Label name="Title" htmlFor="title" />
-							<TextInput name="title" disabled={!userProfile.isAdmin} value={title} onChange={handleChange} />
+							<TextInput name="title" disabled={!currentUser.isAdmin} value={title} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
-			</EditEmployeeInfoContainer>
-			<EditEmployeeInfoContainer>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
 				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Contact Info</p>
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="Phone Number" htmlFor="phoneNumber" />
-							<TextInput name="phoneNumber" value={phoneNumber} onChange={handleChange} />
+							<NumberFormat format="(###) ###-####" name="phoneNumber" value={phoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
-							<TextInput name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} />
+							<NumberFormat format="(###) ###-####" name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Email" htmlFor="email" />
@@ -316,30 +362,30 @@ const EditEmployee = (props) => {
 				</div>
 				<div className="p-8">
 					<div className="flex">
-						<div className="w-1/5 px-3">
+						<div className="w-1/4 px-3">
 							<Label name="Address 1" htmlFor="address1" />
 							<TextInput name="address1" value={address1} onChange={handleChange} />
 						</div>
-						<div className="w-1/5 px-3">
+						<div className="w-1/4 px-3">
 							<Label name="Address 2" htmlFor="address2" />
 							<TextInput name="address2" value={address2} onChange={handleChange} />
 						</div>
-						<div className="w-1/5 px-3">
+						<div className="w-1/4 px-3">
 							<Label name="City" htmlFor="city" />
 							<TextInput name="city" value={city} onChange={handleChange} />
 						</div>
-						<div className="w-1/5 px-3">
+						<div className="w-1/12 px-3">
 							<Label name="State" htmlFor="state" />
 							<TextInput name="state" value={state} onChange={handleChange} />
 						</div>
-						<div className="w-1/5 px-3">
+						<div className="w-1/6 px-3">
 							<Label name="Zip Code" htmlFor="zipCode" />
 							<TextInput name="zipCode" value={zipCode} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
-			</EditEmployeeInfoContainer>
-			<EditEmployeeInfoContainer>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
 				<div className="p-8">
 					<div className="flex justify-between">
 						<p className="uppercase text-purp-normal font-semibold">Emergency Contacts</p>
@@ -383,7 +429,7 @@ const EditEmployee = (props) => {
 						)
 					})}
 				</div>
-			</EditEmployeeInfoContainer>
+			</EmployeeInfoContainer>
 			{/* Save/Remove Section */}
 			<div className="pb-6 px-10 flex justify-end items-center">
 				<button onClick={handleUpdate} className="bg-purp-normal text-white px-3 py-2 font-semibold">
@@ -391,7 +437,7 @@ const EditEmployee = (props) => {
 				</button>
 			</div>
 			{/* Modals */}
-			{showRemoveEmployeeModal ? <RemoveEmployeeModal firstName={firstName} lastName={lastName} closeModal={handleCloseRemoveEmployeeModal} delete={handleDelete} /> : null}
+			{showRemoveEmployeeModal ? <RemoveEmployeeModal firstName={firstName} lastName={lastName} closeModal={handleCloseRemoveEmployeeModal} handleDelete={handleDelete} /> : null}
 			{showRemoveContactModal ? (
 				<>
 					<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

@@ -13,6 +13,9 @@ export const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (currentUser) {
+			currentUser.getIdTokenResult().then((idTokenResult) => {
+				currentUser.isAdmin = idTokenResult.claims.isAdmin
+			})
 			db.collection('Employees')
 				.doc(currentUser.uid)
 				.onSnapshot((doc) => {
