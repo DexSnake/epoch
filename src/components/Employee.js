@@ -5,7 +5,7 @@ const Employee = ({ employees }) => {
 	return employees.map((e) => {
 		return (
 			<div key={e.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3 pb-6">
-				<div className="flex flex-col items-center text-center p-4 bg-white shadow-lg">
+				<div className="flex flex-col items-center rounded text-center p-4 bg-white shadow-lg">
 					<Link
 						to={{
 							pathname: `/employees/edit/${e.id}`,

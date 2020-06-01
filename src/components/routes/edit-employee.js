@@ -52,6 +52,7 @@ const EditEmployee = (props) => {
 			salary,
 			salaryRate,
 			emergencyContacts,
+			pto,
 		},
 		setState,
 	] = useState(data)
@@ -108,6 +109,12 @@ const EditEmployee = (props) => {
 	// Function to handle the onChange event of the dateOfBirth input
 	const handleDobChange = (dateOfBirth) => {
 		setState((prevState) => ({ ...prevState, dateOfBirth }))
+	}
+
+	// Function to handle the onChange event of the dateOfBirth input
+	const handlePtoChange = (e) => {
+		const { name, value } = e.target
+		setState((prevState) => ({ ...prevState, pto: { [name]: parseInt(value), pendingHours: pto.pendingHours, usedHours: pto.usedHours } }))
 	}
 
 	// Function to handle the onChange event of the startDate input
@@ -178,6 +185,7 @@ const EditEmployee = (props) => {
 				salary,
 				salaryRate,
 				emergencyContacts,
+				pto,
 			})
 			.then(function () {
 				toast.success('Profile Saved!')
@@ -300,6 +308,25 @@ const EditEmployee = (props) => {
 			</EmployeeInfoContainer>
 			<EmployeeInfoContainer>
 				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Time Off Info</p>
+					<div className="flex">
+						<div className="w-1/3 px-3">
+							<Label name="Available Hours" htmlFor="availableHours" />
+							<TextInput name="availableHours" disabled={!currentUser.isAdmin} value={pto.availableHours} onChange={handlePtoChange} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Pending Hours" htmlFor="pendingHours" />
+							<TextInput name="pendingHours" disabled value={pto.pendingHours} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Hours Used" htmlFor="usedHours" />
+							<TextInput name="usedHours" disabled value={pto.usedHours} />
+						</div>
+					</div>
+				</div>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
+				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Employment Info</p>
 					<div className="flex">
 						<div className="w-1/4 px-3">
@@ -327,7 +354,7 @@ const EditEmployee = (props) => {
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="salaryRate" htmlFor="salaryRate" />
-							<Select name="salaryRate" value={salaryRate} onChange={handleChange}>
+							<Select name="salaryRate" disabled={!currentUser.isAdmin} value={salaryRate} onChange={handleChange}>
 								<option disabled defaultValue value=""></option>
 								<option value="/year">Per Year</option>
 								<option value="/hour">Per Hour</option>
@@ -432,7 +459,7 @@ const EditEmployee = (props) => {
 			</EmployeeInfoContainer>
 			{/* Save/Remove Section */}
 			<div className="pb-6 px-10 flex justify-end items-center">
-				<button onClick={handleUpdate} className="bg-purp-normal text-white px-3 py-2 font-semibold">
+				<button onClick={handleUpdate} className="bg-purp-brightest hover:bg-purp-bright rounded transition duration-200 ease-in-out focus:outline-none text-white px-3 py-2 font-semibold">
 					{saving ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Update'}
 				</button>
 			</div>
@@ -474,7 +501,7 @@ const EditEmployee = (props) => {
 					<div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
 				</>
 			) : null}
-			<ToastContainer position="top-center" autoClose={3000} />
+			<ToastContainer position="top-center" autoClose={2000} />
 		</Layout>
 	)
 }

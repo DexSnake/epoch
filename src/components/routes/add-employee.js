@@ -36,6 +36,7 @@ const AddEmployee = (props) => {
 		ecLastName: '',
 		ecRelationship: '',
 		ecPhoneNumber: '',
+		availableHours: '',
 	}
 	const [
 		{
@@ -63,6 +64,7 @@ const AddEmployee = (props) => {
 			ecLastName,
 			ecRelationship,
 			ecPhoneNumber,
+			availableHours,
 		},
 		setState,
 	] = useState(initalState)
@@ -116,6 +118,7 @@ const AddEmployee = (props) => {
 					zipCode,
 					salary,
 					salaryRate,
+					requests: [],
 					emergencyContacts: [
 						{
 							firstName: ecFirstName,
@@ -124,6 +127,11 @@ const AddEmployee = (props) => {
 							phoneNumber: ecPhoneNumber,
 						},
 					],
+					pto: {
+						availableHours: parseInt(availableHours),
+						pendingHours: 0,
+						usedHours: 0,
+					},
 				})
 				.then(function () {
 					props.history.push('/employees')
@@ -211,6 +219,17 @@ const AddEmployee = (props) => {
 								<option value="Divorced">Divorced</option>
 								<option value="Widowed">Widowed</option>
 							</Select>
+						</div>
+					</div>
+				</div>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
+				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Time Off Info</p>
+					<div className="flex">
+						<div className="w-1/3 px-3">
+							<Label name="Available Hours" htmlFor="availableHours" />
+							<TextInput name="availableHours" value={availableHours} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -318,7 +337,7 @@ const AddEmployee = (props) => {
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Phone Number" htmlFor="ecPhoneNumber" />
-							<TextInput name="ecPhoneNumber" value={ecPhoneNumber} onChange={handleChange} />
+							<NumberFormat format="(###) ###-####" name="ecPhoneNumber" value={ecPhoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
 						</div>
 					</div>
 				</div>

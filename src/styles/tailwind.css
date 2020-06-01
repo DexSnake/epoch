@@ -23,6 +23,11 @@
 	width: 100% !important;
 }
 
+.DateInput_input__disabled,
+.DateInput__disabled {
+	background: #fff !important;
+}
+
 .DateInput input {
 	width: 100% !important;
 	padding: 0.5rem !important;

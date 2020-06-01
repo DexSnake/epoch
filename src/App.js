@@ -13,6 +13,11 @@ import NewRequest from './components/routes/new-request'
 import Account from './components/routes/account'
 import ResetPassword from './components/routes/password-reset'
 import AddEmployee from './components/routes/add-employee'
+import Requests from './components/routes/requests'
+import PendingRequests from './components/routes/pending-requests'
+import EditRequest from './components/routes/edit-request'
+import ApprovedRequests from './components/routes/approved-requests'
+import DeniedRequests from './components/routes/denied-requests'
 
 function App() {
 	return (
@@ -27,6 +32,11 @@ function App() {
 				<PrivateRoute path="/employees" exact component={Employees} />
 				<PrivateRoute path="/employees/edit/:id" component={EditEmployee} />
 				<PrivateRoute path="/new-request" component={NewRequest} />
+				<PrivateRoute path="/pending-requests" component={PendingRequests} />
+				<PrivateRoute path="/approved-requests" component={ApprovedRequests} />
+				<PrivateRoute path="/denied-requests" component={DeniedRequests} />
+				<PrivateRoute path="/requests" exact component={Requests} />
+				<PrivateRoute path="/requests/edit/:id" component={EditRequest} />
 				<PrivateRoute path="/account" component={Account} />
 			</Router>
 		</AuthProvider>
