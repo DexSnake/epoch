@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Employee = ({ employees }) => {
+const Employee = ({ employees, requests }) => {
 	return employees.map((e) => {
 		return (
 			<div key={e.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3 pb-6">
-				<div className="flex flex-col items-center rounded text-center p-4 bg-white shadow-lg">
+				<div className="flex flex-col items-center rounded text-center p-4 bg-white shadow-lg relative">
 					<Link
 						to={{
 							pathname: `/employees/edit/${e.id}`,
@@ -21,11 +21,16 @@ const Employee = ({ employees }) => {
 								</span>
 							</div>
 						)}
-						<h5 className="font-semibold text-purp-normal">
+						<h5 className="font-semibold text-xl text-purp-normal">
 							{e.firstName} {e.middleName ? `${e.middleName.charAt(0)}.` : null} {e.lastName}
 						</h5>
-						<p>{e.title}</p>
+						<p className="text-purp-normal">{e.title}</p>
+						<p className="font-semibold text-purp-normal pt-4">{e.pto.availableHours} Available Hours</p>
+						<p className="font-semibold text-purp-normal pt-1">{requests.filter((r) => r.userId === e.id).filter((r) => r.status === 'approved').length} Upcoming Dates</p>
 					</Link>
+					{requests.filter((r) => r.userId === e.id).filter((r) => r.status === 'pending').length > 0 ? (
+						<p className="font-semibold top-20 right-20 absolute h-8 w-8 bg-red-600 text-white flex items-center justify-center rounded-full">{requests.filter((r) => r.userId === e.id).filter((r) => r.status === 'pending').length}</p>
+					) : null}
 				</div>
 			</div>
 		)

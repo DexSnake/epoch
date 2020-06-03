@@ -11,7 +11,11 @@ module.exports = {
 		inset: {
 			'0': 0,
 			auto: 'auto',
+			'neg-10': '-10px',
+			'10': '10px',
+			'15': '15px',
 			'20': '20px',
+			'25': '25px',
 		},
 		extend: {
 			colors: {

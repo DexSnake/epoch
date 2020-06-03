@@ -5,6 +5,7 @@ import { db } from '../../firebase/firebase'
 
 const Employees = () => {
 	const [employees, setEmployees] = useState([])
+	const [requests, setRequests] = useState([])
 
 	useEffect(() => {
 		db.collection('Employees')
@@ -18,12 +19,22 @@ const Employees = () => {
 				}))
 				setEmployees(newEmployees)
 			})
+		db.collection('Requests')
+			.get()
+			.then((snapshot) => {
+				// Get data from Employees collection and assign it avariable
+				const newRequests = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}))
+				setRequests(newRequests)
+			})
 	}, [])
 
 	return (
 		<Layout>
 			<div className="p-10 flex flex-wrap">
-				<Employee employees={employees} />
+				<Employee employees={employees} requests={requests} />
 			</div>
 		</Layout>
 	)

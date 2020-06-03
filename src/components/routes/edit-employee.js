@@ -65,6 +65,7 @@ const EditEmployee = (props) => {
 	const [dobFocus, setDobFocus] = useState(false)
 	const [startDateFocus, setStartDateFocus] = useState(false)
 	const [modalIndex, setModalIndex] = useState(null)
+	const [requests, setRequests] = useState([])
 
 	// Data variable to send to the EmployeeHeader component
 	const EmployeeHeaderData = { userProfile, loaded, showSsn, firstName, lastName, ssn, title, startDate, dateOfBirth, imageUrl, salary, salaryRate }
@@ -223,9 +224,131 @@ const EditEmployee = (props) => {
 		setShowSsn(!showSsn)
 	}
 
+	useEffect(() => {
+		db.collection('Requests')
+			.where('status', '==', 'pending')
+			.where('userId', '==', data.id)
+			.onSnapshot((snapshot) => {
+				const newRequests = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}))
+				setRequests(newRequests)
+			})
+	}, [])
+
+	const handleApprove = (id, userId, numberOfHours) => {
+		db.collection('Requests')
+			.doc(id)
+			.update({
+				status: 'approved',
+			})
+			.then(() => {
+				db.collection('Employees')
+					.doc(userId)
+					.get()
+					.then((doc) => {
+						db.collection('Employees')
+							.doc(userId)
+							.update({
+								pto: {
+									availableHours: doc.data().pto.availableHours - numberOfHours,
+									pendingHours: doc.data().pto.pendingHours - numberOfHours,
+									usedHours: doc.data().pto.usedHours + numberOfHours,
+								},
+							})
+							.then(() => {
+								toast.success('Request Approved!')
+							})
+							.catch((err) => {
+								console.log(err)
+							})
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+	const handleDeny = (id, userId, numberOfHours) => {
+		db.collection('Requests')
+			.doc(id)
+			.update({
+				status: 'denied',
+			})
+			.then(() => {
+				db.collection('Employees')
+					.doc(userId)
+					.get()
+					.then((doc) => {
+						db.collection('Employees')
+							.doc(userId)
+							.update({
+								pto: {
+									availableHours: doc.data().pto.availableHours,
+									pendingHours: doc.data().pto.pendingHours - numberOfHours,
+									usedHours: doc.data().pto.usedHours,
+								},
+							})
+							.then(() => {
+								toast.error('Request Denied.')
+							})
+							.catch((err) => {
+								console.log(err)
+							})
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
 	return (
 		<Layout>
 			<EmployeeHeader data={EmployeeHeaderData} handleFile={handleFile} showModal={handleShowRemoveEmployeeModal} showSsn={handleShowSsn} />
+			<EmployeeInfoContainer>
+				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Pending Requests</p>
+					<div className="flex flex-wrap">
+						{requests.length > 0
+							? requests
+									.sort((a, b) => (a.requestDate.seconds > b.requestDate.seconds ? 1 : -1))
+									.map((request) => {
+										return (
+											<div className="w-1/4 px-3" key={request.id}>
+												<div className="p-4 bg-white shadow-lg rounded mb-3 text-purp-normal" key={request.id}>
+													<p className="font-semibold pb-2">
+														Name:
+														<span className="font-normal"> {request.employee}</span>
+													</p>
+													<p className="font-semibold pb-2">
+														Date:<span className="font-normal"> {moment.unix(request.requestDate.seconds).format('MMMM DD, YYYY')}</span>
+													</p>
+													<p className="font-semibold pb-2">
+														Start Time:<span className="font-normal"> {request.startTime}</span>
+													</p>
+													<p className="font-semibold pb-2">
+														Total Hours:<span className="font-normal"> {request.numberOfHours}</span>
+													</p>
+													<button className="mr-1 bg-green-600 hover:bg-green-800 text-white text-xs rounded px-2 py-1" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
+														Approve Request
+													</button>
+													<button className="ml-1 bg-red-600 hover:bg-red-800 text-white text-xs rounded px-2 py-1" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+														Deny Request
+													</button>
+												</div>
+											</div>
+										)
+									})
+							: null}
+					</div>
+				</div>
+			</EmployeeInfoContainer>
 			<EmployeeInfoContainer>
 				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Personal Info</p>

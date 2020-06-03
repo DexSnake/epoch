@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
+import { db } from '../firebase/firebase'
 import { mdiAccountPlus, mdiAccountGroup, mdiMonitorDashboard, mdiCalendarImport, mdiCalendarCheck, mdiCalendarMinus } from '@mdi/js'
 
 const AdminNav = () => {
+	const [requests, setRequests] = useState([])
+
+	useEffect(() => {
+		db.collection('Requests')
+			.where('status', '==', 'pending')
+			.get()
+			.then((snapshot) => {
+				// Get data from Employees collection and assign it avariable
+				const newRequests = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}))
+				setRequests(newRequests)
+			})
+	}, [])
+
 	return (
 		<ul>
 			<Link to="/dashboard">
@@ -25,7 +42,8 @@ const AdminNav = () => {
 				</li>
 			</Link>
 			<Link to="/pending-requests">
-				<li className="text-purp-light mb-3">
+				<li className="text-purp-light mb-3 relative">
+					{requests.length > 0 ? <p className="font-semibold text-sm absolute top-neg-10 right-25 h-6 w-6 bg-red-600 text-white flex items-center justify-center rounded-full">{requests.length}</p> : null}
 					<Icon path={mdiCalendarImport} size={1} className="mr-2 inline pb-1" />
 					Pending Requests
 				</li>
