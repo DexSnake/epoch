@@ -10,8 +10,7 @@ const Employees = () => {
 	useEffect(() => {
 		db.collection('Employees')
 			.orderBy('lastName', 'asc')
-			.get()
-			.then(function (snapshot) {
+			.onSnapshot((snapshot) => {
 				// Get data from Employees collection and assign it avariable
 				const newEmployees = snapshot.docs.map((doc) => ({
 					id: doc.id,
@@ -19,16 +18,14 @@ const Employees = () => {
 				}))
 				setEmployees(newEmployees)
 			})
-		db.collection('Requests')
-			.get()
-			.then((snapshot) => {
-				// Get data from Employees collection and assign it avariable
-				const newRequests = snapshot.docs.map((doc) => ({
-					id: doc.id,
-					...doc.data(),
-				}))
-				setRequests(newRequests)
-			})
+		db.collection('Requests').onSnapshot((snapshot) => {
+			// Get data from Employees collection and assign it avariable
+			const newRequests = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data(),
+			}))
+			setRequests(newRequests)
+		})
 	}, [])
 
 	return (

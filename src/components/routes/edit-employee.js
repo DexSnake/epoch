@@ -226,14 +226,14 @@ const EditEmployee = (props) => {
 
 	useEffect(() => {
 		db.collection('Requests')
-			.where('status', '==', 'pending')
 			.where('userId', '==', data.id)
+			.where('requestDate', '>', new Date())
 			.onSnapshot((snapshot) => {
-				const newRequests = snapshot.docs.map((doc) => ({
+				const requests = snapshot.docs.map((doc) => ({
 					id: doc.id,
 					...doc.data(),
 				}))
-				setRequests(newRequests)
+				setRequests(requests)
 			})
 	}, [])
 
@@ -313,40 +313,104 @@ const EditEmployee = (props) => {
 			<EmployeeHeader data={EmployeeHeaderData} handleFile={handleFile} showModal={handleShowRemoveEmployeeModal} showSsn={handleShowSsn} />
 			<EmployeeInfoContainer>
 				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Time Off Info</p>
+					<div className="flex">
+						<div className="w-1/3 px-3">
+							<Label name="Available Hours" htmlFor="availableHours" />
+							<TextInput name="availableHours" disabled={!currentUser.isAdmin} value={pto.availableHours} onChange={handlePtoChange} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Pending Hours" htmlFor="pendingHours" />
+							<TextInput name="pendingHours" disabled value={pto.pendingHours} />
+						</div>
+						<div className="w-1/3 px-3">
+							<Label name="Hours Used" htmlFor="usedHours" />
+							<TextInput name="usedHours" disabled value={pto.usedHours} />
+						</div>
+					</div>
+				</div>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
+				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Pending Requests</p>
-					<div className="flex flex-wrap">
-						{requests.length > 0
-							? requests
-									.sort((a, b) => (a.requestDate.seconds > b.requestDate.seconds ? 1 : -1))
-									.map((request) => {
-										return (
-											<div className="w-1/4 px-3" key={request.id}>
-												<div className="p-4 bg-white shadow-lg rounded mb-3 text-purp-normal" key={request.id}>
-													<p className="font-semibold pb-2">
-														Name:
-														<span className="font-normal"> {request.employee}</span>
-													</p>
-													<p className="font-semibold pb-2">
-														Date:<span className="font-normal"> {moment.unix(request.requestDate.seconds).format('MMMM DD, YYYY')}</span>
-													</p>
-													<p className="font-semibold pb-2">
-														Start Time:<span className="font-normal"> {request.startTime}</span>
-													</p>
-													<p className="font-semibold pb-2">
-														Total Hours:<span className="font-normal"> {request.numberOfHours}</span>
-													</p>
-													<button className="mr-1 bg-green-600 hover:bg-green-800 text-white text-xs rounded px-2 py-1" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
-														Approve Request
-													</button>
-													<button className="ml-1 bg-red-600 hover:bg-red-800 text-white text-xs rounded px-2 py-1" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
-														Deny Request
-													</button>
+					{requests.length > 0
+						? requests
+								.filter((request) => request.status === 'pending')
+								.sort((a, b) => (a.requestDate.seconds > b.requestDate.seconds ? 1 : -1))
+								.map((request) => {
+									return (
+										<div className="w-full px-3" key={request.id}>
+											<div className="border-l-4 border-yellow-400 p-4 bg-purp-lightest shadow rounded mb-3 text-purp-normal">
+												<div className="flex items-center">
+													<div className="w-1/5 px-1">
+														<p className="font-semibold pb-2">Date</p>
+														<p className="font-normal"> {moment.unix(request.requestDate.seconds).format('MMMM DD, YYYY')}</p>
+													</div>
+													<div className="w-1/5 px-1">
+														<p className="font-semibold pb-2">Start Time</p>
+														<p className="font-normal"> {request.startTime}</p>
+													</div>
+													<div className="w-1/5 px-1">
+														<p className="font-semibold pb-2">Total Hours</p>
+														<p className="font-normal"> {request.numberOfHours}</p>
+													</div>
+													<div className="w-1/5 px-1">
+														<span className="text-sm text-white px-2 py-1 bg-yellow-400 rounded">pending</span>
+													</div>
+													<div className="w-1/5 px-1">
+														<button className="mr-1 bg-green-500 hover:bg-green-700 text-white font-semibold text-xs rounded px-2 py-1" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
+															Approve
+														</button>
+														<button className="ml-1 bg-red-500 hover:bg-red-700 text-white font-semibold text-xs rounded px-2 py-1" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+															Deny
+														</button>
+													</div>
 												</div>
 											</div>
-										)
-									})
-							: null}
-					</div>
+										</div>
+									)
+								})
+						: null}
+				</div>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
+				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Upcoming Requests</p>
+					{requests.length > 0
+						? requests
+								.filter((request) => request.status === 'approved')
+								.sort((a, b) => (a.requestDate.seconds > b.requestDate.seconds ? 1 : -1))
+								.map((request) => {
+									return (
+										<div className="w-full px-3" key={request.id}>
+											<div className="border-l-4 border-green-500 p-4 bg-purp-lightest shadow rounded mb-3 text-purp-normal">
+												<div className="flex items-center">
+													<div className="w-1/5 px-1">
+														<p className="font-semibold pb-2">Date</p>
+														<p className="font-normal"> {moment.unix(request.requestDate.seconds).format('MMMM DD, YYYY')}</p>
+													</div>
+													<div className="w-1/5 px-1">
+														<p className="font-semibold pb-2">Start Time</p>
+														<p className="font-normal"> {request.startTime}</p>
+													</div>
+													<div className="w-1/5 px-1">
+														<p className="font-semibold pb-2">Total Hours</p>
+														<p className="font-normal"> {request.numberOfHours}</p>
+													</div>
+													<div className="w-1/5 px-1">
+														<span className="text-sm text-white px-2 py-1 bg-green-500 rounded">approved</span>
+													</div>
+													<div className="w-1/5 px-1">
+														<button className="ml-1 bg-red-500 hover:bg-red-700 text-white text-xs font-semibold rounded px-2 py-1" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+															Change to Denied
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									)
+								})
+						: null}
 				</div>
 			</EmployeeInfoContainer>
 			<EmployeeInfoContainer>
@@ -429,25 +493,7 @@ const EditEmployee = (props) => {
 					</div>
 				</div>
 			</EmployeeInfoContainer>
-			<EmployeeInfoContainer>
-				<div className="p-8">
-					<p className="uppercase text-purp-normal font-semibold mb-5">Time Off Info</p>
-					<div className="flex">
-						<div className="w-1/3 px-3">
-							<Label name="Available Hours" htmlFor="availableHours" />
-							<TextInput name="availableHours" disabled={!currentUser.isAdmin} value={pto.availableHours} onChange={handlePtoChange} />
-						</div>
-						<div className="w-1/3 px-3">
-							<Label name="Pending Hours" htmlFor="pendingHours" />
-							<TextInput name="pendingHours" disabled value={pto.pendingHours} />
-						</div>
-						<div className="w-1/3 px-3">
-							<Label name="Hours Used" htmlFor="usedHours" />
-							<TextInput name="usedHours" disabled value={pto.usedHours} />
-						</div>
-					</div>
-				</div>
-			</EmployeeInfoContainer>
+
 			<EmployeeInfoContainer>
 				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Employment Info</p>
@@ -582,8 +628,8 @@ const EditEmployee = (props) => {
 			</EmployeeInfoContainer>
 			{/* Save/Remove Section */}
 			<div className="pb-6 px-10 flex justify-end items-center">
-				<button onClick={handleUpdate} className="bg-purp-brightest hover:bg-purp-bright rounded transition duration-200 ease-in-out focus:outline-none text-white px-3 py-2 font-semibold">
-					{saving ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Update'}
+				<button onClick={handleUpdate} className="bg-green-500 hover:bg-green-700 rounded transition duration-200 ease-in-out focus:outline-none text-white px-3 py-2 font-semibold">
+					{saving ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Save Changes'}
 				</button>
 			</div>
 			{/* Modals */}

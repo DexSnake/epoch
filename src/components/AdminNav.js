@@ -12,7 +12,6 @@ const AdminNav = () => {
 			.where('status', '==', 'pending')
 			.get()
 			.then((snapshot) => {
-				// Get data from Employees collection and assign it avariable
 				const newRequests = snapshot.docs.map((doc) => ({
 					id: doc.id,
 					...doc.data(),
