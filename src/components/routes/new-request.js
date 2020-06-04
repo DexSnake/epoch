@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Layout from '../Layout'
 import Icon from '@mdi/react'
 import { mdiCalendarPlus, mdiLoading } from '@mdi/js'
@@ -15,7 +15,7 @@ const NewRequest = () => {
 	const { currentUser, userProfile } = useContext(AuthContext)
 	const [requestType, setRequestType] = useState('singleDay')
 	const [requestDate, setRequestDate] = useState(null)
-	const [selectionRange, setSelectionRange] = useState([{ startDate: new Date(), endDate: null, key: 'selection' }])
+	const [requestDates, setRequestDates] = useState([{ startDate: new Date(), endDate: new Date(), key: 'selection' }])
 	const [startTime, setStartTime] = useState('')
 	const [numberOfHours, setNumberOfHours] = useState('')
 	const [comments, setComments] = useState('')
@@ -25,11 +25,19 @@ const NewRequest = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		setLoading(true)
+		let dates = []
+		if (requestType === 'singleDay') {
+			dates.push(requestDate)
+		} else {
+			dates.push(requestDates[0].startDate)
+			dates.push(requestDates[0].endDate)
+		}
 		db.collection('Requests')
 			.add({
 				userId: currentUser.uid,
 				employee: `${userProfile.firstName} ${userProfile.lastName}`,
-				requestDate: requestDate._d,
+				requestType,
+				dates,
 				startTime,
 				numberOfHours: parseInt(numberOfHours),
 				comments,
@@ -82,51 +90,60 @@ const NewRequest = () => {
 									{requestType === 'singleDay' ? (
 										<>
 											<Label name="Date Requested" htmlFor="dateRequested" />
-											<Calendar date={requestDate} onChange={(requestDate) => setRequestDate(requestDate)} />
+											<Calendar date={requestDate} minDate={new Date()} onChange={(requestDate) => setRequestDate(requestDate)} />
 										</>
 									) : (
 										<>
 											<Label name="Dates Requested" htmlFor="dateRequested" />
-											<DateRange ranges={selectionRange} showSelectionPreview={false} onChange={(item) => setSelectionRange([item.selection])} />
+											<DateRange ranges={requestDates} minDate={new Date()} onChange={(item) => setRequestDates([item.selection])} />
 										</>
 									)}
 								</div>
 							</div>
-							<div className="w-1/2 mb-5 px-3">
-								<Label name="Start Time" htmlFor="startTime" />
-								<Select name="startTime" value={startTime} onChange={(e) => setStartTime(e.target.value)}>
-									<option defaultValue value=""></option>
-									<option value="7:00 AM">7:00 AM</option>
-									<option value="7:30 AM">7:30 AM</option>
-									<option value="8:00 AM">8:00 AM</option>
-									<option value="8:30 AM">8:30 AM</option>
-									<option value="9:00 AM">9:00 AM</option>
-									<option value="9:30 AM">9:30 AM</option>
-									<option value="10:00 AM">10:00 AM</option>
-									<option value="10:30 AM">10:30 AM</option>
-									<option value="11:00 AM">11:00 AM</option>
-									<option value="11:30 AM">11:30 AM</option>
-									<option value="12:00 PM">12:00 PM</option>
-									<option value="12:30 PM">12:30 PM</option>
-									<option value="1:00 PM">1:00 PM</option>
-									<option value="1:30 PM">1:30 PM</option>
-									<option value="2:00 PM">2:00 PM</option>
-									<option value="2:30 PM">2:30 PM</option>
-									<option value="3:00 PM">3:00 PM</option>
-									<option value="3:30 PM">3:30 PM</option>
-									<option value="4:00 PM">4:00 PM</option>
-									<option value="4:30 PM">4:30 PM</option>
-									<option value="5:00 PM">5:00 PM</option>
-									<option value="5:30 PM">5:30 PM</option>
-									<option value="6:00 PM">6:00 PM</option>
-									<option value="6:30 PM">6:30 PM</option>
-									<option value="7:00 PM">7:00 PM</option>
-								</Select>
-							</div>
-							<div className="w-1/2 mb-5 px-3">
-								<Label name="Total Hours" htmlFor="numberOfHours" />
-								<NumberInput name="numberOfHours" min="1" max="8" value={numberOfHours} onChange={(e) => setNumberOfHours(e.target.value)} />
-							</div>
+							{requestType === 'singleDay' ? (
+								<>
+									<div className="w-1/2 mb-5 px-3">
+										<Label name="Start Time" htmlFor="startTime" />
+										<Select name="startTime" value={startTime} onChange={(e) => setStartTime(e.target.value)}>
+											<option defaultValue value=""></option>
+											<option value="7:00 AM">7:00 AM</option>
+											<option value="7:30 AM">7:30 AM</option>
+											<option value="8:00 AM">8:00 AM</option>
+											<option value="8:30 AM">8:30 AM</option>
+											<option value="9:00 AM">9:00 AM</option>
+											<option value="9:30 AM">9:30 AM</option>
+											<option value="10:00 AM">10:00 AM</option>
+											<option value="10:30 AM">10:30 AM</option>
+											<option value="11:00 AM">11:00 AM</option>
+											<option value="11:30 AM">11:30 AM</option>
+											<option value="12:00 PM">12:00 PM</option>
+											<option value="12:30 PM">12:30 PM</option>
+											<option value="1:00 PM">1:00 PM</option>
+											<option value="1:30 PM">1:30 PM</option>
+											<option value="2:00 PM">2:00 PM</option>
+											<option value="2:30 PM">2:30 PM</option>
+											<option value="3:00 PM">3:00 PM</option>
+											<option value="3:30 PM">3:30 PM</option>
+											<option value="4:00 PM">4:00 PM</option>
+											<option value="4:30 PM">4:30 PM</option>
+											<option value="5:00 PM">5:00 PM</option>
+											<option value="5:30 PM">5:30 PM</option>
+											<option value="6:00 PM">6:00 PM</option>
+											<option value="6:30 PM">6:30 PM</option>
+											<option value="7:00 PM">7:00 PM</option>
+										</Select>
+									</div>
+									<div className="w-1/2 mb-5 px-3">
+										<Label name="Total Hours" htmlFor="numberOfHours" />
+										<NumberInput name="numberOfHours" min="1" max="8" value={numberOfHours} onChange={(e) => setNumberOfHours(e.target.value)} />
+									</div>
+								</>
+							) : (
+								<div className="w-full mb-5 px-3">
+									<Label name="Total Hours" htmlFor="numberOfHours" />
+									<NumberInput name="numberOfHours" min="1" value={numberOfHours} onChange={(e) => setNumberOfHours(e.target.value)} />
+								</div>
+							)}
 							<div className="w-full mb-5 px-3">
 								<Label name="Comments" htmlFor="comments" />
 								<TextArea name="comments" rows="2" value={comments} onChange={(e) => setComments(e.target.value)} />
