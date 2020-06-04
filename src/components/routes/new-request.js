@@ -3,18 +3,19 @@ import Layout from '../Layout'
 import Icon from '@mdi/react'
 import { mdiCalendarPlus, mdiLoading } from '@mdi/js'
 import { Label, Select, NumberInput, TextArea } from '../FormFields'
-import { SingleDatePicker } from 'react-dates'
-import 'react-dates/initialize'
-import 'react-dates/lib/css/_datepicker.css'
 import { db } from '../../firebase/firebase'
 import { AuthContext } from '../../context/Auth'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Calendar, DateRange } from 'react-date-range'
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
 
 const NewRequest = () => {
 	const { currentUser, userProfile } = useContext(AuthContext)
+	const [requestType, setRequestType] = useState('singleDay')
 	const [requestDate, setRequestDate] = useState(null)
-	const [requestDateFocus, setRequestDateFocus] = useState(false)
+	const [selectionRange, setSelectionRange] = useState([{ startDate: new Date(), endDate: null, key: 'selection' }])
 	const [startTime, setStartTime] = useState('')
 	const [numberOfHours, setNumberOfHours] = useState('')
 	const [comments, setComments] = useState('')
@@ -70,25 +71,25 @@ const NewRequest = () => {
 						<div className="flex flex-wrap">
 							<div className="w-1/2 px-3 mb-5">
 								<Label name="Single Day" htmlFor="dayType" className="mr-2" />
-								<input type="radio" defaultChecked value="singleDay" name="dayType" />
+								<input type="radio" defaultChecked value="singleDay" name="dayType" onChange={(e) => setRequestType(e.target.value)} />
 							</div>
 							<div className="w-1/2 px-3 mb-5">
-								<Label name="Multiple Days" htmlFor="dayType" className="mr-2" />
-								<input type="radio" value="multipleDays" name="dayType" />
+								<Label name="Multi-Day" htmlFor="dayType" className="mr-2" />
+								<input type="radio" value="multiDay" name="dayType" onChange={(e) => setRequestType(e.target.value)} />
 							</div>
 							<div className="w-full mb-5">
 								<div className="date-picker-no-border">
-									<Label name="Date Requested" htmlFor="dateRequested" />
-									<SingleDatePicker
-										date={requestDate}
-										onDateChange={(requestDate) => setRequestDate(requestDate)}
-										focused={requestDateFocus}
-										onFocusChange={() => setRequestDateFocus(!requestDateFocus)}
-										numberOfMonths={2}
-										anchorDirection="left"
-										noBorder={true}
-										placeholder=""
-									/>
+									{requestType === 'singleDay' ? (
+										<>
+											<Label name="Date Requested" htmlFor="dateRequested" />
+											<Calendar date={requestDate} onChange={(requestDate) => setRequestDate(requestDate)} />
+										</>
+									) : (
+										<>
+											<Label name="Dates Requested" htmlFor="dateRequested" />
+											<DateRange ranges={selectionRange} showSelectionPreview={false} onChange={(item) => setSelectionRange([item.selection])} />
+										</>
+									)}
 								</div>
 							</div>
 							<div className="w-1/2 mb-5 px-3">
@@ -123,7 +124,7 @@ const NewRequest = () => {
 								</Select>
 							</div>
 							<div className="w-1/2 mb-5 px-3">
-								<Label name="Number of Hours" htmlFor="numberOfHours" />
+								<Label name="Total Hours" htmlFor="numberOfHours" />
 								<NumberInput name="numberOfHours" min="1" max="8" value={numberOfHours} onChange={(e) => setNumberOfHours(e.target.value)} />
 							</div>
 							<div className="w-full mb-5 px-3">
