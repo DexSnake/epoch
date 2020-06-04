@@ -3,10 +3,8 @@ import './styles/styles.css'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { AuthProvider } from './context/Auth'
 import PrivateRoute from './components/PrivateRoute'
-import Home from './components/routes'
 import Dashboard from './components/routes/dashboard'
 import Login from './components/routes/login'
-import SignUp from './components/routes/sign-up'
 import Employees from './components/routes/employees'
 import EditEmployee from './components/routes/edit-employee'
 import NewRequest from './components/routes/new-request'
@@ -23,9 +21,7 @@ function App() {
 	return (
 		<AuthProvider>
 			<Router>
-				<Route path="/" exact component={Home} />
-				<Route path="/signup" component={SignUp} />
-				<Route path="/login" component={Login} />
+				<Route path="/" exact component={Login} />
 				<Route path="/password-reset" component={ResetPassword} />
 				<PrivateRoute path="/dashboard" component={Dashboard} />
 				<PrivateRoute path="/add-employee" component={AddEmployee} />

@@ -127,7 +127,12 @@ const PendingRequests = () => {
 								)
 							})
 					) : (
-						<p>Horay! No Pending Requests! 🎉</p>
+						<p>
+							Horay! No Pending Requests!{' '}
+							<span role="img" aria-label="horay">
+								🎉
+							</span>
+						</p>
 					)}
 				</div>
 				<ToastContainer position="top-center" autoClose={2000} />

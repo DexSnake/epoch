@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React from 'react'
 import Layout from '../Layout'
-import { AuthContext } from '../../context/Auth'
-import { auth } from '../../firebase/firebase'
+
 import ChangePassword from '../Account/ChangePassword'
 
 const Account = () => {

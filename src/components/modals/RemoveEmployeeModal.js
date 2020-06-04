@@ -10,7 +10,7 @@ const RemoveEmployeeModal = ({ closeModal, handleDelete, firstName, lastName }) 
 		} else {
 			setRemoveButton(true)
 		}
-	}, [confirmDelete])
+	}, [confirmDelete, firstName, lastName])
 
 	return (
 		<React.Fragment>

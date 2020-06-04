@@ -4,7 +4,7 @@ import { db, storage } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Icon from '@mdi/react'
-import { mdiLoading, mdiEyeCheck, mdiEyeMinus, mdiDelete, mdiCameraOutline } from '@mdi/js'
+import { mdiLoading, mdiEyeCheck, mdiEyeMinus, mdiDelete } from '@mdi/js'
 import moment from 'moment'
 import { SingleDatePicker } from 'react-dates'
 import 'react-dates/initialize'
@@ -235,7 +235,7 @@ const EditEmployee = (props) => {
 				}))
 				setRequests(requests)
 			})
-	}, [])
+	}, [data.id])
 
 	const handleApprove = (id, userId, numberOfHours) => {
 		db.collection('Requests')

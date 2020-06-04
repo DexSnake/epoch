@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import Layout from '../Layout'
 import Icon from '@mdi/react'
 import { mdiCalendarPlus, mdiLoading } from '@mdi/js'
