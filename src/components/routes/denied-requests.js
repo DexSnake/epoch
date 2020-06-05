@@ -124,7 +124,7 @@ const DeniedRequests = () => {
 								)
 							})
 					) : (
-						<p>No Approved Requests</p>
+						<p className="text-purp-medium font-semibold">No Denied Requests! Good Job Boss! 🎉</p>
 					)}
 				</div>
 				<ToastContainer position="top-center" autoClose={2000} />

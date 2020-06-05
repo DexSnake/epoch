@@ -71,6 +71,7 @@ const ApprovedRequests = () => {
 					{requests.length > 0 ? (
 						requests
 							.sort((a, b) => (a.dates[0] > b.dates[0] ? 1 : -1))
+							.filter((request) => request.dates[0].toDate() > new Date())
 							.map((request) => {
 								return request.requestType === 'singleDay' ? (
 									<div className="w-1/3 px-3" key={request.id}>
@@ -124,7 +125,7 @@ const ApprovedRequests = () => {
 								)
 							})
 					) : (
-						<p>No Approved Requests</p>
+						<p className="text-purp-medium font-semibold">No Approved Requests.</p>
 					)}
 				</div>
 				<ToastContainer position="top-center" autoClose={2000} />

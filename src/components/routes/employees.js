@@ -9,8 +9,6 @@ const Employees = () => {
 	const [employeesDisabled, setEmployeesDisabled] = useState([])
 	const [requests, setRequests] = useState([])
 
-	console.log(employees)
-
 	useEffect(() => {
 		db.collection('Employees')
 			.where('isActive', '==', true)
@@ -46,11 +44,17 @@ const Employees = () => {
 
 	return (
 		<Layout>
-			<div className="p-10 flex flex-wrap">
-				<Employee employees={employees} requests={requests} />
+			<div className="p-10">
+				<h2 className="text-3xl text-purp-normal font-semibold pl-3 pb-4">Active Employees</h2>
+				<div className="flex flex-wrap">
+					<Employee employees={employees} requests={requests} />
+				</div>
 			</div>
-			<div className="p-10 flex flex-wrap">
-				<EmployeeDisabled employees={employeesDisabled} requests={requests} />
+			<div className="p-10">
+				<h2 className="text-3xl text-purp-normal font-semibold pl-3 pb-4">Inactive Employees</h2>
+				<div className="flex flex-wrap">
+					<EmployeeDisabled employees={employeesDisabled} requests={requests} />
+				</div>
 			</div>
 		</Layout>
 	)

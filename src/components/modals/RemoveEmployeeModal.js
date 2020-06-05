@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Icon from '@mdi/react'
+import { mdiLoading } from '@mdi/js'
 
-const RemoveEmployeeModal = ({ closeModal, handleDelete, firstName, lastName }) => {
+const RemoveEmployeeModal = ({ closeModal, handleDelete, firstName, lastName, loading }) => {
 	const [confirmDelete, setConfirmDelete] = useState('')
 	const [removeButton, setRemoveButton] = useState(true)
 
@@ -35,15 +37,17 @@ const RemoveEmployeeModal = ({ closeModal, handleDelete, firstName, lastName }) 
 							</div>
 						</div>
 						<div className="flex items-center justify-end px-5 pb-5 rounded-b">
-							<button className="text-purp-light hover:text-purp-normal font-bold uppercase px-6 py-2 text-sm focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={closeModal}>
-								Cancel
-							</button>
+							{loading ? null : (
+								<button className="text-purp-light hover:text-purp-normal font-bold uppercase px-6 py-2 text-sm focus:outline-none mr-1 mb-1 transition duration-200 ease" onClick={closeModal}>
+									Cancel
+								</button>
+							)}
 							<button
 								type="submit"
 								disabled={removeButton}
 								className={`bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease ${removeButton ? 'opacity-50 cursor-not-allowed' : null}`}
 								onClick={handleDelete}>
-								Deactivate
+								{loading ? <Icon path={mdiLoading} size={1} spin={(true, 1)} /> : 'Deactivate'}
 							</button>
 						</div>
 					</div>

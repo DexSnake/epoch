@@ -53,6 +53,7 @@ const EditEmployee = (props) => {
 	] = useState(data)
 	const [saving, setSaving] = useState(false)
 	const [removing, setRemoving] = useState(false)
+	const [loading, setLoading] = useState(false)
 	const [showRemoveEmployeeModal, setShowRemoveEmployeeModal] = useState(false)
 	const [showRemoveContactModal, setShowRemoveContactModal] = useState(false)
 	const [showSsn, setShowSsn] = useState(false)
@@ -192,7 +193,7 @@ const EditEmployee = (props) => {
 
 	// Function that gets called when the remove button inside the RemoveEmployeeModal components gets clicked
 	const handleDelete = () => {
-		setRemoving(true)
+		setLoading(true)
 		disableUser({ id: data.id }).then(() => {
 			db.collection('Employees')
 				.doc(data.id)
@@ -201,6 +202,7 @@ const EditEmployee = (props) => {
 					updatedAt: new Date(),
 				})
 				.then(function () {
+					setLoading(false)
 					setShowRemoveEmployeeModal(false)
 					props.history.push('/employees')
 				})
@@ -661,7 +663,7 @@ const EditEmployee = (props) => {
 				</button>
 			</div>
 			{/* Modals */}
-			{showRemoveEmployeeModal ? <RemoveEmployeeModal firstName={firstName} lastName={lastName} closeModal={handleCloseRemoveEmployeeModal} handleDelete={handleDelete} /> : null}
+			{showRemoveEmployeeModal ? <RemoveEmployeeModal firstName={firstName} lastName={lastName} closeModal={handleCloseRemoveEmployeeModal} handleDelete={handleDelete} loading={loading} /> : null}
 			{showRemoveContactModal ? (
 				<>
 					<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { db, functions } from '../firebase/firebase'
+import Icon from '@mdi/react'
+import { mdiLoading } from '@mdi/js'
 
 const Employee = ({ employees, requests }) => {
 	const enableUser = functions.httpsCallable('enableUser')
+	const [loading, setLoading] = useState(false)
 
 	const handleReactivate = (id) => {
+		setLoading(true)
 		enableUser({ id: id }).then(() => {
-			db.collection('Employees').doc(id).update({
-				isActive: true,
-			})
+			db.collection('Employees')
+				.doc(id)
+				.update({
+					isActive: true,
+					updatedAt: new Date(),
+				})
+				.then(() => {
+					setLoading(false)
+				})
 		})
 	}
 
@@ -33,7 +43,7 @@ const Employee = ({ employees, requests }) => {
 						<p className="text-purp-normal">{e.title}</p>
 					</div>
 					<button onClick={() => handleReactivate(e.id)} className="text-center hover:text-green-500 pt-2 font-semibold tracking-wide text-sm">
-						Reactivate
+						{loading ? <Icon path={mdiLoading} size={1} spin={(true, 1)} /> : 'Reactivate'}
 					</button>
 				</div>
 			</div>

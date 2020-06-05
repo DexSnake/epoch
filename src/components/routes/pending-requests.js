@@ -163,7 +163,7 @@ const PendingRequests = () => {
 								)
 							})
 					) : (
-						<p>No Approved Requests</p>
+						<p className="text-purp-medium font-semibold">No Pending Requests 🥳</p>
 					)}
 				</div>
 				<ToastContainer position="top-center" autoClose={2000} />
