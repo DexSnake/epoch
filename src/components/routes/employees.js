@@ -50,12 +50,14 @@ const Employees = () => {
 					<Employee employees={employees} requests={requests} />
 				</div>
 			</div>
-			<div className="p-10">
-				<h2 className="text-3xl text-purp-normal font-semibold pl-3 pb-4">Inactive Employees</h2>
-				<div className="flex flex-wrap">
-					<EmployeeDisabled employees={employeesDisabled} requests={requests} />
+			{employeesDisabled.length > 0 ? (
+				<div className="p-10">
+					<h2 className="text-3xl text-purp-normal font-semibold pl-3 pb-4">Inactive Employees</h2>
+					<div className="flex flex-wrap">
+						<EmployeeDisabled employees={employeesDisabled} requests={requests} />
+					</div>
 				</div>
-			</div>
+			) : null}
 		</Layout>
 	)
 }

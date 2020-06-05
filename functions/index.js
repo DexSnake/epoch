@@ -5,16 +5,15 @@ admin.initializeApp()
 exports.addAdminRole = functions.https.onCall((data, context) => {
 	return admin
 		.auth()
-		.getUserByEmail(data.email)
+		.createUser({
+			email: data.email,
+			password: data.password,
+			displayName: data.displayName,
+		})
 		.then((user) => {
 			return admin.auth().setCustomUserClaims(user.uid, {
 				isAdmin: true,
 			})
-		})
-		.then(() => {
-			return {
-				message: `Success! ${data.email} has been made an admin`,
-			}
 		})
 		.catch((err) => {
 			return err
