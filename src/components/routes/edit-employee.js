@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Layout from '../Layout'
-import { db, storage } from '../../firebase/firebase'
+import { db, storage, functions } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Icon from '@mdi/react'
 import { mdiLoading, mdiEyeCheck, mdiEyeMinus, mdiDelete } from '@mdi/js'
 import moment from 'moment'
-import { SingleDatePicker } from 'react-dates'
-import 'react-dates/initialize'
-import 'react-dates/lib/css/_datepicker.css'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
-import { Label, TextInput, Select } from '../FormFields'
+import { Label, TextInput, Select, DateInput } from '../FormFields'
 import { AuthContext } from '../../context/Auth'
 import EmployeeHeader from '../EmployeeHeader'
 import RemoveEmployeeModal from '../modals/RemoveEmployeeModal'
@@ -19,10 +16,8 @@ import NumberFormat from 'react-number-format'
 const EditEmployee = (props) => {
 	const { userProfile, currentUser } = useContext(AuthContext)
 
-	// Convert the dates back to Moment objects then set loaded to true to conditionally render the date pickers
 	useEffect(() => {
-		setState((prevState) => ({ ...prevState, dateOfBirth: moment.unix(dateOfBirth.seconds), startDate: moment.unix(startDate.seconds), profileImage: null }))
-		setLoaded(true)
+		setState((prevState) => ({ ...prevState, profileImage: null, dateOfBirth: moment(dateOfBirth.toDate()).format('YYYY-MM-DD'), startDate: moment(startDate.toDate()).format('YYYY-MM-DD') }))
 	}, [])
 
 	const data = props.location.state.data
@@ -60,15 +55,13 @@ const EditEmployee = (props) => {
 	const [removing, setRemoving] = useState(false)
 	const [showRemoveEmployeeModal, setShowRemoveEmployeeModal] = useState(false)
 	const [showRemoveContactModal, setShowRemoveContactModal] = useState(false)
-	const [loaded, setLoaded] = useState(false)
 	const [showSsn, setShowSsn] = useState(false)
-	const [dobFocus, setDobFocus] = useState(false)
-	const [startDateFocus, setStartDateFocus] = useState(false)
 	const [modalIndex, setModalIndex] = useState(null)
 	const [requests, setRequests] = useState([])
+	const disableUser = functions.httpsCallable('disableUser')
 
 	// Data variable to send to the EmployeeHeader component
-	const EmployeeHeaderData = { userProfile, loaded, showSsn, firstName, lastName, ssn, title, startDate, dateOfBirth, imageUrl, salary, salaryRate }
+	const EmployeeHeaderData = { userProfile, showSsn, firstName, lastName, ssn, title, startDate, dateOfBirth, imageUrl, salary, salaryRate }
 
 	// Function to handle the onChange events for the inputs
 	const handleChange = (e) => {
@@ -167,8 +160,8 @@ const EditEmployee = (props) => {
 				firstName,
 				lastName,
 				middleName,
-				dateOfBirth: dateOfBirth._d,
-				startDate: startDate._d,
+				dateOfBirth: new Date(dateOfBirth),
+				startDate: new Date(startDate),
 				ssn,
 				imageUrl,
 				title,
@@ -200,13 +193,17 @@ const EditEmployee = (props) => {
 	// Function that gets called when the remove button inside the RemoveEmployeeModal components gets clicked
 	const handleDelete = () => {
 		setRemoving(true)
-		db.collection('Employees')
-			.doc(data.id)
-			.delete()
-			.then(function () {
-				setShowRemoveEmployeeModal(false)
-				props.history.push('/employees')
-			})
+		disableUser({ id: data.id }).then(() => {
+			db.collection('Employees')
+				.doc(data.id)
+				.update({
+					isActive: false,
+				})
+				.then(function () {
+					setShowRemoveEmployeeModal(false)
+					props.history.push('/employees')
+				})
+		})
 	}
 
 	// Gets passed to RemoveEmployeeModal component
@@ -227,7 +224,6 @@ const EditEmployee = (props) => {
 	useEffect(() => {
 		db.collection('Requests')
 			.where('userId', '==', data.id)
-			.where('requestDate', '>', new Date())
 			.onSnapshot((snapshot) => {
 				const requests = snapshot.docs.map((doc) => ({
 					id: doc.id,
@@ -235,7 +231,7 @@ const EditEmployee = (props) => {
 				}))
 				setRequests(requests)
 			})
-	}, [data.id])
+	}, [])
 
 	const handleApprove = (id, userId, numberOfHours) => {
 		db.collection('Requests')
@@ -330,89 +326,150 @@ const EditEmployee = (props) => {
 					</div>
 				</div>
 			</EmployeeInfoContainer>
-			<EmployeeInfoContainer>
-				<div className="p-8">
-					<p className="uppercase text-purp-normal font-semibold mb-5">Pending Requests</p>
-					{requests.length > 0
-						? requests
+			{currentUser.isAdmin ? (
+				<EmployeeInfoContainer>
+					<div className="p-8">
+						<p className="uppercase text-purp-normal font-semibold mb-5">Pending Requests</p>
+						{requests.length > 0 ? (
+							requests
 								.filter((request) => request.status === 'pending')
-								.sort((a, b) => (a.requestDate.seconds > b.requestDate.seconds ? 1 : -1))
+								.sort((a, b) => (a.dates[1] > b.dates[1] ? 1 : -1))
 								.map((request) => {
-									return (
-										<div className="w-full px-3" key={request.id}>
-											<div className="border-l-4 border-yellow-400 p-4 bg-purp-lightest shadow rounded mb-3 text-purp-normal">
-												<div className="flex items-center">
-													<div className="w-1/5 px-1">
-														<p className="font-semibold pb-2">Date</p>
-														<p className="font-normal"> {moment.unix(request.requestDate.seconds).format('MMMM DD, YYYY')}</p>
-													</div>
-													<div className="w-1/5 px-1">
-														<p className="font-semibold pb-2">Start Time</p>
-														<p className="font-normal"> {request.startTime}</p>
-													</div>
-													<div className="w-1/5 px-1">
-														<p className="font-semibold pb-2">Total Hours</p>
-														<p className="font-normal"> {request.numberOfHours}</p>
-													</div>
-													<div className="w-1/5 px-1">
-														<span className="text-sm text-white px-2 py-1 bg-yellow-400 rounded">pending</span>
-													</div>
-													<div className="w-1/5 px-1">
-														<button className="mr-1 bg-green-500 hover:bg-green-700 text-white font-semibold text-xs rounded px-2 py-1" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
-															Approve
-														</button>
-														<button className="ml-1 bg-red-500 hover:bg-red-700 text-white font-semibold text-xs rounded px-2 py-1" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
-															Deny
-														</button>
-													</div>
+									return request.requestType === 'singleDay' ? (
+										<div className="p-6 bg-purp-lightest shadow rounded mb-3 border-l-4 border-yellow-400" key={request.id}>
+											<div className="flex">
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Date</p>
+													<p>{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Start Time</p>
+													<p>{request.startTime}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Total Hours</p>
+													<p>{request.numberOfHours}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Status</p>
+													<span className="text-sm text-white px-2 py-1 rounded bg-yellow-400">pending</span>
+												</div>
+												<div className="w-1/5 px-3">
+													<button className="ml-1 bg-green-500 hover:bg-green-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
+														Approved Request
+													</button>
+													<button className="ml-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+														Deny Request
+													</button>
+												</div>
+											</div>
+										</div>
+									) : (
+										<div className="p-6 bg-purp-lightest shadow rounded mb-3 border-l-4 border-yellow-400" key={request.id}>
+											<div className="flex items-center">
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Start Date</p>
+													<p>{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">End Date</p>
+													<p>{moment(request.dates[1].toDate()).format('MMMM DD, YYYY')}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Total Hours</p>
+													<p>{request.numberOfHours}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Status</p>
+													<span className="text-sm text-white px-2 py-1 rounded bg-yellow-400">pending</span>
+												</div>
+												<div className="w-1/5 px-3">
+													<button className="ml-1 bg-green-500 hover:bg-green-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
+														Approved Request
+													</button>
+													<button className="ml-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+														Deny Request
+													</button>
 												</div>
 											</div>
 										</div>
 									)
 								})
-						: null}
-				</div>
-			</EmployeeInfoContainer>
-			<EmployeeInfoContainer>
-				<div className="p-8">
-					<p className="uppercase text-purp-normal font-semibold mb-5">Upcoming Requests</p>
-					{requests.length > 0
-						? requests
+						) : (
+							<p className="text-purp-medium font-semibold">{firstName} does not have any pending requests.</p>
+						)}
+					</div>
+				</EmployeeInfoContainer>
+			) : null}
+			{currentUser.isAdmin ? (
+				<EmployeeInfoContainer>
+					<div className="p-8">
+						<p className="uppercase text-purp-normal font-semibold mb-5">Upcoming Requests</p>
+						{requests.length > 0 ? (
+							requests
 								.filter((request) => request.status === 'approved')
-								.sort((a, b) => (a.requestDate.seconds > b.requestDate.seconds ? 1 : -1))
+								.sort((a, b) => (a.dates[0] > b.dates[0] ? 1 : -1))
 								.map((request) => {
-									return (
-										<div className="w-full px-3" key={request.id}>
-											<div className="border-l-4 border-green-500 p-4 bg-purp-lightest shadow rounded mb-3 text-purp-normal">
-												<div className="flex items-center">
-													<div className="w-1/5 px-1">
-														<p className="font-semibold pb-2">Date</p>
-														<p className="font-normal"> {moment.unix(request.requestDate.seconds).format('MMMM DD, YYYY')}</p>
-													</div>
-													<div className="w-1/5 px-1">
-														<p className="font-semibold pb-2">Start Time</p>
-														<p className="font-normal"> {request.startTime}</p>
-													</div>
-													<div className="w-1/5 px-1">
-														<p className="font-semibold pb-2">Total Hours</p>
-														<p className="font-normal"> {request.numberOfHours}</p>
-													</div>
-													<div className="w-1/5 px-1">
-														<span className="text-sm text-white px-2 py-1 bg-green-500 rounded">approved</span>
-													</div>
-													<div className="w-1/5 px-1">
-														<button className="ml-1 bg-red-500 hover:bg-red-700 text-white text-xs font-semibold rounded px-2 py-1" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
-															Change to Denied
-														</button>
-													</div>
+									return request.requestType === 'singleDay' ? (
+										<div className="p-6 bg-purp-lightest shadow rounded mb-3 border-l-4 border-green-400" key={request.id}>
+											<div className="flex">
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Date</p>
+													<p>{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Start Time</p>
+													<p>{request.startTime}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Total Hours</p>
+													<p>{request.numberOfHours}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Status</p>
+													<span className="text-sm text-white px-2 py-1 rounded bg-green-400">approved</span>
+												</div>
+												<div className="w-1/5 px-3">
+													<button className="ml-1 bg-red-500 hover:bg-red-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+														Change to Denied
+													</button>
+												</div>
+											</div>
+										</div>
+									) : (
+										<div className="p-6 bg-purp-lightest shadow rounded mb-3 border-l-4 border-green-400" key={request.id}>
+											<div className="flex items-center">
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Start Date</p>
+													<p>{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">End Date</p>
+													<p>{moment(request.dates[1].toDate()).format('MMMM DD, YYYY')}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Total Hours</p>
+													<p>{request.numberOfHours}</p>
+												</div>
+												<div className="w-1/5 px-3">
+													<p className="text-purp-normal font-semibold">Status</p>
+													<span className="text-sm text-white px-2 py-1 rounded bg-green-400">approved</span>
+												</div>
+												<div className="w-1/5 px-3">
+													<button className="ml-1 bg-red-500 hover:bg-red-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+														Change to Denied
+													</button>
 												</div>
 											</div>
 										</div>
 									)
 								})
-						: null}
-				</div>
-			</EmployeeInfoContainer>
+						) : (
+							<p className="text-purp-medium font-semibold">{firstName} does not have any upcoming requests.</p>
+						)}
+					</div>
+				</EmployeeInfoContainer>
+			) : null}
 			<EmployeeInfoContainer>
 				<div className="p-8">
 					<p className="uppercase text-purp-normal font-semibold mb-5">Personal Info</p>
@@ -435,22 +492,7 @@ const EditEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/5 px-3">
 							<Label name="DOB" htmlFor="dob" />
-							<div className="date-picker-no-border">
-								{loaded ? (
-									<SingleDatePicker
-										date={dateOfBirth}
-										onDateChange={handleDobChange}
-										focused={dobFocus}
-										onFocusChange={() => setDobFocus(!dobFocus)}
-										numberOfMonths={1}
-										isOutsideRange={() => false}
-										anchorDirection="left"
-										noBorder={true}
-										disabled={!currentUser.isAdmin}
-										id="dateOfBirth"
-									/>
-								) : null}
-							</div>
+							<DateInput name="dateOfBirth" value={dateOfBirth} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" />
@@ -500,22 +542,7 @@ const EditEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/4 px-3">
 							<Label name="Hire Date" htmlFor="startDate" />
-							<div className="date-picker-no-border">
-								{loaded ? (
-									<SingleDatePicker
-										date={startDate}
-										onDateChange={handleStartDateChange}
-										focused={startDateFocus}
-										onFocusChange={() => setStartDateFocus(!startDateFocus)}
-										numberOfMonths={1}
-										isOutsideRange={() => false}
-										anchorDirection="left"
-										noBorder={true}
-										disabled={!currentUser.isAdmin}
-										id="dateOfBirth"
-									/>
-								) : null}
-							</div>
+							<DateInput name="startDate" value={startDate} onChange={handleChange} />
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Salary" htmlFor="salary" />

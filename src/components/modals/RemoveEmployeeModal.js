@@ -18,15 +18,15 @@ const RemoveEmployeeModal = ({ closeModal, handleDelete, firstName, lastName }) 
 				<div className="relative w-auto my-6 mx-auto max-w-3xl">
 					<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white overflow-y-auto outline-none focus:outline-none" style={{ maxHeight: '80vh' }}>
 						<div className="flex items-start p-5 rounded-t bg-purp-lightest">
-							<h3 className="text-2xl text-purp-normal">Remove Employee?</h3>
-							<button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none transition duration-300 ease transform hover:rotate-45" onClick={closeModal}>
+							<h3 className="text-2xl text-purp-normal">Deactivate Employee?</h3>
+							<button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-4xl leading-none outline-none focus:outline-none" onClick={closeModal}>
 								<span className="bg-transparent text-purp-normal opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">×</span>
 							</button>
 						</div>
 						<div className="relative p-6 flex-auto">
 							<div className="flex flex-col">
 								<p>
-									Confirm you want to remove this emplooyee by typing their name:{' '}
+									Confirm you want to deactivate this emplooyee by typing their name:{' '}
 									<span className="font-semibold">
 										{firstName} {lastName}
 									</span>
@@ -43,7 +43,7 @@ const RemoveEmployeeModal = ({ closeModal, handleDelete, firstName, lastName }) 
 								disabled={removeButton}
 								className={`bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease ${removeButton ? 'opacity-50 cursor-not-allowed' : null}`}
 								onClick={handleDelete}>
-								Remove
+								Deactivate
 							</button>
 						</div>
 					</div>

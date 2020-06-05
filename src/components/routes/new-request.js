@@ -57,6 +57,7 @@ const NewRequest = () => {
 						setLoading(false)
 						toast.success('Request Submitted!')
 						setRequestDate(null)
+						setRequestDates([{ startDate: new Date(), endDate: new Date(), key: 'selection' }])
 						setStartTime('')
 						setNumberOfHours('')
 						setComments('')

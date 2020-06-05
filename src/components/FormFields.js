@@ -31,6 +31,10 @@ export const NumberInput = (props) => (
 		className={`w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`}
 	/>
 )
+export const DateInput = (props) => (
+	<input type="date" name={props.name} value={props.value} disabled={props.disabled ? true : false} onChange={props.onChange} className={`w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`} />
+)
+
 export const PasswordInput = (props) => (
 	<input
 		type="password"

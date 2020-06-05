@@ -16,13 +16,14 @@ module.exports = {
 			'15': '15px',
 			'20': '20px',
 			'25': '25px',
+			'35': '35px',
 		},
 		extend: {
 			colors: {
 				purp: {
 					lightest: '#f2f1f6',
 					light: '#EAEAEE',
-					medium: '#D2D0D9',
+					medium: '#CAC7D1',
 					normal: '#414255',
 					dark: '#3A3B4E',
 					bright: '#75107B',

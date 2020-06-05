@@ -30,7 +30,9 @@ const Layout = (props) => {
 					</div>
 				</header>
 				<main className="flex flex-grow">
-					<div className="bg-purp-normal w-64 py-10 px-4">{currentUser.isAdmin ? <AdminNav /> : <UserNav />}</div>
+					<div className="bg-purp-normal py-10 px-4" style={{ minWidth: 260 }}>
+						{currentUser.isAdmin ? <AdminNav /> : <UserNav />}
+					</div>
 					<div className="bg-purp-lightest flex-grow relative">
 						<div className="absolute bg-purp-normal right-20 top-0 py-2 px-4" style={{ display: showProfileMenu ? 'block' : 'none' }}>
 							<ul>

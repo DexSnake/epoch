@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../Layout'
 import moment from 'moment'
+import Icon from '@mdi/react'
+import { mdiLoading, mdiCalendar, mdiCalendarMonth } from '@mdi/js'
 import { db } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const PendingRequests = () => {
 	const [requests, setRequests] = useState([])
+	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
 		db.collection('Requests')
@@ -21,6 +24,7 @@ const PendingRequests = () => {
 	}, [])
 
 	const handleApprove = (id, userId, numberOfHours) => {
+		setLoading(true)
 		db.collection('Requests')
 			.doc(id)
 			.update({
@@ -42,6 +46,7 @@ const PendingRequests = () => {
 							})
 							.then(() => {
 								toast.success('Request Approved!')
+								setLoading(false)
 							})
 							.catch((err) => {
 								console.log(err)
@@ -98,41 +103,67 @@ const PendingRequests = () => {
 				<div className="flex flex-wrap">
 					{requests.length > 0 ? (
 						requests
-							.sort((a, b) => (a.requestDate.seconds > b.requestDate.seconds ? 1 : -1))
+							.sort((a, b) => (a.dates[0] > b.dates[0] ? 1 : -1))
 							.map((request) => {
-								return (
-									<div className="w-1/4 px-3" key={request.id}>
-										<div className="p-4 bg-white shadow-lg rounded mb-3 text-purp-normal" key={request.id}>
-											<p className="font-semibold pb-2">
-												Name:
-												<span className="font-normal"> {request.employee}</span>
-											</p>
-											<p className="font-semibold pb-2">
-												Date:<span className="font-normal"> {moment.unix(request.requestDate.seconds).format('MMMM DD, YYYY')}</span>
-											</p>
-											<p className="font-semibold pb-2">
-												Start Time:<span className="font-normal"> {request.startTime}</span>
-											</p>
-											<p className="font-semibold pb-2">
-												Total Hours:<span className="font-normal"> {request.numberOfHours}</span>
-											</p>
-											<button className="mr-1 bg-green-600 hover:bg-green-800 text-white text-xs rounded px-2 py-1" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
-												Approve Request
-											</button>
-											<button className="ml-1 bg-red-600 hover:bg-red-800 text-white text-xs rounded px-2 py-1" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
-												Deny Request
-											</button>
+								return request.requestType === 'singleDay' ? (
+									<div className="w-1/3 px-3" key={request.id}>
+										<div className="bg-white shadow-lg rounded mb-3 text-purp-normal" key={request.id}>
+											<div className="p-6">
+												<h4 className="font-semibold text-purp-medium pb-4 text-xl uppercase">
+													<Icon path={mdiCalendar} size={1} className="inline mr-2" />
+													Single Day Request
+												</h4>
+												<p className="pb-3">
+													<span className="font-semibold">{request.employee}</span> is requesting off on <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> starting at{' '}
+													<span className="font-semibold">{request.startTime}</span> for a toal of <span className="font-semibold">{request.numberOfHours}</span> hours.
+												</p>
+
+												<p>
+													Their comments are: <span className="font-semibold">{request.comments}</span>
+												</p>
+											</div>
+											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
+												<button className="mr-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+													Deny Request
+												</button>
+												<button className="ml-1 bg-green-500 hover:bg-green-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
+													{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Approved Request'}
+												</button>
+											</div>
+										</div>
+									</div>
+								) : (
+									<div className="w-1/3 px-3" key={request.id}>
+										<div className="bg-white shadow-lg rounded mb-3 text-purp-normal" key={request.id}>
+											<div className="p-6">
+												<h4 className="font-semibold text-purp-medium pb-4 text-xl uppercase">
+													<Icon path={mdiCalendarMonth} size={1} className="inline mr-2" />
+													Single-Day Request
+												</h4>
+												<p className="pb-3">
+													<span className="font-semibold">{request.employee}</span> is requesting off starting <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> and ending{' '}
+													<span className="font-semibold">{moment(request.dates[1].toDate()).format('MMMM DD, YYYY')}</span>
+													<span className="font-semibold">{request.startTime}</span> for a toal of <span className="font-semibold">{request.numberOfHours}</span> hours.
+												</p>
+
+												<p>
+													Their comments are: <span className="font-semibold">{request.comments}</span>
+												</p>
+											</div>
+											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
+												<button className="mr-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+													Deny Request
+												</button>
+												<button className="ml-1 bg-green-500 hover:bg-green-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
+													{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Approved Request'}
+												</button>
+											</div>
 										</div>
 									</div>
 								)
 							})
 					) : (
-						<p>
-							Horay! No Pending Requests!{' '}
-							<span role="img" aria-label="horay">
-								🎉
-							</span>
-						</p>
+						<p>No Approved Requests</p>
 					)}
 				</div>
 				<ToastContainer position="top-center" autoClose={2000} />

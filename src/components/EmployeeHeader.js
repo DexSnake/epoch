@@ -34,18 +34,18 @@ const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
 					<p className="text-purp-normal mt-2 font-semibold">{data.title}</p>
 				</div>
 				<div className="w-1/4">
-					<p className="text-purp-normal mb-3">Hired on: {data.loaded ? <span className="font-semibold">{data.startDate ? data.startDate.format('MMMM DD, YYYY') : null}</span> : null}</p>
+					<p className="text-purp-normal mb-3">
+						Hired on: <span className="font-semibold">{data.startDate ? moment(data.startDate).format('MMMM DD, YYYY') : null}</span>
+					</p>
 					<p className="text-purp-normal mb-3">
 						SSN: <span className={`font-semibold ${data.showSsn ? 'tracking-widest' : null}`}>{data.showSsn ? data.ssn : 'XXX-XXX-XXXX'}</span>
 						<Icon onClick={showSsn} path={data.showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer" />
 					</p>
 					<p className="text-purp-normal mb-3">
-						DOB:{' '}
-						{data.loaded ? (
-							<span className="font-semibold">
-								{data.dateOfBirth ? data.dateOfBirth.format('MMMM DD, YYYY') : null} ({moment().diff(data.dateOfBirth, 'years')})
-							</span>
-						) : null}
+						DOB:
+						<span className="font-semibold">
+							{data.dateOfBirth ? moment(data.dateOfBirth).format('MMMM DD, YYYY') : null} ({moment().diff(moment(data.dateOfBirth), 'years')})
+						</span>
 					</p>
 					<p className="text-purp-normal mb-3">
 						Salary:{' '}
@@ -58,7 +58,7 @@ const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
 				{currentUser.isAdmin ? (
 					<div className="w-1/4 flex justify-end">
 						<button onClick={showModal} className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
-							Remove Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
+							Deactivate Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
 						</button>
 					</div>
 				) : null}

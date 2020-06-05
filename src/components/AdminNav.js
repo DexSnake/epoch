@@ -42,7 +42,7 @@ const AdminNav = () => {
 			</Link>
 			<Link to="/pending-requests">
 				<li className="text-purp-light mb-3 relative">
-					{requests.length > 0 ? <p className="font-semibold text-sm absolute top-neg-10 right-25 h-6 w-6 bg-red-600 text-white flex items-center justify-center rounded-full">{requests.length}</p> : null}
+					{requests.length > 0 ? <p className="font-semibold text-sm absolute top-neg-10 right-35 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">{requests.length}</p> : null}
 					<Icon path={mdiCalendarImport} size={1} className="mr-2 inline pb-1" />
 					Pending Requests
 				</li>

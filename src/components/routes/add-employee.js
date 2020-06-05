@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import Layout from '../Layout'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
-import { Label, TextInput, Select } from '../FormFields'
-import { SingleDatePicker } from 'react-dates'
-import 'react-dates/initialize'
-import 'react-dates/lib/css/_datepicker.css'
+import { Label, TextInput, Select, DateInput } from '../FormFields'
 import Icon from '@mdi/react'
 import { mdiAccountPlus, mdiLoading } from '@mdi/js'
 import { db, functions } from '../../firebase/firebase'
@@ -15,8 +12,8 @@ const AddEmployee = (props) => {
 		firstName: '',
 		lastName: '',
 		middleName: '',
-		startDate: null,
-		dateOfBirth: null,
+		startDate: '',
+		dateOfBirth: '',
 		ssn: '',
 		title: '',
 		ethnicity: '',
@@ -68,8 +65,6 @@ const AddEmployee = (props) => {
 		},
 		setState,
 	] = useState(initalState)
-	const [dobFocus, setDobFocus] = useState(false)
-	const [startDateFocus, setStartDateFocus] = useState(false)
 	const [saving, setSaving] = useState(false)
 	const userPassword = `${firstName.toLowerCase().charAt(0)}${lastName.toLowerCase()}${ssn.substr(ssn.length - 4)}`
 	const createUser = functions.httpsCallable('createUser')
@@ -78,16 +73,6 @@ const AddEmployee = (props) => {
 	const handleChange = (e) => {
 		const { name, value } = e.target
 		setState((prevState) => ({ ...prevState, [name]: value }))
-	}
-
-	// Function to handle the onChange event of the dateOfBirth input
-	const handleDobChange = (dateOfBirth) => {
-		setState((prevState) => ({ ...prevState, dateOfBirth }))
-	}
-
-	// Function to handle the onChange event of the startDate input
-	const handleStartDateChange = (startDate) => {
-		setState((prevState) => ({ ...prevState, startDate }))
 	}
 
 	const handleAddEmployee = (e) => {
@@ -101,8 +86,8 @@ const AddEmployee = (props) => {
 					firstName,
 					lastName,
 					middleName,
-					dateOfBirth: dateOfBirth._d,
-					startDate: startDate._d,
+					dateOfBirth: new Date(dateOfBirth),
+					startDate: new Date(startDate),
 					ssn,
 					title,
 					ethnicity,
@@ -142,6 +127,8 @@ const AddEmployee = (props) => {
 		})
 	}
 
+	console.log(dateOfBirth, startDate)
+
 	return (
 		<Layout>
 			<h1 className="m-10 text-purp-normal text-3xl">
@@ -169,20 +156,8 @@ const AddEmployee = (props) => {
 				<div className="p-8">
 					<div className="flex">
 						<div className="w-1/5 px-3">
-							<Label name="DOB" htmlFor="dob" />
-							<div className="date-picker-no-border">
-								<SingleDatePicker
-									date={dateOfBirth}
-									onDateChange={handleDobChange}
-									focused={dobFocus}
-									onFocusChange={() => setDobFocus(!dobFocus)}
-									numberOfMonths={1}
-									isOutsideRange={() => false}
-									anchorDirection="left"
-									noBorder={true}
-									id="dateOfBirth"
-								/>
-							</div>
+							<Label name="DOB" htmlFor="dateOfBirth" />
+							<DateInput name="dateOfBirth" value={dateOfBirth} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" />
@@ -240,18 +215,7 @@ const AddEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/4 px-3">
 							<Label name="Start Date" htmlFor="startDate" />
-							<div className="date-picker-no-border">
-								<SingleDatePicker
-									date={startDate}
-									onDateChange={handleStartDateChange}
-									focused={startDateFocus}
-									onFocusChange={() => setStartDateFocus(!startDateFocus)}
-									numberOfMonths={1}
-									isOutsideRange={() => false}
-									anchorDirection="left"
-									noBorder={true}
-								/>
-							</div>
+							<DateInput name="startDate" value={startDate} onChange={handleChange} />
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Salary" htmlFor="salary" />

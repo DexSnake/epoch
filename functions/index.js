@@ -35,3 +35,17 @@ exports.createUser = functions.https.onCall((data, context) => {
 			return err
 		})
 })
+
+exports.disableUser = functions.https.onCall((data, context) => {
+	return admin
+		.auth()
+		.updateUser(data.id, {
+			disabled: true,
+		})
+		.then((user) => {
+			return user
+		})
+		.catch((err) => {
+			return err
+		})
+})
