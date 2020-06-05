@@ -83,6 +83,8 @@ const AddEmployee = (props) => {
 			db.collection('Employees')
 				.doc(uid)
 				.set({
+					isActive: true,
+					createdAt: new Date(),
 					firstName,
 					lastName,
 					middleName,

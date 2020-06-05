@@ -198,6 +198,7 @@ const EditEmployee = (props) => {
 				.doc(data.id)
 				.update({
 					isActive: false,
+					updatedAt: new Date(),
 				})
 				.then(function () {
 					setShowRemoveEmployeeModal(false)

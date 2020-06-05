@@ -49,3 +49,17 @@ exports.disableUser = functions.https.onCall((data, context) => {
 			return err
 		})
 })
+
+exports.enableUser = functions.https.onCall((data, context) => {
+	return admin
+		.auth()
+		.updateUser(data.id, {
+			disabled: false,
+		})
+		.then((user) => {
+			return user
+		})
+		.catch((err) => {
+			return err
+		})
+})
