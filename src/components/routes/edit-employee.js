@@ -195,16 +195,29 @@ const EditEmployee = (props) => {
 	const handleDelete = () => {
 		setLoading(true)
 		disableUser({ id: data.id }).then(() => {
-			db.collection('Employees')
-				.doc(data.id)
-				.update({
-					isActive: false,
-					updatedAt: new Date(),
+			db.collection('Requests')
+				.where('userId', '==', data.id)
+				.get()
+				.then((snapshot) => {
+					const batch = db.batch()
+
+					snapshot.forEach((doc) => {
+						batch.delete(doc.ref)
+					})
+					return batch.commit()
 				})
-				.then(function () {
-					setLoading(false)
-					setShowRemoveEmployeeModal(false)
-					props.history.push('/employees')
+				.then(() => {
+					db.collection('Employees')
+						.doc(data.id)
+						.update({
+							isActive: false,
+							updatedAt: new Date(),
+						})
+						.then(function () {
+							setLoading(false)
+							setShowRemoveEmployeeModal(false)
+							props.history.push('/employees')
+						})
 				})
 		})
 	}
