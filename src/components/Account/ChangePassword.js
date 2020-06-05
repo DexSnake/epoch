@@ -40,8 +40,8 @@ const ChangePassword = () => {
 	}, [password1, password2])
 
 	return (
-		<div className="flex justify-center mt-10">
-			<div className="w-64 bg-white p-6">
+		<div>
+			<div className="w-full bg-white p-6">
 				<p className="text-purp-normal font-semibold mb-4">Change Password</p>
 				<form onSubmit={handleChangePassword}>
 					<Label name="New Password" htmlFor="password1" />

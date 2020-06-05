@@ -17,6 +17,17 @@ export const TextInput = (props) => (
 		className={`w-full text-purp-normal border-b pb-1 focus:outline-none px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
+export const EmailInput = (props) => (
+	<input
+		type="email"
+		name={props.name}
+		disabled={props.disabled ? true : false}
+		value={props.value}
+		placeholder={props.placeholder}
+		onChange={props.onChange}
+		className={`w-full text-purp-normal border-b pb-1 focus:outline-none px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
+	/>
+)
 export const NumberInput = (props) => (
 	<input
 		type="number"

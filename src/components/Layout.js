@@ -9,6 +9,9 @@ const Layout = (props) => {
 	const { currentUser, userProfile } = useContext(AuthContext)
 	const [showProfileMenu, setShowProfileMenu] = useState(false)
 
+	const matches = currentUser.displayName.match(/\b(\w)/g)
+	const initials = matches.join('')
+
 	return (
 		<React.Fragment>
 			<div className="flex flex-col min-h-screen">
@@ -18,14 +21,16 @@ const Layout = (props) => {
 							<p className="text-white font-bold">KSTG PTO Tracker</p>
 						</Link>
 						<div className="flex">
-							{currentUser ? (
-								<div>
-									<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex">
-										<p className="text-purp-light hover:text-white pl-3">{userProfile.firstName}</p>
-										<img src={userProfile.imageUrl} alt={userProfile.firstName} className="h-6 w-6 rounded-full ml-2" />
-									</button>
-								</div>
-							) : null}
+							<div>
+								<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex">
+									<p className="text-purp-light hover:text-white pl-3">{currentUser.displayName}</p>
+									{currentUser.photoURL ? (
+										<img src={currentUser.photoURL} alt="user profile image" className="h-6 w-6 rounded-full ml-2" />
+									) : (
+										<span className="h-6 w-6 rounded-full ml-2 bg-purp-medium flex justify-center items-center text-xs text-purp-normal">{initials}</span>
+									)}
+								</button>
+							</div>
 						</div>
 					</div>
 				</header>
