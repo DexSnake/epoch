@@ -17,7 +17,7 @@ const Layout = (props) => {
 			<div className="flex flex-col min-h-screen">
 				<header>
 					<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
-						<Link to="/dashboard">
+						<Link to="/">
 							<p className="text-white font-bold">KSTG PTO Tracker</p>
 						</Link>
 						<div className="flex">

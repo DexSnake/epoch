@@ -9,7 +9,7 @@ const PasswordReset = () => {
 	const [msg, setMsg] = useState('')
 
 	if (currentUser) {
-		return <Redirect to="/dashboard" />
+		return <Redirect to="/" />
 	}
 
 	const handlePasswordReset = (e) => {

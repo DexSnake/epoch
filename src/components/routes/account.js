@@ -8,10 +8,12 @@ import ChangeProfileImage from '../Account/ChangeProfileImage'
 const Account = () => {
 	return (
 		<Layout>
-			<div className="flex flex-wrap mt-10">
-				<div className="w-1/5 px-3">
+			<div className="flex flex-wrap m-10">
+				<div className="w-1/2 px-3">
 					<ChangeProfileImage />
 				</div>
+			</div>
+			<div className="flex flex-wrap m-10">
 				<div className="w-1/4 px-3">
 					<ChangePassword />
 				</div>

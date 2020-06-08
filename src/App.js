@@ -17,13 +17,13 @@ import EditRequest from './components/routes/edit-request'
 import ApprovedRequests from './components/routes/approved-requests'
 import DeniedRequests from './components/routes/denied-requests'
 
-function App() {
+const App = () => {
 	return (
 		<AuthProvider>
 			<Router>
-				<Route path="/" exact component={Login} />
+				<Route path="/login" component={Login} />
 				<Route path="/password-reset" component={ResetPassword} />
-				<PrivateRoute path="/dashboard" component={Dashboard} />
+				<PrivateRoute path="/" exact component={Dashboard} />
 				<PrivateRoute path="/add-employee" component={AddEmployee} />
 				<PrivateRoute path="/employees" exact component={Employees} />
 				<PrivateRoute path="/employees/edit/:id" component={EditEmployee} />

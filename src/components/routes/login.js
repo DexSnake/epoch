@@ -14,7 +14,7 @@ const Login = ({ history }) => {
 			const { email, password } = e.target
 			try {
 				await auth.signInWithEmailAndPassword(email.value, password.value)
-				history.push('/dashboard')
+				history.push('/')
 			} catch (error) {
 				if (error.code === 'auth/wrong-password') {
 					setErrorMsg('Incorrect email or password')
@@ -29,7 +29,7 @@ const Login = ({ history }) => {
 	const { currentUser } = useContext(AuthContext)
 
 	if (currentUser) {
-		return <Redirect to="/dashboard" />
+		return <Redirect to="/" />
 	}
 
 	return (

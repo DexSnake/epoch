@@ -9,7 +9,7 @@ const UserNav = () => {
 
 	return (
 		<ul>
-			<Link to="/dashboard">
+			<Link to="/">
 				<li className="text-purp-light mb-3">
 					<Icon path={mdiMonitorDashboard} size={1} className="mr-2 inline pb-1" />
 					Dashboard

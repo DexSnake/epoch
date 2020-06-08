@@ -6,7 +6,6 @@ import UserDashboard from '../UserDashboard'
 
 const Dashboard = () => {
 	const { userProfile, currentUser } = useContext(AuthContext)
-
 	return <Layout>{currentUser.isAdmin ? <AdminDashboard userProfile={userProfile} /> : <UserDashboard userProfile={userProfile} />}</Layout>
 }
 
