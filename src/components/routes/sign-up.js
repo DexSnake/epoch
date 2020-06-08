@@ -9,7 +9,7 @@ const SignUp = ({ history }) => {
 			const { email, password } = e.target
 			try {
 				await auth.createUserWithEmailAndPassword(email.value, password.value)
-				history.push('/dashboard')
+				history.push('/')
 			} catch (error) {
 				alert(error)
 			}

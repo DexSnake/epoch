@@ -37,6 +37,20 @@ exports.sendAdminEmail = functions.https.onCall((data, context) => {
 	})
 })
 
+exports.updateUserPhoto = functions.https.onCall((data, context) => {
+	return admin
+		.auth()
+		.updateUser(data.id, {
+			photoURL: data.photoURL,
+		})
+		.then((user) => {
+			return user
+		})
+		.catch((err) => {
+			return err
+		})
+})
+
 exports.createUser = functions.https.onCall((data, context) => {
 	return admin
 		.auth()
