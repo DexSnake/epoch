@@ -2,11 +2,18 @@ import React, { useContext, useState } from 'react'
 import { auth } from '../../firebase/firebase'
 import { Redirect } from 'react-router'
 import { AuthContext } from '../../context/Auth'
+import { Label, EmailInput } from '../FormFields'
+import PasswordResetImage from '../../images/password-reset.svg'
+import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
+import { Link } from 'react-router-dom'
 
 const PasswordReset = () => {
 	const { currentUser } = useContext(AuthContext)
+
 	const [email, setEmail] = useState('')
-	const [msg, setMsg] = useState('')
+	const [sent, setSent] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const [errorMsg, setErrorMsg] = useState('')
 
 	if (currentUser) {
 		return <Redirect to="/" />
@@ -14,13 +21,15 @@ const PasswordReset = () => {
 
 	const handlePasswordReset = (e) => {
 		e.preventDefault()
+		setLoading(true)
 		auth
 			.sendPasswordResetEmail(email)
 			.then(() => {
-				setMsg('Email Sent')
+				setLoading(false)
+				setSent(true)
 			})
 			.catch((error) => {
-				console.log(error)
+				setErrorMsg(error.message)
 			})
 	}
 
@@ -31,20 +40,29 @@ const PasswordReset = () => {
 					<p className="text-white font-bold">KSTG PTO Tracker</p>
 				</div>
 			</header>
-			<main className="flex flex-grow items-center justify-center bg-purp-lightest">
-				<div className="bg-white p-8 shadow-lg">
-					<h1 className="text-purp-normal text-2xl font-bold">Password Reset</h1>
-					<form className="pt-4" onSubmit={handlePasswordReset}>
-						<label htmlFor="email" className="block text-purp-normal">
-							email
-						</label>
-						<input type="text" name="email" onChange={(e) => setEmail(e.target.value)} className="border border-purp-light p-2 mb-5" />
-						<button type="submit" className="bg-purp-brightest hover:bg-purp-bright text-white block w-full px-8 py-2 font-semibold">
-							Reset Password
-						</button>
-					</form>
-					<p className="text-green-600">{msg}</p>
+			<main className="flex flex-grow items-center bg-purp-lightest flex-col">
+				<h1 className="text-purp-normal text-3xl mt-32 mb-6 font-semibold">Reset Your Password</h1>
+				<div className="bg-white p-8 rounded shadow-lg max-w-sm">
+					{!sent ? (
+						<>
+							<p className="text-purp-normal">To reset your password, enter the email address you use to sign in.</p>
+							<form className="pt-4" onSubmit={handlePasswordReset}>
+								<Label name="Email" htmlFor="email" />
+								<EmailInput name="email" className="mb-4" onChange={(e) => setEmail(e.target.value)} />
+								<SubmitButtonWithLoader text="Get Reset Link" loadingText="Checking..." loading={loading} />
+								<p className="text-red-500">{errorMsg}</p>
+							</form>
+						</>
+					) : (
+						<>
+							<img src={PasswordResetImage} alt="password reset email sent" />
+							<p className="text-purp-normal pt-4">Check your {email} inbox for instructions on how to reset your password.</p>
+						</>
+					)}
 				</div>
+				<Link to="/login" className="text-center mt-3 underline font-semibold text-purp-normal">
+					Go back to login screen
+				</Link>
 			</main>
 		</div>
 	)

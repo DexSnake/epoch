@@ -3,9 +3,10 @@ import Layout from '../Layout'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
 import { Label, TextInput, Select, DateInput } from '../FormFields'
 import Icon from '@mdi/react'
-import { mdiAccountPlus, mdiLoading } from '@mdi/js'
+import { mdiAccountPlus } from '@mdi/js'
 import { db, functions } from '../../firebase/firebase'
 import NumberFormat from 'react-number-format'
+import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 
 const AddEmployee = (props) => {
 	const initalState = {
@@ -65,7 +66,9 @@ const AddEmployee = (props) => {
 		},
 		setState,
 	] = useState(initalState)
-	const [saving, setSaving] = useState(false)
+
+	const [loading, setLoading] = useState(false)
+	const [errorMsg, setErrorMsg] = useState('')
 	const userPassword = `${firstName.toLowerCase().charAt(0)}${lastName.toLowerCase()}${ssn.substr(ssn.length - 4)}`
 	const createUser = functions.httpsCallable('createUser')
 
@@ -77,9 +80,9 @@ const AddEmployee = (props) => {
 
 	const handleAddEmployee = (e) => {
 		e.preventDefault()
-		setSaving(true)
-		createUser({ email: email, password: userPassword }).then((result) => {
-			const uid = result.data.uid
+		setLoading(true)
+		createUser({ email: email, password: userPassword }).then((newUser) => {
+			const uid = newUser.data.uid
 			db.collection('Employees')
 				.doc(uid)
 				.set({
@@ -105,7 +108,6 @@ const AddEmployee = (props) => {
 					zipCode,
 					salary,
 					salaryRate,
-					requests: [],
 					emergencyContacts: [
 						{
 							firstName: ecFirstName,
@@ -124,7 +126,7 @@ const AddEmployee = (props) => {
 					props.history.push('/employees')
 				})
 				.catch(function (error) {
-					console.log(error)
+					setErrorMsg(error.message)
 				})
 		})
 	}
@@ -309,9 +311,7 @@ const AddEmployee = (props) => {
 				</div>
 			</EmployeeInfoContainer>
 			<div className="pb-6 px-10 flex justify-end items-center">
-				<button onClick={handleAddEmployee} className="bg-purp-brightest hover:bg-purp-bright text-white px-3 py-2 font-semibold">
-					{saving ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Create Employee'}
-				</button>
+				<SubmitButtonWithLoader onClick={handleAddEmployee} text="Create Employee" loadingText="Creating Employee..." loading={loading} fullWidth={false} />
 			</div>
 		</Layout>
 	)

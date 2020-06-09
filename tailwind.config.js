@@ -17,6 +17,7 @@ module.exports = {
 			'20': '20px',
 			'25': '25px',
 			'35': '35px',
+			'6r': '6rem',
 		},
 		extend: {
 			colors: {
@@ -33,9 +34,11 @@ module.exports = {
 		},
 	},
 	variants: {
-		textColor: ['responsive', 'hover', 'focus', 'group-hover', 'disabled'],
-		opacity: ['responsive', 'hover', 'focus', 'group-hover'],
+		textColor: ['responsive', 'group-hover', 'hover', 'focus', 'disabled'],
+		opacity: ['responsive', 'hover', 'focus', 'group-hover', 'disabled'],
 		backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
+		cursor: ['responsive,', 'hover', 'focus', 'disabled'],
+		padding: ['responsive', 'hover', 'focus', 'disabled'],
 	},
 	plugins: [],
 }

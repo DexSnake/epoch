@@ -14,7 +14,7 @@ export const TextInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal border-b pb-1 focus:outline-none px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
+		className={`w-full text-purp-normal border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
 export const EmailInput = (props) => (
@@ -25,7 +25,7 @@ export const EmailInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal border-b pb-1 focus:outline-none px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
+		className={`w-full text-purp-normal border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
 export const NumberInput = (props) => (
@@ -39,7 +39,7 @@ export const NumberInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		className={`w-full text-purp-normal focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
 	/>
 )
 export const DateInput = (props) => (
@@ -54,7 +54,7 @@ export const PasswordInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		className={`w-full text-purp-normal focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
 	/>
 )
 export const TextArea = (props) => (
@@ -66,7 +66,7 @@ export const TextArea = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		className={`w-full text-purp-normal focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
 	/>
 )
 export const Select = (props) => (
