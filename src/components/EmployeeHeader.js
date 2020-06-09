@@ -30,7 +30,9 @@ const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
 			</div>
 			<div className="w-full mx-2 flex">
 				<div className="w-1/2">
-					<h1 className="font-thin leading-none text-5xl text-purp-normal">{data.firstName || data.lastName ? `${data.firstName} ${data.lastName}` : 'No Name Specified'}</h1>
+					<h1 className="font-thin leading-none text-5xl text-purp-normal">
+						{data.firstName} {data.lastName}
+					</h1>
 					<p className="text-purp-normal mt-2 font-semibold">{data.title}</p>
 				</div>
 				<div className="w-1/4">

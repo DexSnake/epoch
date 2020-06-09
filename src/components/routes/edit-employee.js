@@ -16,9 +16,9 @@ import NumberFormat from 'react-number-format'
 const EditEmployee = (props) => {
 	const { userProfile, currentUser } = useContext(AuthContext)
 
-	useEffect(() => {
-		setState((prevState) => ({ ...prevState, profileImage: null, dateOfBirth: moment(dateOfBirth.toDate()).format('YYYY-MM-DD'), startDate: moment(startDate.toDate()).format('YYYY-MM-DD') }))
-	}, [])
+	// useEffect(() => {
+	// 	setState((prevState) => ({ ...prevState, profileImage: null, dateOfBirth: moment(dateOfBirth.toDate()).format('YYYY-MM-DD'), startDate: moment(startDate.toDate()).format('YYYY-MM-DD') }))
+	// }, [])
 
 	const data = props.location.state.data
 	const [

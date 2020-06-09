@@ -6,7 +6,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './components/routes/dashboard'
 import Login from './components/routes/login'
 import Employees from './components/routes/employees'
-import EditEmployee from './components/routes/edit-employee'
+import NewEditEmployee from './components/routes/new-edit-employee'
 import NewRequest from './components/routes/new-request'
 import Account from './components/routes/account'
 import ResetPassword from './components/routes/password-reset'
@@ -26,7 +26,7 @@ const App = () => {
 				<PrivateRoute path="/" exact component={Dashboard} />
 				<PrivateRoute path="/add-employee" component={AddEmployee} />
 				<PrivateRoute path="/employees" exact component={Employees} />
-				<PrivateRoute path="/employees/edit/:id" component={EditEmployee} />
+				<PrivateRoute path="/employees/edit/:id" component={NewEditEmployee} />
 				<PrivateRoute path="/new-request" component={NewRequest} />
 				<PrivateRoute path="/pending-requests" component={PendingRequests} />
 				<PrivateRoute path="/approved-requests" component={ApprovedRequests} />

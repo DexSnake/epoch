@@ -3,6 +3,7 @@ import React from 'react'
 export const Label = (props) => (
 	<label htmlFor={props.htmlFor} className={`text-purp-medium text-sm font-semibold uppercase ${props.className}`}>
 		{props.name}
+		{props.required ? <sup className="text-base font-semibold text-purp-brightest">*</sup> : null}
 	</label>
 )
 
@@ -14,7 +15,8 @@ export const TextInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
+		required={props.required}
+		className={`w-full text-purp-normal font-semibold border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
 export const EmailInput = (props) => (
@@ -25,7 +27,8 @@ export const EmailInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
+		required={props.required}
+		className={`w-full text-purp-normal font-semibold border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
 export const NumberInput = (props) => (
@@ -39,11 +42,20 @@ export const NumberInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		required={props.required}
+		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
 	/>
 )
 export const DateInput = (props) => (
-	<input type="date" name={props.name} value={props.value} disabled={props.disabled ? true : false} onChange={props.onChange} className={`w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`} />
+	<input
+		type="date"
+		name={props.name}
+		value={props.value}
+		disabled={props.disabled ? true : false}
+		onChange={props.onChange}
+		required={props.required}
+		className={`w-full text-purp-normal font-semibold focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+	/>
 )
 
 export const PasswordInput = (props) => (
@@ -54,7 +66,8 @@ export const PasswordInput = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		required={props.required}
+		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
 	/>
 )
 export const TextArea = (props) => (
@@ -66,11 +79,23 @@ export const TextArea = (props) => (
 		value={props.value}
 		placeholder={props.placeholder}
 		onChange={props.onChange}
-		className={`w-full text-purp-normal focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		required={props.required}
+		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
 	/>
 )
 export const Select = (props) => (
-	<select name={props.name} value={props.value} placeholder={props.placeholder} onChange={props.onChange} disabled={props.disabled} className="w-full text-purp-normal focus:outline-none border-b pb-1 px-2 appearance-none disabled:text-purp-medium">
+	<select
+		name={props.name}
+		value={props.value}
+		placeholder={props.placeholder}
+		onChange={props.onChange}
+		required={props.required}
+		disabled={props.disabled}
+		className="w-full text-purp-normal font-semibold focus:outline-none border-b pb-1 px-2 appearance-none disabled:text-purp-medium">
 		{props.children}
 	</select>
 )
+
+export const ValidationError = (props) => {
+	return <span className="text-red-500 text-sm font-semibold">{props.fieldName} is required</span>
+}

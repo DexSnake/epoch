@@ -9,7 +9,7 @@ const Employee = ({ employees, requests }) => {
 					<Link
 						to={{
 							pathname: `/employees/edit/${e.id}`,
-							state: { data: e },
+							state: { id: e.id },
 						}}>
 						{e.imageUrl ? (
 							<img src={e.imageUrl} alt="employee headshot" className="rounded-full h-24 w-24 mb-3 mx-auto" />

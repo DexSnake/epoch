@@ -21,17 +21,6 @@ const Employees = () => {
 				}))
 				setEmployees(newEmployees)
 			})
-		db.collection('Employees')
-			.where('isActive', '==', false)
-			.orderBy('lastName', 'asc')
-			.onSnapshot((snapshot) => {
-				// Get data from Employees collection and assign it avariable
-				const newEmployees = snapshot.docs.map((doc) => ({
-					id: doc.id,
-					...doc.data(),
-				}))
-				setEmployeesDisabled(newEmployees)
-			})
 		db.collection('Requests').onSnapshot((snapshot) => {
 			// Get data from Employees collection and assign it avariable
 			const newRequests = snapshot.docs.map((doc) => ({

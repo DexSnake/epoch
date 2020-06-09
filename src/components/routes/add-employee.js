@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import Layout from '../Layout'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
-import { Label, TextInput, Select, DateInput } from '../FormFields'
+import { Label, TextInput, Select, DateInput, ValidationError } from '../FormFields'
 import Icon from '@mdi/react'
 import { mdiAccountPlus } from '@mdi/js'
 import { db, functions } from '../../firebase/firebase'
 import NumberFormat from 'react-number-format'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AddEmployee = (props) => {
 	const initalState = {
@@ -68,7 +70,6 @@ const AddEmployee = (props) => {
 	] = useState(initalState)
 
 	const [loading, setLoading] = useState(false)
-	const [errorMsg, setErrorMsg] = useState('')
 	const userPassword = `${firstName.toLowerCase().charAt(0)}${lastName.toLowerCase()}${ssn.substr(ssn.length - 4)}`
 	const createUser = functions.httpsCallable('createUser')
 
@@ -126,12 +127,10 @@ const AddEmployee = (props) => {
 					props.history.push('/employees')
 				})
 				.catch(function (error) {
-					setErrorMsg(error.message)
+					toast.error(error.message)
 				})
 		})
 	}
-
-	console.log(dateOfBirth, startDate)
 
 	return (
 		<Layout>
@@ -144,28 +143,28 @@ const AddEmployee = (props) => {
 					<p className="uppercase text-purp-normal font-semibold mb-5">Personal Info</p>
 					<div className="flex">
 						<div className="w-1/3 px-3">
-							<Label name="First Name" htmlFor="firstName" />
-							<TextInput name="firstName" value={firstName} onChange={handleChange} />
+							<Label name="First Name" htmlFor="firstName" required />
+							<TextInput name="firstName" value={firstName} onChange={handleChange} required />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Middle Name" htmlFor="middleName" />
 							<TextInput name="middleName" value={middleName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
-							<Label name="Last Name" htmlFor="lastName" />
-							<TextInput name="lastName" value={lastName} onChange={handleChange} />
+							<Label name="Last Name" htmlFor="lastName" required />
+							<TextInput name="lastName" value={lastName} onChange={handleChange} required />
 						</div>
 					</div>
 				</div>
 				<div className="p-8">
 					<div className="flex">
 						<div className="w-1/5 px-3">
-							<Label name="DOB" htmlFor="dateOfBirth" />
-							<DateInput name="dateOfBirth" value={dateOfBirth} onChange={handleChange} />
+							<Label name="DOB" htmlFor="dateOfBirth" required />
+							<DateInput name="dateOfBirth" value={dateOfBirth} onChange={handleChange} required />
 						</div>
 						<div className="w-1/5 px-3 relative">
-							<Label name="SSN" htmlFor="ssn" />
-							<NumberFormat format="###-##-####" name="ssn" value={ssn} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+							<Label name="SSN" htmlFor="ssn" required />
+							<NumberFormat format="###-##-####" name="ssn" value={ssn} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" required />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Gender" htmlFor="gender" />
@@ -207,8 +206,8 @@ const AddEmployee = (props) => {
 					<p className="uppercase text-purp-normal font-semibold mb-5">Time Off Info</p>
 					<div className="flex">
 						<div className="w-1/3 px-3">
-							<Label name="Available Hours" htmlFor="availableHours" />
-							<TextInput name="availableHours" value={availableHours} onChange={handleChange} />
+							<Label name="Available Hours" htmlFor="availableHours" required />
+							<TextInput name="availableHours" value={availableHours} onChange={handleChange} required />
 						</div>
 					</div>
 				</div>
@@ -218,8 +217,8 @@ const AddEmployee = (props) => {
 					<p className="uppercase text-purp-normal font-semibold mb-5">Employment Info</p>
 					<div className="flex">
 						<div className="w-1/4 px-3">
-							<Label name="Start Date" htmlFor="startDate" />
-							<DateInput name="startDate" value={startDate} onChange={handleChange} />
+							<Label name="Start Date" htmlFor="startDate" required />
+							<DateInput name="startDate" value={startDate} onChange={handleChange} required />
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Salary" htmlFor="salary" />
@@ -236,8 +235,8 @@ const AddEmployee = (props) => {
 							</Select>
 						</div>
 						<div className="w-1/4 px-3">
-							<Label name="title" htmlFor="title" />
-							<TextInput name="title" value={title} onChange={handleChange} />
+							<Label name="title" htmlFor="title" required />
+							<TextInput name="title" value={title} onChange={handleChange} required />
 						</div>
 					</div>
 				</div>
@@ -247,40 +246,40 @@ const AddEmployee = (props) => {
 					<p className="uppercase text-purp-normal font-semibold mb-5">Contact Info</p>
 					<div className="flex">
 						<div className="w-1/3 px-3">
-							<Label name="Phone Number" htmlFor="phoneNumber" />
-							<NumberFormat format="(###) ###-####" name="phoneNumber" value={phoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+							<Label name="Phone Number" htmlFor="phoneNumber" required />
+							<NumberFormat format="(###) ###-####" name="phoneNumber" value={phoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" required />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
 							<NumberFormat format="(###) ###-####" name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
 						</div>
 						<div className="w-1/3 px-3">
-							<Label name="Email" htmlFor="email" />
-							<TextInput name="email" value={email} onChange={handleChange} />
+							<Label name="Email" htmlFor="email" required />
+							<TextInput name="email" value={email} onChange={handleChange} required />
 						</div>
 					</div>
 				</div>
 				<div className="p-8">
 					<div className="flex">
 						<div className="w-1/5 px-3">
-							<Label name="Address 1" htmlFor="address1" />
-							<TextInput name="address1" value={address1} onChange={handleChange} />
+							<Label name="Address 1" htmlFor="address1" required />
+							<TextInput name="address1" value={address1} onChange={handleChange} required />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Address 2" htmlFor="address2" />
 							<TextInput name="address2" value={address2} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3">
-							<Label name="City" htmlFor="city" />
-							<TextInput name="city" value={city} onChange={handleChange} />
+							<Label name="City" htmlFor="city" required />
+							<TextInput name="city" value={city} onChange={handleChange} required />
 						</div>
 						<div className="w-1/5 px-3">
-							<Label name="State" htmlFor="state" />
-							<TextInput name="state" value={state} onChange={handleChange} />
+							<Label name="State" htmlFor="state" required />
+							<TextInput name="state" value={state} onChange={handleChange} required />
 						</div>
 						<div className="w-1/5 px-3">
-							<Label name="Zip Code" htmlFor="zipCode" />
-							<TextInput name="zipCode" value={zipCode} onChange={handleChange} />
+							<Label name="Zip Code" htmlFor="zipCode" required />
+							<TextInput name="zipCode" value={zipCode} onChange={handleChange} required />
 						</div>
 					</div>
 				</div>
@@ -313,6 +312,7 @@ const AddEmployee = (props) => {
 			<div className="pb-6 px-10 flex justify-end items-center">
 				<SubmitButtonWithLoader onClick={handleAddEmployee} text="Create Employee" loadingText="Creating Employee..." loading={loading} fullWidth={false} />
 			</div>
+			<ToastContainer position="top-center" autoClose={2000} />
 		</Layout>
 	)
 }
