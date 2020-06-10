@@ -3,6 +3,7 @@ import Icon from '@mdi/react'
 import { mdiCheckBold, mdiCloseCircleOutline, mdiEyeMinus, mdiEyeCheck, mdiDelete, mdiRestore } from '@mdi/js'
 import moment from 'moment'
 import { AuthContext } from '../context/Auth'
+import Update from './Edit Employee/Update'
 import DeactivateEmployeeModal from './modals/DeactivateEmployeeModal'
 import ReactivateEmployeeModal from './modals/ReactivateEmployeeModal'
 
@@ -66,7 +67,7 @@ const NewEmployeeHeader = ({ data }) => {
 							</span>
 						</p>
 					</div>
-					<div className="w-1/4 flex justify-end">
+					<div className="w-1/4 flex flex-col justify-between">
 						{currentUser.isAdmin ? (
 							data.isActive ? (
 								<button onClick={() => setShowDeactivateEmployeeModal(true)} className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
@@ -78,6 +79,7 @@ const NewEmployeeHeader = ({ data }) => {
 								</button>
 							)
 						) : null}
+						<Update />
 					</div>
 				</div>
 			</div>

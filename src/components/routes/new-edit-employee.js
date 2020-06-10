@@ -2,9 +2,8 @@ import React, { useEffect, useContext } from 'react'
 import { db } from '../../firebase/firebase'
 import Layout from '../Layout'
 import NewEmployeeHeader from '../NewEmployeeHeader'
-import EditEmployeeNav from '../EditEmployeeNav'
+import EditEmployeeNav from '../Edit Employee/EditEmployeeNav'
 import { AuthContext } from '../../context/Auth'
-import PTO from '../Edit Employee/PTO'
 
 const NewEditEmployee = (props) => {
 	const data = props.location.state
@@ -30,7 +29,6 @@ const NewEditEmployee = (props) => {
 		<Layout>
 			<NewEmployeeHeader data={employeeProfile} />
 			<EditEmployeeNav />
-			<PTO />
 		</Layout>
 	)
 }

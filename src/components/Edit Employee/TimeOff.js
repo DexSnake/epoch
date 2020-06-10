@@ -3,13 +3,25 @@ import EmployeeInfoContainer from '../EmployeeInfoContainer'
 import { Label, TextInput } from '../FormFields'
 import { AuthContext } from '../../context/Auth'
 
-const PTO = () => {
-	const { currentUser, employeeProfile } = useContext(AuthContext)
-	const [pto, setPto] = useState(employeeProfile.pto)
+const TimeOff = () => {
+	const { currentUser, employeeProfile, updateEmployeeProfile } = useContext(AuthContext)
+	const [{ pto }, setState] = useState(employeeProfile)
+
+	const data = { pto }
 
 	useEffect(() => {
-		setPto(employeeProfile.pto)
+		setState(employeeProfile)
 	}, [employeeProfile])
+
+	useEffect(() => {
+		updateEmployeeProfile(data)
+	}, [pto])
+
+	// Function to handle the onChange event of the dateOfBirth input
+	const handlePtoChange = (e) => {
+		const { name, value } = e.target
+		setState((prevState) => ({ ...prevState, pto: { [name]: parseInt(value), pendingHours: pto.pendingHours, usedHours: pto.usedHours } }))
+	}
 
 	return (
 		<EmployeeInfoContainer>
@@ -18,7 +30,7 @@ const PTO = () => {
 				<div className="flex">
 					<div className="w-1/3 px-3">
 						<Label name="Available Hours" htmlFor="availableHours" />
-						<TextInput name="availableHours" disabled={!currentUser.isAdmin} value={pto ? pto.availableHours : 0} />
+						<TextInput name="availableHours" disabled={!currentUser.isAdmin} value={pto ? pto.availableHours : 0} onChange={handlePtoChange} />
 					</div>
 					<div className="w-1/3 px-3">
 						<Label name="Pending Hours" htmlFor="pendingHours" />
@@ -34,4 +46,4 @@ const PTO = () => {
 	)
 }
 
-export default PTO
+export default TimeOff
