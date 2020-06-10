@@ -82,7 +82,7 @@ const AddEmployee = (props) => {
 	const handleAddEmployee = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		createUser({ email: email, password: userPassword }).then((newUser) => {
+		createUser({ email: email, password: userPassword, firstName: firstName, lastName: lastName }).then((newUser) => {
 			const uid = newUser.data.uid
 			db.collection('Employees')
 				.doc(uid)

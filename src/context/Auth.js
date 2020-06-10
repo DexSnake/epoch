@@ -6,6 +6,7 @@ export const AuthContext = React.createContext()
 export const AuthProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null)
 	const [userProfile, setUserProfile] = useState({})
+	const [employeeProfile, setEmployeeProfile] = useState({})
 	const [pending, setPending] = useState(true)
 
 	useEffect(() => {
@@ -32,9 +33,16 @@ export const AuthProvider = ({ children }) => {
 		return
 	}, [currentUser])
 
+	const setProfile = (data) => {
+		setEmployeeProfile(data)
+	}
+	const updateEmployeeProfile = (data) => {
+		setEmployeeProfile({ ...employeeProfile, ...data })
+	}
+
 	if (pending) {
 		return <>Loading...</>
 	}
 
-	return <AuthContext.Provider value={{ currentUser, userProfile }}>{children}</AuthContext.Provider>
+	return <AuthContext.Provider value={{ currentUser, userProfile, setProfile, updateEmployeeProfile, employeeProfile }}>{children}</AuthContext.Provider>
 }

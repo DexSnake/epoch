@@ -18,7 +18,7 @@ const UserNav = () => {
 			<Link
 				to={{
 					pathname: `/employees/edit/${currentUser.uid}`,
-					state: { data: userProfile },
+					state: { id: currentUser.uid },
 				}}>
 				<li className="text-purp-light mb-3">
 					<Icon path={mdiAccount} size={1} className="mr-2 inline pb-1" />

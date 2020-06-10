@@ -11,7 +11,6 @@ const Layout = (props) => {
 
 	const matches = currentUser.displayName.match(/\b(\w)/g)
 	const initials = matches.join('')
-
 	return (
 		<React.Fragment>
 			<div className="flex flex-col min-h-screen">

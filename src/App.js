@@ -16,12 +16,14 @@ import PendingRequests from './components/routes/pending-requests'
 import EditRequest from './components/routes/edit-request'
 import ApprovedRequests from './components/routes/approved-requests'
 import DeniedRequests from './components/routes/denied-requests'
+import TestPage from './components/routes/test'
 
 const App = () => {
 	return (
 		<AuthProvider>
 			<Router>
 				<Route path="/login" component={Login} />
+				<PrivateRoute path="/testing" component={TestPage} />
 				<Route path="/password-reset" component={ResetPassword} />
 				<PrivateRoute path="/" exact component={Dashboard} />
 				<PrivateRoute path="/add-employee" component={AddEmployee} />

@@ -51,15 +51,15 @@ const ApprovedRequests = () => {
 								setLoading(false)
 							})
 							.catch((err) => {
-								console.log(err)
+								alert(err)
 							})
 					})
 					.catch((err) => {
-						console.log(err)
+						alert(err)
 					})
 			})
 			.catch((err) => {
-				console.log(err)
+				alert(err)
 			})
 	}
 

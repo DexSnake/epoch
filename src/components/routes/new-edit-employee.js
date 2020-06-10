@@ -1,29 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { db } from '../../firebase/firebase'
 import Layout from '../Layout'
 import NewEmployeeHeader from '../NewEmployeeHeader'
+import EditEmployeeNav from '../EditEmployeeNav'
+import { AuthContext } from '../../context/Auth'
+import PTO from '../Edit Employee/PTO'
 
 const NewEditEmployee = (props) => {
 	const data = props.location.state
-
-	const [employeeProfile, setEmployeeProfile] = useState({})
-
-	console.log(employeeProfile)
+	const { setProfile, employeeProfile } = useContext(AuthContext)
 
 	useEffect(() => {
-		db.collection('Employees')
+		const unsubscribe = db
+			.collection('Employees')
 			.doc(data.id)
 			.onSnapshot((doc) => {
 				const profile = {
 					id: doc.id,
 					...doc.data(),
 				}
-				setEmployeeProfile(profile)
+				setProfile(profile)
 			})
+		return () => {
+			unsubscribe()
+		}
 	}, [])
+
 	return (
 		<Layout>
 			<NewEmployeeHeader data={employeeProfile} />
+			<EditEmployeeNav />
+			<PTO />
 		</Layout>
 	)
 }

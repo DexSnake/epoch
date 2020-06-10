@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Layout from '../Layout'
 
 import ChangePassword from '../Account/ChangePassword'
 import CreateAdmin from '../Account/CreateAdmin'
 import ChangeProfileImage from '../Account/ChangeProfileImage'
+import { AuthContext } from '../../context/Auth'
 
 const Account = () => {
+	const { currentUser } = useContext(AuthContext)
 	return (
 		<Layout>
 			<div className="flex flex-wrap m-10">
@@ -17,9 +19,11 @@ const Account = () => {
 				<div className="w-1/4 px-3">
 					<ChangePassword />
 				</div>
-				<div className="w-1/4 px-3">
-					<CreateAdmin />
-				</div>
+				{currentUser.isAdmin ? (
+					<div className="w-1/4 px-3">
+						<CreateAdmin />
+					</div>
+				) : null}
 			</div>
 		</Layout>
 	)

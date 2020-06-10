@@ -51,15 +51,15 @@ const DeniedRequests = () => {
 								setRefresh(!refresh)
 							})
 							.catch((err) => {
-								console.log(err)
+								alert(err)
 							})
 					})
 					.catch((err) => {
-						console.log(err)
+						alert(err)
 					})
 			})
 			.catch((err) => {
-				console.log(err)
+				alert(err)
 			})
 	}
 

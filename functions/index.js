@@ -59,7 +59,14 @@ exports.createUser = functions.https.onCall((data, context) => {
 			password: data.password,
 		})
 		.then((user) => {
-			return user
+			return admin
+				.auth()
+				.updateUser(user.uid, {
+					displayName: `${data.firstName} ${data.lastName}`,
+				})
+				.then((user) => {
+					return user
+				})
 		})
 		.catch((err) => {
 			return err

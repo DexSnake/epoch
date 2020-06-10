@@ -11,7 +11,8 @@ const UserRequests = () => {
 	const [requests, setRequests] = useState([])
 
 	useEffect(() => {
-		db.collection('Requests')
+		const unsubscribe = db
+			.collection('Requests')
 			.where('userId', '==', currentUser.uid)
 			.onSnapshot((snapshot) => {
 				const newRequests = snapshot.docs.map((doc) => ({
@@ -20,6 +21,9 @@ const UserRequests = () => {
 				}))
 				setRequests(newRequests)
 			})
+		return () => {
+			unsubscribe()
+		}
 	}, [currentUser.uid])
 
 	return (

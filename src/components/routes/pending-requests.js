@@ -49,15 +49,15 @@ const PendingRequests = () => {
 								setLoading(false)
 							})
 							.catch((err) => {
-								console.log(err)
+								alert(err)
 							})
 					})
 					.catch((err) => {
-						console.log(err)
+						alert(err)
 					})
 			})
 			.catch((err) => {
-				console.log(err)
+				alert(err)
 			})
 	}
 	const handleDeny = (id, userId, numberOfHours) => {
@@ -84,15 +84,15 @@ const PendingRequests = () => {
 								toast.error('Request Denied.')
 							})
 							.catch((err) => {
-								console.log(err)
+								alert(err)
 							})
 					})
 					.catch((err) => {
-						console.log(err)
+						alert(err)
 					})
 			})
 			.catch((err) => {
-				console.log(err)
+				alert(err)
 			})
 	}
 

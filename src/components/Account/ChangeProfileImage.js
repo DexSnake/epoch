@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { storage, functions } from '../../firebase/firebase'
+import { storage, functions, db } from '../../firebase/firebase'
 import { AuthContext } from '../../context/Auth'
 import Icon from '@mdi/react'
 import { mdiLoading, mdiCamera } from '@mdi/js'
@@ -18,7 +18,7 @@ const ChangeProfileImage = () => {
 			'state_changed',
 			(snapshot) => {},
 			(error) => {
-				console.log(error)
+				alert(error)
 			},
 			() => {
 				storage
@@ -26,7 +26,15 @@ const ChangeProfileImage = () => {
 					.child(profileImage.name)
 					.getDownloadURL()
 					.then((url) => {
-						setPhotoURL(url)
+						db.collection('Employees')
+							.doc(currentUser.uid)
+							.update({ imageUrl: url })
+							.then(() => {
+								setPhotoURL(url)
+							})
+							.catch((error) => {
+								alert(error)
+							})
 					})
 			}
 		)
