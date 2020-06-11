@@ -1,28 +1,33 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AuthContext } from '../../context/Auth'
 import { db } from '../../firebase/firebase'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 
 const Update = () => {
 	const { employeeProfile } = useContext(AuthContext)
+	const [loading, setLoading] = useState(false)
 
 	const handleUpdate = () => {
+		setLoading(true)
 		db.collection('Employees')
 			.doc(employeeProfile.id)
 			.update(employeeProfile)
 			.then(function () {
-				console.log('success')
+				toast.success('Profile Saved!')
+				setLoading(false)
 			})
 			.catch(function (error) {
-				alert(error)
+				toast.error(error.message)
 			})
 	}
 
 	return (
-		<div className="flex justify-end mx-10 mt-5">
-			<button className="bg-purp-normal text-white px-3 py-2 rounded" onClick={handleUpdate}>
-				Save Profile
-			</button>
-		</div>
+		<React.Fragment>
+			<SubmitButtonWithLoader text="Update Profile" loadingText="Updating..." loading={loading} onClick={handleUpdate} />
+			<ToastContainer position="top-center" autoClose={2000} />
+		</React.Fragment>
 	)
 }
 

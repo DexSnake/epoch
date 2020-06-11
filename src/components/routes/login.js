@@ -56,7 +56,9 @@ const Login = ({ history }) => {
 						<Link to="/password-reset">
 							<small className="text-purp-medium hover:text-purp-normal underline transition duration-200 ease">Forgot Password?</small>
 						</Link>
-						<SubmitButtonWithLoader text="Login" loadingText="Logging In..." loading={loading} />
+						<div className="mt-6">
+							<SubmitButtonWithLoader text="Login" loadingText="Logging In..." loading={loading} />
+						</div>
 					</form>
 
 					<p className="text-red-600">{errorMsg}</p>

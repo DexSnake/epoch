@@ -164,7 +164,7 @@ const AddEmployee = (props) => {
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" required />
-							<NumberFormat format="###-##-####" name="ssn" value={ssn} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" required />
+							<NumberFormat format="###-##-####" name="ssn" value={ssn} onChange={handleChange} className="w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white" required />
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Gender" htmlFor="gender" />
@@ -247,11 +247,11 @@ const AddEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="Phone Number" htmlFor="phoneNumber" required />
-							<NumberFormat format="(###) ###-####" name="phoneNumber" value={phoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" required />
+							<NumberFormat format="(###) ###-####" name="phoneNumber" value={phoneNumber} onChange={handleChange} className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white" required />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
-							<NumberFormat format="(###) ###-####" name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+							<NumberFormat format="(###) ###-####" name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Email" htmlFor="email" required />
@@ -304,7 +304,7 @@ const AddEmployee = (props) => {
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Phone Number" htmlFor="ecPhoneNumber" />
-							<NumberFormat format="(###) ###-####" name="ecPhoneNumber" value={ecPhoneNumber} onChange={handleChange} className="w-full text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+							<NumberFormat format="(###) ###-####" name="ecPhoneNumber" value={ecPhoneNumber} onChange={handleChange} className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
 						</div>
 					</div>
 				</div>

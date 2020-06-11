@@ -24,35 +24,39 @@ const Employment = () => {
 	}
 
 	return (
-		<EmployeeInfoContainer>
-			<div className="p-8">
-				<p className="uppercase text-purp-normal font-semibold mb-5">Employment Info</p>
-				<div className="flex">
-					<div className="w-1/4 px-3">
-						<Label name="Hire Date" htmlFor="startDate" />
-						<DateInput name="startDate" value={startDate} onChange={handleChange} />
-					</div>
-					<div className="w-1/4 px-3">
-						<Label name="Salary" htmlFor="salary" />
-						<TextInput name="salary" disabled={!currentUser.isAdmin} value={salary} onChange={handleChange} />
-					</div>
-					<div className="w-1/4 px-3">
-						<Label name="salaryRate" htmlFor="salaryRate" />
-						<Select name="salaryRate" disabled={!currentUser.isAdmin} value={salaryRate} onChange={handleChange}>
-							<option disabled defaultValue value=""></option>
-							<option value="/year">Per Year</option>
-							<option value="/hour">Per Hour</option>
-							<option value="/week">Per Week</option>
-							<option value="/month">Per Month</option>
-						</Select>
-					</div>
-					<div className="w-1/4 px-3">
-						<Label name="Title" htmlFor="title" />
-						<TextInput name="title" disabled={!currentUser.isAdmin} value={title} onChange={handleChange} />
+		<React.Fragment>
+			<div className="px-10 pt-8">
+				<p className="uppercase text-purp-normal font-semibold mb-5">Employment Information</p>
+			</div>
+			<EmployeeInfoContainer>
+				<div className="p-8">
+					<div className="flex">
+						<div className="w-1/4 px-3">
+							<Label name="Hire Date" htmlFor="startDate" />
+							<DateInput name="startDate" value={startDate} onChange={handleChange} />
+						</div>
+						<div className="w-1/4 px-3">
+							<Label name="Salary" htmlFor="salary" />
+							<TextInput name="salary" disabled={!currentUser.isAdmin} value={salary} onChange={handleChange} />
+						</div>
+						<div className="w-1/4 px-3">
+							<Label name="salaryRate" htmlFor="salaryRate" />
+							<Select name="salaryRate" disabled={!currentUser.isAdmin} value={salaryRate} onChange={handleChange}>
+								<option disabled defaultValue value=""></option>
+								<option value="/year">Per Year</option>
+								<option value="/hour">Per Hour</option>
+								<option value="/week">Per Week</option>
+								<option value="/month">Per Month</option>
+							</Select>
+						</div>
+						<div className="w-1/4 px-3">
+							<Label name="Title" htmlFor="title" />
+							<TextInput name="title" disabled={!currentUser.isAdmin} value={title} onChange={handleChange} />
+						</div>
 					</div>
 				</div>
-			</div>
-		</EmployeeInfoContainer>
+			</EmployeeInfoContainer>
+		</React.Fragment>
 	)
 }
 

@@ -3,7 +3,6 @@ import Icon from '@mdi/react'
 import { mdiCheckBold, mdiCloseCircleOutline, mdiEyeMinus, mdiEyeCheck, mdiDelete, mdiRestore } from '@mdi/js'
 import moment from 'moment'
 import { AuthContext } from '../context/Auth'
-import Update from './Edit Employee/Update'
 import DeactivateEmployeeModal from './modals/DeactivateEmployeeModal'
 import ReactivateEmployeeModal from './modals/ReactivateEmployeeModal'
 
@@ -79,7 +78,6 @@ const NewEmployeeHeader = ({ data }) => {
 								</button>
 							)
 						) : null}
-						<Update />
 					</div>
 				</div>
 			</div>

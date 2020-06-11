@@ -3,8 +3,7 @@ import { auth } from '../../firebase/firebase'
 import { Label, PasswordInput } from '../FormFields'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Icon from '@mdi/react'
-import { mdiLoading } from '@mdi/js'
+import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 
 const ChangePassword = () => {
 	const [password1, setPassword1] = useState('')
@@ -54,9 +53,7 @@ const ChangePassword = () => {
 					<PasswordInput name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)} className="mb-4" />
 					<Label name="Verifiy Password" htmlFor="password2" />
 					<PasswordInput name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)} className="mb-4" />
-					<button type="submit" className="bg-purp-normal hover:bg-purp-dark rounded text-sm text-white px-4 py-2 font-semibold disabled:opacity-50">
-						{loading ? <Icon path={mdiLoading} size={1} spin={(true, 1)} /> : 'Change Password'}
-					</button>
+					<SubmitButtonWithLoader text="Change Password" loadingText="Changing..." loading={loading} />
 				</form>
 				<p className="text-red-600">{errorMsg}</p>
 			</div>

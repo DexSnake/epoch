@@ -43,7 +43,7 @@ export const NumberInput = (props) => (
 		placeholder={props.placeholder}
 		onChange={props.onChange}
 		required={props.required}
-		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
 export const DateInput = (props) => (
@@ -54,7 +54,7 @@ export const DateInput = (props) => (
 		disabled={props.disabled ? true : false}
 		onChange={props.onChange}
 		required={props.required}
-		className={`w-full text-purp-normal font-semibold focus:outline-none border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		className={`w-full text-purp-normal font-semibold focus:outline-none border-b pb-1 px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
 
@@ -91,7 +91,7 @@ export const Select = (props) => (
 		onChange={props.onChange}
 		required={props.required}
 		disabled={props.disabled}
-		className="w-full text-purp-normal font-semibold focus:outline-none border-b pb-1 px-2 appearance-none disabled:text-purp-medium">
+		className="w-full text-purp-normal font-semibold focus:outline-none border-b pb-1 px-2 appearance-none disabled:text-purp-medium disabled:bg-white">
 		{props.children}
 	</select>
 )
