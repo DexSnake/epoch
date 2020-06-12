@@ -5,7 +5,6 @@ import { DateInput, Select, TextInput, Label } from '../FormFields'
 import NumberFormat from 'react-number-format'
 import Icon from '@mdi/react'
 import { mdiEyeMinus, mdiEyeCheck } from '@mdi/js'
-import moment from 'moment'
 
 const Personal = () => {
 	const { currentUser, employeeProfile, updateEmployeeProfile } = useContext(AuthContext)

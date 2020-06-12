@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { AuthContext } from '../../context/Auth'
 import TimeOff from './TimeOff'
 import Personal from './Personal'
 import Employment from './Employment'
@@ -8,6 +9,8 @@ import Update from './Update'
 import Requests from './Requests'
 
 const EditEmployeeNav = () => {
+	const { currentUser } = useContext(AuthContext)
+
 	const [openTab, setOpenTab] = useState(1)
 	return (
 		<React.Fragment>
@@ -35,7 +38,7 @@ const EditEmployeeNav = () => {
 			</div>
 			<div className={openTab === 1 ? 'block' : 'hidden'}>
 				<TimeOff />
-				<Requests />
+				{currentUser.isAdmin ? <Requests /> : null}
 			</div>
 			<div className={openTab === 2 ? 'block' : 'hidden'}>
 				<Personal />

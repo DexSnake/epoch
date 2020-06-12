@@ -3,6 +3,7 @@ import './styles/styles.css'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { AuthProvider } from './context/Auth'
 import PrivateRoute from './components/PrivateRoute'
+import AdminRoute from './components/AdminRoute'
 import Dashboard from './components/routes/dashboard'
 import Login from './components/routes/login'
 import Employees from './components/routes/employees'
@@ -27,7 +28,7 @@ const App = () => {
 				<Route path="/password-reset" component={ResetPassword} />
 				<PrivateRoute path="/" exact component={Dashboard} />
 				<PrivateRoute path="/add-employee" component={AddEmployee} />
-				<PrivateRoute path="/employees" exact component={Employees} />
+				<AdminRoute path="/employees" exact component={Employees} />
 				<PrivateRoute path="/employees/edit/:id" component={NewEditEmployee} />
 				<PrivateRoute path="/new-request" component={NewRequest} />
 				<PrivateRoute path="/pending-requests" component={PendingRequests} />

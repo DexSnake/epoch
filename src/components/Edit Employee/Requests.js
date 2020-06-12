@@ -303,7 +303,7 @@ const Requests = () => {
 							)
 						})
 				) : (
-					<p className="text-purp-medium font-semibold">{firstName} does not have any approved requests.</p>
+					<p className="text-purp-medium font-semibold">{firstName} does not have any denied requests.</p>
 				)}
 			</div>
 
