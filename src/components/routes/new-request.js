@@ -3,13 +3,14 @@ import Layout from '../Layout'
 import Icon from '@mdi/react'
 import { mdiCalendarPlus, mdiLoading } from '@mdi/js'
 import { Label, Select, NumberInput, TextArea } from '../FormFields'
-import { db } from '../../firebase/firebase'
+import { db, functions } from '../../firebase/firebase'
 import { AuthContext } from '../../context/Auth'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Calendar, DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
+import moment from 'moment'
 
 const NewRequest = () => {
 	const { currentUser, userProfile } = useContext(AuthContext)
@@ -21,6 +22,8 @@ const NewRequest = () => {
 	const [comments, setComments] = useState('')
 	const [loading, setLoading] = useState(false)
 	const pto = userProfile.pto
+	const sendRequestEmail = functions.httpsCallable('sendRequestEmail')
+	const sendRequestEmailMulti = functions.httpsCallable('sendRequestEmailMulti')
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
@@ -54,6 +57,17 @@ const NewRequest = () => {
 						},
 					})
 					.then(() => {
+						if (requestType === 'singleDay') {
+							sendRequestEmail({ firstName: userProfile.firstName, requestDate: moment(requestDate).format('MMMM DD, YYYY').toString(), totalHours: numberOfHours, startTime: startTime, comments: comments })
+						} else {
+							sendRequestEmailMulti({
+								firstName: userProfile.firstName,
+								startDate: moment(requestDates[0].startDate).format('MMMM DD, YYYY').toString(),
+								endDate: moment(requestDates[0].endDate).format('MMMM DD, YYYY').toString(),
+								totalHours: numberOfHours,
+								comments: comments,
+							})
+						}
 						setLoading(false)
 						toast.success('Request Submitted!')
 						setRequestDate(null)

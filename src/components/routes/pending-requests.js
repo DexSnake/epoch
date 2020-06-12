@@ -3,13 +3,14 @@ import Layout from '../Layout'
 import moment from 'moment'
 import Icon from '@mdi/react'
 import { mdiLoading, mdiCalendar, mdiCalendarMonth } from '@mdi/js'
-import { db } from '../../firebase/firebase'
+import { db, functions } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const PendingRequests = () => {
 	const [requests, setRequests] = useState([])
 	const [loading, setLoading] = useState(false)
+	const sendRequestApprovedEmail = functions.httpsCallable('sendRequestApprovedEmail')
 
 	useEffect(() => {
 		db.collection('Requests')
@@ -35,6 +36,7 @@ const PendingRequests = () => {
 					.doc(userId)
 					.get()
 					.then((doc) => {
+						sendRequestApprovedEmail({ firstName: doc.data().firstName, email: doc.data().email })
 						db.collection('Employees')
 							.doc(userId)
 							.update({

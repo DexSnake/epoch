@@ -37,6 +37,56 @@ exports.sendAdminEmail = functions.https.onCall((data, context) => {
 	})
 })
 
+exports.sendRequestEmail = functions.https.onCall((data, context) => {
+	const emailData = {
+		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
+		to: 'travisrbutler@gmail.com',
+		subject: `New PTO Request from ${data.firstName}`,
+		text: `${data.firstName} has submitted a new PTO request for the following date(s):`,
+		template: 'template.new.request',
+		'v:firstName': data.firstName,
+		'v:requestDate': data.requestDate,
+		'v:totalHours': data.totalHours,
+		'v:startTime': data.startTime,
+		'v:comments': data.comments,
+	}
+	mailgun.messages().send(emailData, (error, body) => {
+		console.log(body)
+	})
+})
+
+exports.sendRequestEmailMulti = functions.https.onCall((data, context) => {
+	const emailData = {
+		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
+		to: 'travisrbutler@gmail.com',
+		subject: `New PTO Request from ${data.firstName}`,
+		text: `${data.firstName} has submitted a new PTO request for the following date(s):`,
+		template: 'template.new.request.multi',
+		'v:firstName': data.firstName,
+		'v:startDate': data.startDate,
+		'v:endDate': data.endDate,
+		'v:totalHours': data.totalHours,
+		'v:comments': data.comments,
+	}
+	mailgun.messages().send(emailData, (error, body) => {
+		console.log(body)
+	})
+})
+
+exports.sendRequestApprovedEmail = functions.https.onCall((data, context) => {
+	const emailData = {
+		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
+		to: data.email,
+		subject: 'Your request has been approved!',
+		text: `Hi ${data.firstName}, just letting you know that your pto request has been approved!`,
+		template: 'template.approved.request',
+		'v:firstName': data.firstName,
+	}
+	mailgun.messages().send(emailData, (error, body) => {
+		console.log(body)
+	})
+})
+
 exports.updateUserPhoto = functions.https.onCall((data, context) => {
 	return admin
 		.auth()
