@@ -6,6 +6,7 @@ import { mdiLoading, mdiCalendar, mdiCalendarMonth } from '@mdi/js'
 import { db } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 
 const DeniedRequests = () => {
 	const [requests, setRequests] = useState([])
@@ -90,9 +91,7 @@ const DeniedRequests = () => {
 												</p>
 											</div>
 											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
-												<button className="ml-1 bg-green-500 hover:bg-green-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
-													{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Change to Approved'}
-												</button>
+												<SubmitButtonWithLoader text="Change to Approved" loadingText="Changing..." color="green" loading={loading} onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)} />
 											</div>
 										</div>
 									</div>
@@ -102,7 +101,7 @@ const DeniedRequests = () => {
 											<div className="p-6">
 												<h4 className="font-semibold text-purp-medium pb-4 text-xl uppercase">
 													<Icon path={mdiCalendarMonth} size={1} className="inline mr-2" />
-													Single-Day Request
+													Multi-Day Request
 												</h4>
 												<p className="pb-3">
 													<span className="font-semibold">{request.employee}</span> is requesting off starting <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> and ending{' '}
@@ -115,9 +114,7 @@ const DeniedRequests = () => {
 												</p>
 											</div>
 											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
-												<button className="ml-1 bg-green-500 hover:bg-green-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)}>
-													{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Change to Approved'}
-												</button>
+												<SubmitButtonWithLoader text="Change to Approved" loadingText="Changing..." color="green" loading={loading} onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)} />
 											</div>
 										</div>
 									</div>

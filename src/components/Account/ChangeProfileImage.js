@@ -84,7 +84,8 @@ const ChangeProfileImage = () => {
 					)}
 					<div className="mt-16">
 						<h1 className="text-2xl font-semibold ml-4 text-purp-normal">{currentUser.displayName}</h1>
-						<h1 className="ml-4 text-purp-normal">{currentUser.email}</h1>
+						<h2 className="ml-4 text-purp-normal">{currentUser.email}</h2>
+						<h3 className="ml-4 text-purp-normal">{currentUser.isSuperAdmin ? 'Super Admin' : null}</h3>
 					</div>
 				</div>
 				{loading ? <Icon path={mdiLoading} size={1} spin={(true, 1)} /> : null}

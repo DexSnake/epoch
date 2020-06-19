@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
 		if (currentUser) {
 			currentUser.getIdTokenResult().then((idTokenResult) => {
 				currentUser.isAdmin = idTokenResult.claims.isAdmin
+				currentUser.isSuperAdmin = idTokenResult.claims.isSuperAdmin
 			})
 			db.collection('Employees')
 				.doc(currentUser.uid)

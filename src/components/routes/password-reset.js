@@ -29,7 +29,12 @@ const PasswordReset = () => {
 				setSent(true)
 			})
 			.catch((error) => {
-				setErrorMsg(error.message)
+				setLoading(false)
+				if (error.code === 'auth/invalid-email') {
+					setErrorMsg('Please enter a valid email address')
+				} else {
+					setErrorMsg(error.message)
+				}
 			})
 	}
 

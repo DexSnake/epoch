@@ -6,6 +6,7 @@ import { mdiLoading, mdiCalendar, mdiCalendarMonth } from '@mdi/js'
 import { db } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 
 const ApprovedRequests = () => {
 	const [requests, setRequests] = useState([])
@@ -91,9 +92,7 @@ const ApprovedRequests = () => {
 												</p>
 											</div>
 											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
-												<button className="ml-1 bg-red-500 hover:bg-red-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
-													{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Change to Declined'}
-												</button>
+												<SubmitButtonWithLoader text="Change to Denied" loadingText="Changing..." color="red" loading={loading} onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)} />
 											</div>
 										</div>
 									</div>
@@ -116,9 +115,7 @@ const ApprovedRequests = () => {
 												</p>
 											</div>
 											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
-												<button className="ml-1 bg-red-500 hover:bg-red-700 text-white text-sm rounded px-3 py-2 py-1 transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
-													{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Change to Declined'}
-												</button>
+												<SubmitButtonWithLoader text="Change to Denied" loadingText="Changing..." color="red" loading={loading} onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)} />
 											</div>
 										</div>
 									</div>

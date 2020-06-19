@@ -23,6 +23,28 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 		})
 })
 
+exports.addSuperAdmin = functions.https.onCall((data, context) => {
+	return admin
+		.auth()
+		.setCustomUserClaims(data.uid, {
+			isSuperAdmin: true,
+			isAdmin: true,
+		})
+		.then(() => console.log(data))
+})
+
+exports.getAllUsers = functions.https.onCall((data, context) => {
+	return admin
+		.auth()
+		.listUsers(15)
+		.then((result) => {
+			return result
+		})
+		.catch((error) => {
+			return error
+		})
+})
+
 exports.sendAdminEmail = functions.https.onCall((data, context) => {
 	const emailData = {
 		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
@@ -134,6 +156,18 @@ exports.disableUser = functions.https.onCall((data, context) => {
 		})
 		.catch((err) => {
 			return err
+		})
+})
+
+exports.removeUser = functions.https.onCall((data, context) => {
+	return admin
+		.auth()
+		.deleteUser(data.uid)
+		.then(() => {
+			return 'User Deleted'
+		})
+		.catch((error) => {
+			return 'Something Went Wrong'
 		})
 })
 

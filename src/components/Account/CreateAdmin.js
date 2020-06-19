@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { functions } from '../../firebase/firebase'
 import { Label, TextInput, EmailInput } from '../FormFields'
 import generatePassword from 'password-generator'
-import Icon from '@mdi/react'
-import { mdiLoading } from '@mdi/js'
+import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -22,32 +21,34 @@ const CreateAdmin = () => {
 		addAdminRole({ email, password, displayName })
 			.then(() => {
 				sendAdminEmail({ email, password })
+					.then(() => {
+						setLoading(false)
+						toast.success('Invitation Sent!')
+						setEmail('')
+						setDisplayName('')
+						setPassword(generatePassword())
+					})
+					.catch((error) => {
+						setLoading(false)
+						setErrorMsg(error.message)
+					})
 			})
-			.then(() => {
+			.catch((error) => {
 				setLoading(false)
-				toast.success('Request Updated!')
-				setEmail('')
-				setDisplayName('')
-				setPassword(generatePassword())
-			})
-			.catch((err) => {
-				setLoading(false)
-				setErrorMsg(err)
+				setErrorMsg(error.message)
 			})
 	}
 
 	return (
 		<div>
 			<div className="w-full bg-white p-6 rounded shadow">
-				<p className="text-purp-normal font-semibold mb-4">Create an Admin</p>
+				<p className="text-purp-normal font-semibold mb-4">Invite a User</p>
 				<form onSubmit={makeAdmin}>
 					<Label name="Name" htmlFor="name" />
 					<TextInput name="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className="mb-4" />
 					<Label name="email" htmlFor="email" />
 					<EmailInput name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
-					<button type="submit" className="bg-purp-normal hover:bg-purp-dark rounded text-sm text-white px-4 py-2 font-semibold">
-						{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Create Admin'}
-					</button>
+					<SubmitButtonWithLoader text="Send Invite" loadingText="Sending..." loading={loading} />
 				</form>
 				<p className="text-red-500">{errorMsg}</p>
 			</div>

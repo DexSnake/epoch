@@ -27,6 +27,8 @@ const Login = ({ history }) => {
 				setLoading(false)
 				if (error.code === 'auth/wrong-password') {
 					setErrorMsg('Incorrect email or password')
+				} else if (error.code === 'auth/invalid-email') {
+					setErrorMsg('Please enter a valid email address')
 				} else {
 					setErrorMsg(error.message)
 				}
