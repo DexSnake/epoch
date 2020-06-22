@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { functions } from '../../firebase/firebase'
-import { Label, TextInput, EmailInput } from '../FormFields'
+import { Label, TextInput, EmailInput, Select } from '../FormFields'
 import generatePassword from 'password-generator'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 import { ToastContainer, toast } from 'react-toastify'
@@ -10,6 +10,7 @@ const CreateAdmin = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState(generatePassword())
 	const [displayName, setDisplayName] = useState('')
+	const [role, setRole] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')
 	const [loading, setLoading] = useState(false)
 	const addAdminRole = functions.httpsCallable('addAdminRole')
@@ -18,7 +19,7 @@ const CreateAdmin = () => {
 	const makeAdmin = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		addAdminRole({ email, password, displayName })
+		addAdminRole({ email, password, displayName, role: role.name, accessLevel: role.accessLevel })
 			.then(() => {
 				sendAdminEmail({ email, password })
 					.then(() => {
@@ -26,6 +27,7 @@ const CreateAdmin = () => {
 						toast.success('Invitation Sent!')
 						setEmail('')
 						setDisplayName('')
+						setRole('')
 						setPassword(generatePassword())
 					})
 					.catch((error) => {
@@ -38,7 +40,6 @@ const CreateAdmin = () => {
 				setErrorMsg(error.message)
 			})
 	}
-
 	return (
 		<div>
 			<div className="w-full bg-white p-6 rounded shadow">
@@ -48,7 +49,23 @@ const CreateAdmin = () => {
 					<TextInput name="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className="mb-4" />
 					<Label name="email" htmlFor="email" />
 					<EmailInput name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
-					<SubmitButtonWithLoader text="Send Invite" loadingText="Sending..." loading={loading} />
+					<Label name="Role" htmlFor="role" />
+					<Select
+						onChange={(e) => {
+							if (e.target.value === 'Super Admin') {
+								setRole({ name: 'Super Admin', accessLevel: 3 })
+							} else if (e.target.value === 'Admin') {
+								setRole({ name: 'Admin', accessLevel: 2 })
+							} else {
+								setRole({ name: 'Supervisor', accessLevel: 1 })
+							}
+						}}>
+						<option defaultValue value=""></option>
+						<option value="Super Admin">Super Admin</option>
+						<option value="Admin">Admin</option>
+						<option value="Supervisor">Manager</option>
+					</Select>
+					<SubmitButtonWithLoader text="Send Invite" loadingText="Sending..." loading={loading} className="mt-6" />
 				</form>
 				<p className="text-red-500">{errorMsg}</p>
 			</div>

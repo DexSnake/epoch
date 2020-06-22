@@ -15,7 +15,8 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 		})
 		.then((user) => {
 			return admin.auth().setCustomUserClaims(user.uid, {
-				isAdmin: true,
+				role: data.role,
+				accessLevel: data.accessLevel,
 			})
 		})
 		.catch((err) => {
