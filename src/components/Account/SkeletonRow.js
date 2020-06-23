@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton'
 
 const SkeletonRow = () => {
 	return (
-		<tr className="bg-white hover:bg-purp-lightest">
+		<tr className="bg-white">
 			<td className="pl-2 py-2 flex">
 				<Skeleton circle={true} height={40} width={40} />
 			</td>
@@ -14,9 +14,7 @@ const SkeletonRow = () => {
 				<Skeleton width={150} />
 			</td>
 			<td>
-				<Skeleton width={70} height={35} />
-				<span className="mr-4"></span>
-				<Skeleton width={70} height={35} />
+				<Skeleton width={70} />
 			</td>
 		</tr>
 	)

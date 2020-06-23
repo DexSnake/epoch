@@ -37,15 +37,15 @@ const Personal = () => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="First Name" htmlFor="firstName" />
-							<TextInput name="firstName" disabled={!currentUser.isAdmin} value={firstName} onChange={handleChange} />
+							<TextInput name="firstName" disabled={!currentUser.accessLevel > 0} value={firstName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Middle Name" htmlFor="middleName" />
-							<TextInput name="middleName" disabled={!currentUser.isAdmin} value={middleName} onChange={handleChange} />
+							<TextInput name="middleName" disabled={!currentUser.accessLevel > 0} value={middleName} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Last Name" htmlFor="lastName" />
-							<TextInput name="lastName" disabled={!currentUser.isAdmin} value={lastName} onChange={handleChange} />
+							<TextInput name="lastName" disabled={!currentUser.accessLevel > 0} value={lastName} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -53,12 +53,19 @@ const Personal = () => {
 					<div className="flex">
 						<div className="w-1/5 px-3">
 							<Label name="DOB" htmlFor="dob" />
-							<DateInput name="dateOfBirth" disabled={!currentUser.isAdmin} value={dateOfBirth} onChange={handleChange} />
+							<DateInput name="dateOfBirth" disabled={!currentUser.accessLevel > 0} value={dateOfBirth} onChange={handleChange} />
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" />
 							{showSsn ? (
-								<NumberFormat format="###-##-####" disabled={!currentUser.isAdmin} name="ssn" value={ssn} onChange={handleChange} className="w-full text-purp-normal font-semibold border-b pb-1 px-2 disabled:bg-white disabled:text-purp-medium" />
+								<NumberFormat
+									format="###-##-####"
+									disabled={!currentUser.accessLevel > 0}
+									name="ssn"
+									value={ssn}
+									onChange={handleChange}
+									className="w-full text-purp-normal font-semibold border-b pb-1 px-2 disabled:bg-white disabled:text-purp-medium"
+								/>
 							) : (
 								<TextInput name="ssn" disabled value="XXX-XX-XXXX" />
 							)}

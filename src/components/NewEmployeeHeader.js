@@ -67,7 +67,7 @@ const NewEmployeeHeader = ({ data }) => {
 						</p>
 					</div>
 					<div className="w-1/4 flex flex-col justify-between">
-						{currentUser.isAdmin ? (
+						{currentUser.accessLevel > 0 ? (
 							data.isActive ? (
 								<button onClick={() => setShowDeactivateEmployeeModal(true)} className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
 									Deactivate Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />

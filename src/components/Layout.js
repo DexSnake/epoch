@@ -35,7 +35,7 @@ const Layout = (props) => {
 				</header>
 				<main className="flex flex-grow">
 					<div className="bg-purp-normal py-10 px-4" style={{ minWidth: 260 }}>
-						{currentUser.isAdmin ? <AdminNav /> : <UserNav />}
+						{currentUser.accessLevel > 0 ? <AdminNav /> : <UserNav />}
 					</div>
 					<div className="bg-purp-lightest flex-grow relative">
 						<div className="absolute bg-purp-normal right-20 top-0 py-2 px-4" style={{ display: showProfileMenu ? 'block' : 'none' }}>
@@ -43,6 +43,11 @@ const Layout = (props) => {
 								<Link to="/account">
 									<li className="text-purp-light hover:text-white">Account</li>
 								</Link>
+								{currentUser.accessLevel > 0 ? (
+									<Link to="/users">
+										<li className="text-purp-light hover:text-white">Users</li>
+									</Link>
+								) : null}
 								<button className="text-purp-light hover:text-white" onClick={() => auth.signOut()}>
 									<li>Sign Out</li>
 								</button>

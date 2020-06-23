@@ -10,7 +10,6 @@ const ChangeProfileImage = () => {
 	const [photoURL, setPhotoURL] = useState('')
 	const [loading, setLoading] = useState(false)
 	const updateUserPhoto = functions.httpsCallable('updateUserPhoto')
-
 	const handleUpload = () => {
 		setLoading(true)
 		const uploadTask = storage.ref(`profile-images/${profileImage.name}`).put(profileImage)
@@ -26,15 +25,19 @@ const ChangeProfileImage = () => {
 					.child(profileImage.name)
 					.getDownloadURL()
 					.then((url) => {
-						db.collection('Employees')
-							.doc(currentUser.uid)
-							.update({ imageUrl: url })
-							.then(() => {
-								setPhotoURL(url)
-							})
-							.catch((error) => {
-								alert(error)
-							})
+						if (currentUser.accessLevel < 3) {
+							db.collection('Employees')
+								.doc(currentUser.uid)
+								.update({ imageUrl: url })
+								.then(() => {
+									setPhotoURL(url)
+								})
+								.catch((error) => {
+									alert(error)
+								})
+						} else {
+							setPhotoURL(url)
+						}
 					})
 			}
 		)
@@ -85,7 +88,7 @@ const ChangeProfileImage = () => {
 					<div className="mt-16">
 						<h1 className="text-2xl font-semibold ml-4 text-purp-normal">{currentUser.displayName}</h1>
 						<h2 className="ml-4 text-purp-normal">{currentUser.email}</h2>
-						<h3 className="ml-4 text-purp-normal">{currentUser.isSuperAdmin ? 'Super Admin' : null}</h3>
+						<h3 className="ml-4 text-purp-normal">{currentUser.role ? currentUser.role : 'Employee'}</h3>
 					</div>
 				</div>
 				{loading ? <Icon path={mdiLoading} size={1} spin={(true, 1)} /> : null}

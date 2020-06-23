@@ -42,7 +42,7 @@ const Contact = () => {
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Email" htmlFor="email" />
-							<TextInput name="email" disabled={!currentUser.isAdmin} value={email} onChange={handleChange} />
+							<TextInput name="email" disabled={!currentUser.accessLevel > 0} value={email} onChange={handleChange} />
 						</div>
 					</div>
 				</div>

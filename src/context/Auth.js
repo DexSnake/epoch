@@ -18,8 +18,8 @@ export const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (currentUser) {
+			currentUser.getIdToken(true)
 			currentUser.getIdTokenResult().then((idTokenResult) => {
-				currentUser.isAdmin = idTokenResult.claims.isAdmin
 				currentUser.role = idTokenResult.claims.role
 				currentUser.accessLevel = idTokenResult.claims.accessLevel
 			})

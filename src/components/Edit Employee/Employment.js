@@ -37,11 +37,11 @@ const Employment = () => {
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Salary" htmlFor="salary" />
-							<TextInput name="salary" disabled={!currentUser.isAdmin} value={salary} onChange={handleChange} />
+							<TextInput name="salary" disabled={!currentUser.accessLevel > 0} value={salary} onChange={handleChange} />
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="salaryRate" htmlFor="salaryRate" />
-							<Select name="salaryRate" disabled={!currentUser.isAdmin} value={salaryRate} onChange={handleChange}>
+							<Select name="salaryRate" disabled={!currentUser.accessLevel > 0} value={salaryRate} onChange={handleChange}>
 								<option disabled defaultValue value=""></option>
 								<option value="/year">Per Year</option>
 								<option value="/hour">Per Hour</option>
@@ -51,7 +51,7 @@ const Employment = () => {
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Title" htmlFor="title" />
-							<TextInput name="title" disabled={!currentUser.isAdmin} value={title} onChange={handleChange} />
+							<TextInput name="title" disabled={!currentUser.accessLevel > 0} value={title} onChange={handleChange} />
 						</div>
 					</div>
 				</div>

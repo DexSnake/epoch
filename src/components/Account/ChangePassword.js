@@ -49,10 +49,16 @@ const ChangePassword = () => {
 			<div className="w-full bg-white p-6 rounded shadow">
 				<p className="text-purp-normal font-semibold mb-4">Change Your Password</p>
 				<form onSubmit={handleChangePassword}>
-					<Label name="New Password" htmlFor="password1" />
-					<PasswordInput name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)} className="mb-4" />
-					<Label name="Verifiy Password" htmlFor="password2" />
-					<PasswordInput name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)} className="mb-4" />
+					<div className="flex">
+						<div className="px-2">
+							<Label name="New Password" htmlFor="password1" />
+							<PasswordInput name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)} className="mb-4" />
+						</div>
+						<div className="px-2">
+							<Label name="Verifiy Password" htmlFor="password2" />
+							<PasswordInput name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)} className="mb-4" />
+						</div>
+					</div>
 					<SubmitButtonWithLoader text="Change Password" loadingText="Changing..." loading={loading} />
 				</form>
 				<p className="text-red-600">{errorMsg}</p>

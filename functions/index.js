@@ -24,16 +24,6 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 		})
 })
 
-exports.addSuperAdmin = functions.https.onCall((data, context) => {
-	return admin
-		.auth()
-		.setCustomUserClaims(data.uid, {
-			isSuperAdmin: true,
-			isAdmin: true,
-		})
-		.then(() => console.log(data))
-})
-
 exports.getAllUsers = functions.https.onCall((data, context) => {
 	return admin
 		.auth()
@@ -130,19 +120,28 @@ exports.createUser = functions.https.onCall((data, context) => {
 		.createUser({
 			email: data.email,
 			password: data.password,
+			displayName: `${data.firstName} ${data.lastName}`,
 		})
 		.then((user) => {
-			return admin
-				.auth()
-				.updateUser(user.uid, {
-					displayName: `${data.firstName} ${data.lastName}`,
-				})
-				.then((user) => {
-					return user
-				})
+			return user
 		})
-		.catch((err) => {
-			return err
+		.catch((error) => {
+			return error
+		})
+})
+
+exports.setUserPermissions = functions.https.onCall((data, context) => {
+	return admin
+		.auth()
+		.setCustomUserClaims(data.uid, {
+			role: data.role,
+			accessLevel: data.accessLevel,
+		})
+		.then(() => {
+			return 'Success.'
+		})
+		.catch((error) => {
+			return error
 		})
 })
 

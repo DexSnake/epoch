@@ -33,7 +33,7 @@ const TimeOff = () => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="Available Hours" htmlFor="availableHours" />
-							<TextInput name="availableHours" disabled={!currentUser.isAdmin} value={pto ? pto.availableHours : 0} onChange={handlePtoChange} />
+							<TextInput name="availableHours" disabled={!currentUser.accessLevel > 0} value={pto ? pto.availableHours : 0} onChange={handlePtoChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Pending Hours" htmlFor="pendingHours" />

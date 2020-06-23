@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { AuthProvider } from './context/Auth'
 import PrivateRoute from './components/PrivateRoute'
 import AdminRoute from './components/AdminRoute'
+import SuperAdminRoute from './components/SuperAdminRoute'
 import Dashboard from './components/routes/dashboard'
 import Login from './components/routes/login'
 import Employees from './components/routes/employees'
-import NewEditEmployee from './components/routes/new-edit-employee'
+import EditEmployee from './components/routes/edit-employee'
 import NewRequest from './components/routes/new-request'
 import Account from './components/routes/account'
 import ResetPassword from './components/routes/password-reset'
@@ -18,6 +19,8 @@ import EditRequest from './components/routes/edit-request'
 import ApprovedRequests from './components/routes/approved-requests'
 import DeniedRequests from './components/routes/denied-requests'
 import TestPage from './components/routes/test'
+import Users from './components/routes/users'
+import EditUser from './components/routes/edit-user'
 
 const App = () => {
 	return (
@@ -28,8 +31,10 @@ const App = () => {
 				<Route path="/password-reset" component={ResetPassword} />
 				<PrivateRoute path="/" exact component={Dashboard} />
 				<PrivateRoute path="/add-employee" component={AddEmployee} />
+				<SuperAdminRoute path="/users" exact component={Users} />
+				<SuperAdminRoute path="/users/edit/:id" component={EditUser} />
 				<AdminRoute path="/employees" exact component={Employees} />
-				<PrivateRoute path="/employees/edit/:id" component={NewEditEmployee} />
+				<PrivateRoute path="/employees/edit/:id" component={EditEmployee} />
 				<PrivateRoute path="/new-request" component={NewRequest} />
 				<PrivateRoute path="/pending-requests" component={PendingRequests} />
 				<PrivateRoute path="/approved-requests" component={ApprovedRequests} />

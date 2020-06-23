@@ -10,7 +10,7 @@ const CreateAdmin = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState(generatePassword())
 	const [displayName, setDisplayName] = useState('')
-	const [role, setRole] = useState('')
+	const [role, setRole] = useState({ name: '', accessLevel: null })
 	const [errorMsg, setErrorMsg] = useState('')
 	const [loading, setLoading] = useState(false)
 	const addAdminRole = functions.httpsCallable('addAdminRole')
@@ -18,27 +18,32 @@ const CreateAdmin = () => {
 
 	const makeAdmin = (e) => {
 		e.preventDefault()
-		setLoading(true)
-		addAdminRole({ email, password, displayName, role: role.name, accessLevel: role.accessLevel })
-			.then(() => {
-				sendAdminEmail({ email, password })
-					.then(() => {
-						setLoading(false)
-						toast.success('Invitation Sent!')
-						setEmail('')
-						setDisplayName('')
-						setRole('')
-						setPassword(generatePassword())
-					})
-					.catch((error) => {
-						setLoading(false)
-						setErrorMsg(error.message)
-					})
-			})
-			.catch((error) => {
-				setLoading(false)
-				setErrorMsg(error.message)
-			})
+		if (email && displayName && role) {
+			setLoading(true)
+			addAdminRole({ email, password, displayName, role: role.name, accessLevel: role.accessLevel })
+				.then(() => {
+					sendAdminEmail({ email, password })
+						.then(() => {
+							setLoading(false)
+							toast.success('Invitation Sent!')
+							setEmail('')
+							setDisplayName('')
+							setRole({ name: '', accessLevel: null })
+							setPassword(generatePassword())
+						})
+						.catch((error) => {
+							setLoading(false)
+							setErrorMsg(error.message)
+						})
+				})
+				.catch((error) => {
+					setLoading(false)
+					setErrorMsg(error.message)
+				})
+		} else {
+			e.stopPropagation()
+			setLoading(false)
+		}
 	}
 	return (
 		<div>
@@ -51,6 +56,7 @@ const CreateAdmin = () => {
 					<EmailInput name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
 					<Label name="Role" htmlFor="role" />
 					<Select
+						value={role.name}
 						onChange={(e) => {
 							if (e.target.value === 'Super Admin') {
 								setRole({ name: 'Super Admin', accessLevel: 3 })
@@ -63,7 +69,7 @@ const CreateAdmin = () => {
 						<option defaultValue value=""></option>
 						<option value="Super Admin">Super Admin</option>
 						<option value="Admin">Admin</option>
-						<option value="Supervisor">Manager</option>
+						<option value="Supervisor">Supervisor</option>
 					</Select>
 					<SubmitButtonWithLoader text="Send Invite" loadingText="Sending..." loading={loading} className="mt-6" />
 				</form>

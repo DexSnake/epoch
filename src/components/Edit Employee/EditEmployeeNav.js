@@ -38,7 +38,7 @@ const EditEmployeeNav = () => {
 			</div>
 			<div className={openTab === 1 ? 'block' : 'hidden'}>
 				<TimeOff />
-				{currentUser.isAdmin ? <Requests /> : null}
+				{currentUser.accessLevel > 0 ? <Requests /> : null}
 			</div>
 			<div className={openTab === 2 ? 'block' : 'hidden'}>
 				<Personal />

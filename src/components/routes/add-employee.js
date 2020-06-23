@@ -37,6 +37,7 @@ const AddEmployee = (props) => {
 		ecRelationship: '',
 		ecPhoneNumber: '',
 		availableHours: '',
+		role: { name: 'User', accessLevel: 0 },
 	}
 	const [
 		{
@@ -65,6 +66,7 @@ const AddEmployee = (props) => {
 			ecRelationship,
 			ecPhoneNumber,
 			availableHours,
+			role,
 		},
 		setState,
 	] = useState(initalState)
@@ -72,6 +74,7 @@ const AddEmployee = (props) => {
 	const [loading, setLoading] = useState(false)
 	const userPassword = `${firstName.toLowerCase().charAt(0)}${lastName.toLowerCase()}${ssn.substr(ssn.length - 4)}`
 	const createUser = functions.httpsCallable('createUser')
+	const setUserPermissions = functions.httpsCallable('setUserPermissions')
 
 	// Function to handle the onChange events for the inputs
 	const handleChange = (e) => {
@@ -79,57 +82,79 @@ const AddEmployee = (props) => {
 		setState((prevState) => ({ ...prevState, [name]: value }))
 	}
 
+	const handleUserRole = (e) => {
+		if (e.target.value === 'Super Admin') {
+			setState((prevState) => ({ ...prevState, role: { name: 'Super Admin', accessLevel: 3 } }))
+		} else if (e.target.value === 'Admin') {
+			setState((prevState) => ({ ...prevState, role: { name: 'Admin', accessLevel: 2 } }))
+		} else if (e.target.value === 'Supervisor') {
+			setState((prevState) => ({ ...prevState, role: { name: 'Supervisor', accessLevel: 1 } }))
+		} else {
+			setState((prevState) => ({ ...prevState, role: { name: 'User', accessLevel: 0 } }))
+		}
+	}
+
 	const handleAddEmployee = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		createUser({ email: email, password: userPassword, firstName: firstName, lastName: lastName }).then((newUser) => {
-			const uid = newUser.data.uid
-			db.collection('Employees')
-				.doc(uid)
-				.set({
-					isActive: true,
-					createdAt: new Date(),
-					firstName,
-					lastName,
-					middleName,
-					dateOfBirth: new Date(dateOfBirth),
-					startDate: new Date(startDate),
-					ssn,
-					title,
-					ethnicity,
-					gender,
-					maritalStatus,
-					phoneNumber,
-					alternatePhoneNumber,
-					email,
-					address1,
-					address2,
-					city,
-					state,
-					zipCode,
-					salary,
-					salaryRate,
-					emergencyContacts: [
-						{
-							firstName: ecFirstName,
-							lastName: ecLastName,
-							relationship: ecRelationship,
-							phoneNumber: ecPhoneNumber,
-						},
-					],
-					pto: {
-						availableHours: parseInt(availableHours),
-						pendingHours: 0,
-						usedHours: 0,
-					},
-				})
-				.then(function () {
-					props.history.push('/employees')
-				})
-				.catch(function (error) {
-					toast.error(error.message)
-				})
-		})
+		createUser({ email: email, password: userPassword, firstName: firstName, lastName: lastName, role: 'Employee', accessLevel: 0 })
+			.then((newUser) => {
+				const uid = newUser.data.uid
+				setUserPermissions({ uid: uid, role: role.name, accessLevel: role.accessLevel })
+					.then((res) => {
+						db.collection('Employees')
+							.doc(uid)
+							.set({
+								isActive: true,
+								createdAt: new Date(),
+								firstName,
+								lastName,
+								middleName,
+								dateOfBirth: new Date(dateOfBirth),
+								startDate: new Date(startDate),
+								ssn,
+								title,
+								ethnicity,
+								gender,
+								maritalStatus,
+								phoneNumber,
+								alternatePhoneNumber,
+								email,
+								address1,
+								address2,
+								city,
+								state,
+								zipCode,
+								salary,
+								salaryRate,
+								emergencyContacts: [
+									{
+										firstName: ecFirstName,
+										lastName: ecLastName,
+										relationship: ecRelationship,
+										phoneNumber: ecPhoneNumber,
+									},
+								],
+								pto: {
+									availableHours: parseInt(availableHours),
+									pendingHours: 0,
+									usedHours: 0,
+								},
+							})
+							.then(function () {
+								props.history.push('/employees')
+							})
+							.catch(function (error) {
+								toast.error(error.message)
+							})
+					})
+					.catch((error) => {
+						toast.error(error.message)
+					})
+			})
+			.catch((error) => {
+				toast.error(error.message)
+			})
 	}
 
 	return (
@@ -305,6 +330,24 @@ const AddEmployee = (props) => {
 						<div className="w-1/4 px-3">
 							<Label name="Phone Number" htmlFor="ecPhoneNumber" />
 							<NumberFormat format="(###) ###-####" name="ecPhoneNumber" value={ecPhoneNumber} onChange={handleChange} className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+						</div>
+					</div>
+				</div>
+			</EmployeeInfoContainer>
+			<EmployeeInfoContainer>
+				<div className="p-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Permissions</p>
+					<div className="flex">
+						<div className="w-1/3 px-3">
+							<Label name="User Role" htmlFor="userRole" required />
+							<Select name="userRole" value={role.name} onChange={handleUserRole}>
+								<option defaultValue value="User">
+									User
+								</option>
+								<option value="Supervisor">Supervisor</option>
+								<option value="Admin">Admin</option>
+								<option value="Super Admin">Super Admin</option>
+							</Select>
 						</div>
 					</div>
 				</div>
