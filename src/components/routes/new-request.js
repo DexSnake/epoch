@@ -22,8 +22,8 @@ const NewRequest = () => {
 	const [comments, setComments] = useState('')
 	const [loading, setLoading] = useState(false)
 	const pto = userProfile.pto
-	const sendRequestEmail = functions.httpsCallable('sendRequestEmail')
-	const sendRequestEmailMulti = functions.httpsCallable('sendRequestEmailMulti')
+	const sendRequestEmail = functions.httpsCallable('requestNotifications-sendRequestEmail')
+	const sendRequestEmailMulti = functions.httpsCallable('requestNotifications-sendRequestEmailMulti')
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
