@@ -91,7 +91,12 @@ export const Select = (props) => (
 		onChange={props.onChange}
 		required={props.required}
 		disabled={props.disabled}
-		className="w-full text-purp-normal font-semibold focus:outline-none border-b pb-1 px-2 appearance-none disabled:text-purp-medium disabled:bg-white">
+		style={{
+			backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/kstg-6225.appspot.com/o/images%2Fchevron-down.svg?alt=media&token=b9079f2a-0432-4e54-b26a-60d20d3e5f88)',
+			backgroundPosition: 'right .7em top 50%',
+			backgroundSize: '.65em auto',
+		}}
+		className="w-full text-purp-normal font-semibold focus:outline-none border rounded appearance-none bg-no-repeat px-2 py-1 disabled:text-purp-medium disabled:bg-white">
 		{props.children}
 	</select>
 )

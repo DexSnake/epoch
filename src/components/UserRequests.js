@@ -80,7 +80,7 @@ const UserRequests = () => {
 												pathname: `/requests/edit/${request.id}`,
 												state: { data: request },
 											}}>
-											<button className="absolute right-0 top-0 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
+											<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
 												<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
 												edit
 											</button>
@@ -123,7 +123,7 @@ const UserRequests = () => {
 												pathname: `/requests/edit/${request.id}`,
 												state: { data: request },
 											}}>
-											<button className="absolute right-0 top-0 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
+											<button className="absolute right-0 top-20 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
 												<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
 												edit
 											</button>

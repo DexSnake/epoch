@@ -23,11 +23,24 @@ const NewEmployeeHeader = ({ data }) => {
 		setShowReactivateEmployeeModal(false)
 	}
 
+	const getInitals = (first, last) => {
+		const fullName = `${first} ${last}`
+		const matches = fullName.match(/\b(\w)/g)
+		const initals = matches.join('')
+		return initals
+	}
+
 	return (
 		<React.Fragment>
 			<div className="bg-white px-6 pt-8 pb-6 flex">
 				<div style={{ minWidth: 128 }}>
-					<img src={data.imageUrl} alt="employee headshot" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
+					{data.imageUrl ? (
+						<img src={data.imageUrl} alt="employee headshot" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
+					) : (
+						<div className="rounded-full bg-purp-light h-32 w-32 mb-3 flex items-center justify-center mx-auto">
+							<span className="text-4xl text-purp-normal">{getInitals(data.firstName, data.lastName)}</span>
+						</div>
+					)}
 				</div>
 				<div className="w-full flex">
 					<div className="w-1/2 pl-6 pr-3">

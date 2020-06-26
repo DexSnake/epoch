@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Layout from '../Layout'
 import Icon from '@mdi/react'
-import { mdiCalendarEdit, mdiLoading } from '@mdi/js'
+import { mdiCalendarEdit } from '@mdi/js'
 import { Label, Select, NumberInput, TextArea } from '../FormFields'
 import { db } from '../../firebase/firebase'
 import { AuthContext } from '../../context/Auth'
@@ -10,10 +10,28 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Calendar, DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
+import { DeleteButton, SubmitButtonWithLoader } from '../UI Elements/Buttons'
+import DeleteRequestModal from '../modals/DeleteRequestModal'
 
 const EditRequest = (props) => {
 	const data = props.location.state.data
+	useEffect(() => {
+		const unsubscribe = db
+			.collection('Requests')
+			.doc(data.id)
+			.onSnapshot((doc) => {
+				const request = {
+					...doc.data(),
+				}
+				setRequest(request)
+			})
+		return () => {
+			unsubscribe()
+		}
+	}, [])
+
 	const { currentUser, userProfile } = useContext(AuthContext)
+	const [request, setRequest] = useState(null)
 	const [requestType, setRequestType] = useState(data.requestType)
 	const [requestDate, setRequestDate] = useState(data.dates[0].toDate())
 	const [requestDates, setRequestDates] = useState([{ startDate: data.dates[0].toDate(), endDate: data.dates[1] ? data.dates[1].toDate() : null, key: 'selection' }])
@@ -21,6 +39,7 @@ const EditRequest = (props) => {
 	const [numberOfHours, setNumberOfHours] = useState(data.numberOfHours)
 	const [comments, setComments] = useState(data.comments)
 	const [loading, setLoading] = useState(false)
+	const [showModal, setShowModal] = useState(false)
 	const pto = userProfile.pto
 
 	const handleUpdate = (e) => {
@@ -65,15 +84,19 @@ const EditRequest = (props) => {
 			})
 	}
 
+	const closeModal = () => {
+		setShowModal(false)
+	}
+
 	return (
 		<Layout>
-			<div className="flex justify-center m-10">
-				<div className="w-full max-w-sm bg-white p-6">
-					<h1 className="text-purp-normal font-semibold text-2xl pb-4">
-						<Icon path={mdiCalendarEdit} size={1.8} className="inline mr-2 pb-1" />
-						Edit Time Off Request
-					</h1>
-					<form onSubmit={handleUpdate}>
+			{request ? (
+				<div className="flex justify-center m-10">
+					<div className="w-full max-w-sm bg-white p-6">
+						<h1 className="text-purp-normal font-semibold text-2xl pb-4">
+							<Icon path={mdiCalendarEdit} size={1.8} className="inline mr-2 pb-1" />
+							Edit Time Off Request
+						</h1>
 						<div className="flex flex-wrap">
 							<div className="w-1/2 px-3 mb-5">
 								<Label name="Single Day" htmlFor="dayType" className="mr-2" />
@@ -146,16 +169,16 @@ const EditRequest = (props) => {
 								<Label name="Comments" htmlFor="comments" />
 								<TextArea name="comments" rows="2" value={comments} onChange={(e) => setComments(e.target.value)} />
 							</div>
-							<div>
-								<button type="submit" className="bg-purp-brightest hover:bg-purp-bright transition rounded duration-200 ease-in-out focus:outline-none text-white block w-full px-8 py-2 font-semibold">
-									{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Update Request'}
-								</button>
+							<div className="w-full flex items-center justify-between">
+								<SubmitButtonWithLoader onClick={handleUpdate} text="Update Request" loadingText="Updating..." loading={loading} />
+								<DeleteButton onClick={() => setShowModal(true)} text="Delete Request" />
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
-			</div>
+			) : null}
 			<ToastContainer position="top-center" autoClose={2000} />
+			{showModal ? <DeleteRequestModal id={data.id} closeModal={closeModal} /> : null}
 		</Layout>
 	)
 }

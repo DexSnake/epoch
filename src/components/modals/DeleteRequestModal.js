@@ -1,35 +1,22 @@
 import React, { useState } from 'react'
-import { db, functions } from '../../firebase/firebase'
+import { db } from '../../firebase/firebase'
+import { Redirect } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
-import { Redirect } from 'react-router-dom'
 
-const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
+const DeleteRequestModal = ({ id, closeModal }) => {
 	const [loading, setLoading] = useState(false)
-	const removeUser = functions.httpsCallable('removeUser')
 
-	const handleDelete = (uid) => {
+	const handleDelete = (e) => {
+		e.preventDefault()
 		setLoading(true)
-		removeUser({ uid })
+		db.collection('Requests')
+			.doc(id)
+			.delete()
 			.then(() => {
-				db.collection('Employees')
-					.doc(uid)
-					.delete()
-					.then(() => {
-						if (getUsers) {
-							getUsers()
-							setLoading(false)
-							closeModal()
-							toast.success('User Removed')
-						} else {
-							setLoading(false)
-							closeModal()
-							toast.success('User Removed')
-						}
-					})
-					.catch((error) => {
-						toast.error(error.message)
-					})
+				setLoading(false)
+				toast.success('Request Deleted')
+				return <Redirect to={'/requests'} />
 			})
 			.catch((error) => {
 				setLoading(false)
@@ -43,15 +30,15 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 				<div className="relative w-auto my-6 mx-auto max-w-3xl">
 					<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white overflow-y-auto outline-none focus:outline-none" style={{ maxHeight: '80vh' }}>
 						<div className="flex items-start p-5 rounded-t bg-purp-lightest">
-							<h3 className="text-2xl text-purp-normal">Remove User?</h3>
+							<h3 className="text-2xl text-purp-normal">Delete Request?</h3>
 							<button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-4xl leading-none outline-none focus:outline-none" onClick={closeModal}>
 								<span className="bg-transparent text-purp-normal opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">×</span>
 							</button>
 						</div>
 						<div className="relative p-6 flex-auto">
 							<div className="flex flex-col">
-								<p className="font-semibold text-lg mb-2 text-purp-normal">Are you sure you want to remove this user?</p>
-								<p className="text-purp-normal">This will permanently delete the user and all of their data. This action cannot be un-done.</p>
+								<p className="font-semibold text-lg mb-2 text-purp-normal">Are you sure you want to delete this request?</p>
+								<p className="text-purp-normal">This will permanently delete the request. This action cannot be un-done.</p>
 							</div>
 						</div>
 						<div className="flex items-center justify-end px-5 pb-5 rounded-b">
@@ -60,7 +47,7 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 									Cancel
 								</button>
 							)}
-							<SubmitButtonWithLoader onClick={() => handleDelete(user)} text="Remove User" loadingText="Removing..." loading={loading} color="red" />
+							<SubmitButtonWithLoader onClick={handleDelete} text="Delete Request" loadingText="Deleting..." loading={loading} color="red" />
 						</div>
 					</div>
 				</div>
@@ -70,4 +57,4 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 	)
 }
 
-export default DeactivateEmployeeModal
+export default DeleteRequestModal

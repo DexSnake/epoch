@@ -15,7 +15,7 @@ const Employee = ({ employees, requests }) => {
 							<img src={e.imageUrl} alt="employee headshot" className="rounded-full h-24 w-24 mb-3 mx-auto" />
 						) : (
 							<div className="rounded-full bg-purp-light h-24 w-24 mb-3 flex items-center justify-center mx-auto">
-								<span className="font-semibold text-2xl">
+								<span className="text-purp-normal text-2xl">
 									{e.firstName.charAt(0)}
 									{e.lastName.charAt(0)}
 								</span>
@@ -25,8 +25,6 @@ const Employee = ({ employees, requests }) => {
 							{e.firstName} {e.middleName ? `${e.middleName.charAt(0)}.` : null} {e.lastName}
 						</h5>
 						<p className="text-purp-normal">{e.title}</p>
-						<p className="font-semibold text-purp-normal pt-4">{e.pto.availableHours} Available Hours</p>
-						<p className="font-semibold text-purp-normal pt-1">{requests.filter((r) => r.userId === e.id).filter((r) => r.status === 'approved').length} Upcoming Dates</p>
 					</Link>
 					{requests.filter((r) => r.userId === e.id).filter((r) => r.status === 'pending').length > 0 ? (
 						<p className="font-semibold top-20 right-20 absolute h-8 w-8 bg-red-600 text-white flex items-center justify-center rounded-full">{requests.filter((r) => r.userId === e.id).filter((r) => r.status === 'pending').length}</p>

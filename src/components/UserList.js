@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import SkeletonRow from './Account/SkeletonRow'
 import { functions } from '../firebase/firebase'
 import { DeleteButton } from './UI Elements/Buttons'
-import moment from 'moment'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import DeleteUserModal from './modals/DeleteUserModal'
 import { Link } from 'react-router-dom'
+import Icon from '@mdi/react'
+import { mdiCheckBold, mdiCloseCircleOutline } from '@mdi/js'
 
 const UserList = ({ currentUser }) => {
 	const [users, setUsers] = useState([])
@@ -35,7 +36,7 @@ const UserList = ({ currentUser }) => {
 					<tr className="bg-purp-light">
 						<th className="text-left py-2 pl-2">User</th>
 						<th className="text-left py-2">Role</th>
-						<th className="text-left py-2">Last Sign-in</th>
+						<th className="text-left py-2">Status</th>
 						<th className="text-left py-2"></th>
 					</tr>
 				</thead>
@@ -58,10 +59,30 @@ const UserList = ({ currentUser }) => {
 										</div>
 									</td>
 									<td>{user.customClaims ? user.customClaims.role : 'Employee'}</td>
-									<td>{user.metadata.lastSignInTime ? moment(user.metadata.lastSignInTime).fromNow() : <span className="bg-yellow-500 py-1 px-2 text-xs text-white rounded">pending</span>}</td>
+									<td>
+										{user.disabled ? (
+											<span className="text-red-400 text-sm font-semibold uppercase">
+												<Icon path={mdiCloseCircleOutline} size={0.8} className="pb-1 inline" />
+												inactive
+											</span>
+										) : (
+											<span className="text-green-400 text-sm font-semibold uppercase">
+												<Icon path={mdiCheckBold} size={0.8} className="pb-1 inline" />
+												active
+											</span>
+										)}
+									</td>
 									<td className="">
 										{user.customClaims.accessLevel > currentUser.accessLevel ? null : (
 											<div className="flex">
+												<Link
+													to={{
+														pathname: `/users/edit/${user.uid}`,
+														state: { user },
+													}}
+													className="text-sm text-purp-normal hover:opacity-50 font-semibold mr-3">
+													Edit User
+												</Link>
 												{currentUser.uid === user.uid ? null : (
 													<DeleteButton
 														text="Remove User"
@@ -73,14 +94,6 @@ const UserList = ({ currentUser }) => {
 														size="sm"
 													/>
 												)}
-												<Link
-													to={{
-														pathname: `/users/edit/${user.uid}`,
-														state: { user },
-													}}
-													className="text-sm text-purp-normal hover:opacity-50 font-semibold ml-3">
-													Edit User
-												</Link>
 											</div>
 										)}
 									</td>

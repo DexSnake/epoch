@@ -72,11 +72,11 @@ const EditUserDetails = ({ user }) => {
 						</div>
 					</div>
 					<div className="w-full flex flex-col justify-end items-end">
-						<SubmitButtonWithLoader onClick={handleSubmit} text="Update User" loadingText="Updating..." loading={loading} />
-						{user.customClaims.accessLevel > 2 ? null : <DeleteButton text="Remove User" loadingText="Removing..." onClick={() => setShowModal(true)} size="sm" className="mt-2" />}
+						<SubmitButtonWithLoader onClick={handleSubmit} text="Update" loadingText="Updating..." loading={loading} />
 					</div>
 				</div>
 			</div>
+			<div className="flex justify-end px-6">{user.customClaims.accessLevel > 2 ? null : <DeleteButton text="Remove User" loadingText="Removing..." onClick={() => setShowModal(true)} size="sm" className="mt-2" />}</div>
 			{showModal ? <DeleteUserModal user={user.uid} closeModal={closeModal} /> : null}
 			<ToastContainer position="top-center" autoClose={2000} />
 		</>
