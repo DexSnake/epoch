@@ -36,7 +36,7 @@ const DeactivateEmployeeModal = ({ data, closeModal }) => {
 						.update({
 							isActive: false,
 							updatedAt: new Date(),
-							pto: { availableHour: 0, pendingHours: 0, usedHours: 0 },
+							pto: { availableHours: 0, pendingHours: 0, usedHours: 0 },
 						})
 						.then(function () {
 							setLoading(false)

@@ -16,6 +16,7 @@
 		"postcss-cli": "^7.1.1",
 		"react": "^16.13.1",
 		"react-date-range": "^1.0.3",
+		"react-datepicker": "^3.0.0",
 		"react-dates": "^21.8.0",
 		"react-dom": "^16.13.1",
 		"react-loading-skeleton": "^2.0.1",

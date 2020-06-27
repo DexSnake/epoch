@@ -13,6 +13,7 @@ import 'react-date-range/dist/theme/default.css'
 import { DeleteButton, SubmitButtonWithLoader } from '../UI Elements/Buttons'
 import DeleteRequestModal from '../modals/DeleteRequestModal'
 import { addDays, isWeekend } from 'date-fns'
+import RequestForm from '../skeletons/RequestForm'
 
 const EditRequest = (props) => {
 	const data = props.location.state.data
@@ -146,40 +147,44 @@ const EditRequest = (props) => {
 								<div>
 									{requestType === 'singleDay' ? (
 										<>
-											<Label name="Date Requested" htmlFor="dateRequested" />
-											<div className="w-full flex items-center mt-3">
-												<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
-													<label
-														htmlFor="toggle"
-														className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
-															toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
-														}`}></label>
-													<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+											<Label name="Request Date" htmlFor="dateRequested" />
+											{request.status === 'approved' ? null : (
+												<div className="w-full flex items-center mt-3">
+													<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
+														<label
+															htmlFor="toggle"
+															className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
+																toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
+															}`}></label>
+														<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+													</div>
+													<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
 												</div>
-												<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
-											</div>
+											)}
 											<Calendar
 												disabledDates={disabledDates}
 												date={requestDate}
-												minDate={request.status === 'approved' ? addDays(new Date(), 730) : new Date()}
+												minDate={request.status === 'approved' ? addDays(new Date(), 60) : new Date()}
 												onChange={(requestDate) => setState((prevState) => ({ ...prevState, requestDate: requestDate }))}
 											/>
 										</>
 									) : (
 										<>
-											<Label name="Dates Requested" htmlFor="dateRequested" />
-											<div className="w-full flex items-center mt-3 mb-3">
-												<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
-													<label
-														htmlFor="toggle"
-														className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
-															toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
-														}`}></label>
-													<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+											<Label name="Request Dates" htmlFor="dateRequested" />
+											{request.status === 'approved' ? null : (
+												<div className="w-full flex items-center mt-3 mb-3">
+													<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
+														<label
+															htmlFor="toggle"
+															className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
+																toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
+															}`}></label>
+														<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+													</div>
+													<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
 												</div>
-												<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
-											</div>
-											<DateRange minDate={request.status === 'approved' ? addDays(new Date(), 730) : new Date()} disabledDates={disabledDates} ranges={requestDates} onChange={(item) => setRequestDates([item.selection])} focusedRange={[0, 0]} />
+											)}
+											<DateRange minDate={request.status === 'approved' ? addDays(new Date(), 60) : new Date()} disabledDates={disabledDates} ranges={requestDates} onChange={(item) => setRequestDates([item.selection])} focusedRange={[0, 0]} />
 										</>
 									)}
 								</div>
@@ -239,7 +244,9 @@ const EditRequest = (props) => {
 						</div>
 					</div>
 				</div>
-			) : null}
+			) : (
+				<RequestForm />
+			)}
 			<ToastContainer position="top-center" autoClose={2000} />
 			{showModal ? <DeleteRequestModal id={data.id} history={props.history} request={request} pto={pto} closeModal={closeModal} /> : null}
 		</Layout>

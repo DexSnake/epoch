@@ -5,6 +5,8 @@ import { DateInput, Select, TextInput, Label } from '../FormFields'
 import NumberFormat from 'react-number-format'
 import Icon from '@mdi/react'
 import { mdiEyeMinus, mdiEyeCheck } from '@mdi/js'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const Personal = () => {
 	const { currentUser, employeeProfile, updateEmployeeProfile } = useContext(AuthContext)
@@ -37,15 +39,15 @@ const Personal = () => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="First Name" htmlFor="firstName" />
-							<TextInput name="firstName" disabled={!currentUser.accessLevel > 0} value={firstName} onChange={handleChange} />
+							<TextInput name="firstName" disabled={!currentUser.accessLevel > 0} value={firstName || ''} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Middle Name" htmlFor="middleName" />
-							<TextInput name="middleName" disabled={!currentUser.accessLevel > 0} value={middleName} onChange={handleChange} />
+							<TextInput name="middleName" disabled={!currentUser.accessLevel > 0} value={middleName || ''} onChange={handleChange} />
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Last Name" htmlFor="lastName" />
-							<TextInput name="lastName" disabled={!currentUser.accessLevel > 0} value={lastName} onChange={handleChange} />
+							<TextInput name="lastName" disabled={!currentUser.accessLevel > 0} value={lastName || ''} onChange={handleChange} />
 						</div>
 					</div>
 				</div>
@@ -53,7 +55,16 @@ const Personal = () => {
 					<div className="flex">
 						<div className="w-1/5 px-3">
 							<Label name="DOB" htmlFor="dob" />
-							<DateInput name="dateOfBirth" disabled={!currentUser.accessLevel > 0} value={dateOfBirth} onChange={handleChange} />
+							<DatePicker
+								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
+								name="test"
+								showMonthDropdown
+								showYearDropdown
+								dropdownMode="select"
+								disabled={!currentUser.accessLevel > 0}
+								selected={dateOfBirth}
+								onChange={(date) => setState((prevState) => ({ ...prevState, dateOfBirth: date }))}
+							/>
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" />

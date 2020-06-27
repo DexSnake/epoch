@@ -11,10 +11,11 @@ import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 const PendingRequests = () => {
 	const [requests, setRequests] = useState([])
 	const [loading, setLoading] = useState(false)
-	const sendRequestApprovedEmail = functions.httpsCallable('sendRequestApprovedEmail')
+	const sendRequestApprovedEmail = functions.httpsCallable('requestNotifications-sendRequestApprovedEmail')
 
 	useEffect(() => {
-		db.collection('Requests')
+		const unsubscribe = db
+			.collection('Requests')
 			.where('status', '==', 'pending')
 			.onSnapshot((snapshot) => {
 				const newRequests = snapshot.docs.map((doc) => ({
@@ -23,6 +24,9 @@ const PendingRequests = () => {
 				}))
 				setRequests(newRequests)
 			})
+		return () => {
+			unsubscribe()
+		}
 	}, [])
 
 	const handleApprove = (id, userId, numberOfHours) => {
@@ -38,6 +42,10 @@ const PendingRequests = () => {
 					.get()
 					.then((doc) => {
 						sendRequestApprovedEmail({ firstName: doc.data().firstName, email: doc.data().email })
+							.then(() => {})
+							.catch((error) => {
+								console.log(error)
+							})
 						db.collection('Employees')
 							.doc(userId)
 							.update({

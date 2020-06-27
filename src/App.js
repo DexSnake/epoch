@@ -21,6 +21,7 @@ import DeniedRequests from './components/routes/denied-requests'
 import TestPage from './components/routes/test'
 import Users from './components/routes/users'
 import EditUser from './components/routes/edit-user'
+import UpcomingRequests from './components/routes/upcoming-requests'
 
 const App = () => {
 	return (
@@ -38,6 +39,7 @@ const App = () => {
 				<PrivateRoute path="/new-request" component={NewRequest} />
 				<PrivateRoute path="/pending-requests" component={PendingRequests} />
 				<PrivateRoute path="/approved-requests" component={ApprovedRequests} />
+				<PrivateRoute path="/upcoming-requests" component={UpcomingRequests} />
 				<PrivateRoute path="/denied-requests" component={DeniedRequests} />
 				<PrivateRoute path="/requests" exact component={Requests} />
 				<PrivateRoute path="/requests/edit/:id" component={EditRequest} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import SkeletonRow from './Account/SkeletonRow'
+import SkeletonRow from './skeletons/UserTableRow'
 import { functions } from '../firebase/firebase'
 import { DeleteButton } from './UI Elements/Buttons'
 import { ToastContainer } from 'react-toastify'

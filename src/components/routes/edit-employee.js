@@ -4,6 +4,7 @@ import Layout from '../Layout'
 import NewEmployeeHeader from '../NewEmployeeHeader'
 import EditEmployeeNav from '../Edit Employee/EditEmployeeNav'
 import { AuthContext } from '../../context/Auth'
+import moment from 'moment'
 
 const NewEditEmployee = (props) => {
 	const data = props.location.state
@@ -17,6 +18,8 @@ const NewEditEmployee = (props) => {
 				const profile = {
 					id: doc.id,
 					...doc.data(),
+					startDate: doc.data().startDate.toDate(),
+					dateOfBirth: doc.data().dateOfBirth.toDate(),
 				}
 				setProfile(profile)
 			})
@@ -24,7 +27,6 @@ const NewEditEmployee = (props) => {
 			unsubscribe()
 		}
 	}, [])
-
 	return (
 		<Layout>
 			<NewEmployeeHeader data={employeeProfile} />

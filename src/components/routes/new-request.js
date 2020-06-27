@@ -32,9 +32,10 @@ const NewRequest = () => {
 	const [startTime, setStartTime] = useState('')
 	const [numberOfHours, setNumberOfHours] = useState('')
 	const [comments, setComments] = useState('')
-	const [disabledDates, setDisabledDates] = useState(calcWeekends(new Date(), addDays(new Date(), 10000)))
+	const [disabledDates, setDisabledDates] = useState(calcWeekends(new Date(), addDays(new Date(), 730)))
 	const [toggleWeekends, setToggleWeekends] = useState(false)
 	const [loading, setLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 	const pto = userProfile.pto
 	const sendRequestEmail = functions.httpsCallable('requestNotifications-sendRequestEmail')
 	const sendRequestEmailMulti = functions.httpsCallable('requestNotifications-sendRequestEmailMulti')
@@ -43,7 +44,7 @@ const NewRequest = () => {
 		if (toggleWeekends) {
 			setDisabledDates([])
 		} else {
-			setDisabledDates(calcWeekends(new Date(), addDays(new Date(), 10000)))
+			setDisabledDates(calcWeekends(new Date(), addDays(new Date(), 730)))
 		}
 	}, [toggleWeekends])
 
@@ -64,6 +65,7 @@ const NewRequest = () => {
 				requestType,
 				dates,
 				startTime,
+				startDate: requestDate,
 				numberOfHours: parseInt(numberOfHours),
 				comments,
 				status: 'pending',
@@ -154,7 +156,15 @@ const NewRequest = () => {
 											</div>
 											<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
 										</div>
-										<DateRange disabledDates={disabledDates} startDatePlaceholder="Start Date" endDatePlaceholder="End Date" ranges={requestDates} minDate={new Date()} onChange={(item) => setRequestDates([item.selection])} />
+										<DateRange
+											moveRangeOnFirstSelection={false}
+											disabledDates={disabledDates}
+											startDatePlaceholder="Start Date"
+											endDatePlaceholder="End Date"
+											ranges={requestDates}
+											minDate={new Date()}
+											onChange={(item) => setRequestDates([item.selection])}
+										/>
 									</>
 								)}
 							</div>

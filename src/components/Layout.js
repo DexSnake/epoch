@@ -16,12 +16,12 @@ const Layout = (props) => {
 			<div className="flex flex-col min-h-screen">
 				<header>
 					<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
-						<Link to="/">
+						<Link to="/" className="focus:outline-none">
 							<p className="text-white font-bold">KSTG PTO Tracker</p>
 						</Link>
 						<div className="flex">
 							<div>
-								<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex">
+								<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex focus:outline-none">
 									<p className="text-purp-light hover:text-white pl-3">{currentUser.displayName}</p>
 									{currentUser.photoURL ? (
 										<img src={currentUser.photoURL} alt="user profile image" className="h-6 w-6 rounded-full ml-2" />
@@ -40,15 +40,15 @@ const Layout = (props) => {
 					<div className="bg-purp-lightest flex-grow relative">
 						<div className="absolute bg-purp-normal right-20 top-0 py-2 px-4" style={{ display: showProfileMenu ? 'block' : 'none' }}>
 							<ul>
-								<Link to="/account">
-									<li className="text-purp-light hover:text-white">Account</li>
+								<Link to="/account" className="focus:outline-none">
+									<li className="text-purp-light hover:text-white focus:outline-none">Account</li>
 								</Link>
 								{currentUser.accessLevel > 0 ? (
 									<Link to="/users">
-										<li className="text-purp-light hover:text-white">Users</li>
+										<li className="text-purp-light hover:text-white focus:outline-none">Users</li>
 									</Link>
 								) : null}
-								<button className="text-purp-light hover:text-white" onClick={() => auth.signOut()}>
+								<button className="text-purp-light hover:text-white focus:outline-none" onClick={() => auth.signOut()}>
 									<li>Sign Out</li>
 								</button>
 							</ul>

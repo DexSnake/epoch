@@ -9,6 +9,8 @@ import NumberFormat from 'react-number-format'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const AddEmployee = (props) => {
 	const initalState = {
@@ -110,8 +112,8 @@ const AddEmployee = (props) => {
 								firstName,
 								lastName,
 								middleName,
-								dateOfBirth: new Date(dateOfBirth),
-								startDate: new Date(startDate),
+								dateOfBirth,
+								startDate,
 								ssn,
 								title,
 								ethnicity,
@@ -185,7 +187,16 @@ const AddEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/5 px-3">
 							<Label name="DOB" htmlFor="dateOfBirth" required />
-							<DateInput name="dateOfBirth" value={dateOfBirth} onChange={handleChange} required />
+							<DatePicker
+								name="dateOfBirth"
+								showMonthDropdown
+								showYearDropdown
+								dropdownMode="select"
+								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
+								name="test"
+								selected={dateOfBirth}
+								onChange={(date) => setState((prevState) => ({ ...prevState, dateOfBirth: date }))}
+							/>
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" required />
@@ -243,7 +254,15 @@ const AddEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/4 px-3">
 							<Label name="Start Date" htmlFor="startDate" required />
-							<DateInput name="startDate" value={startDate} onChange={handleChange} required />
+							<DatePicker
+								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
+								name="startDate"
+								showMonthDropdown
+								showYearDropdown
+								dropdownMode="select"
+								selected={startDate}
+								onChange={(date) => setState((prevState) => ({ ...prevState, startDate: date }))}
+							/>
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Salary" htmlFor="salary" />

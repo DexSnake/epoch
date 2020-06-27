@@ -9,30 +9,31 @@ const UserNav = () => {
 
 	return (
 		<ul>
-			<Link to="/">
-				<li className="text-purp-light mb-3">
+			<Link to="/" className="focus:outline-none">
+				<li className="text-purp-light mb-3 focus:outline-none">
 					<Icon path={mdiMonitorDashboard} size={1} className="mr-2 inline pb-1" />
 					Dashboard
 				</li>
 			</Link>
 			<Link
+				className="focus:outline-none"
 				to={{
 					pathname: `/employees/edit/${currentUser.uid}`,
 					state: { id: currentUser.uid },
 				}}>
-				<li className="text-purp-light mb-3">
+				<li className="text-purp-light mb-3 focus:outline-none">
 					<Icon path={mdiAccount} size={1} className="mr-2 inline pb-1" />
 					My Profile
 				</li>
 			</Link>
-			<Link to="/new-request">
-				<li className="text-purp-light mb-3">
+			<Link to="/new-request" className="focus:outline-none">
+				<li className="text-purp-light mb-3 focus:outline-none">
 					<Icon path={mdiCalendarPlus} size={1} className="mr-2 inline pb-1" />
 					New Request
 				</li>
 			</Link>
-			<Link to="/requests">
-				<li className="text-purp-light mb-3">
+			<Link to="/requests" className="focus:outline-none">
+				<li className="text-purp-light mb-3 focus:outline-none">
 					<Icon path={mdiCalendarAccount} size={1} className="mr-2 inline pb-1" />
 					My Requests
 				</li>

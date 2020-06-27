@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
-import { db } from '../../firebase/firebase'
+import { db, functions } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import moment from 'moment'
@@ -9,7 +9,8 @@ const Requests = () => {
 	const { currentUser, employeeProfile, updateEmployeeProfile } = useContext(AuthContext)
 	const [isLoaded, setisLoaded] = useState(false)
 	const [requests, setRequests] = useState([])
-	const [{ firstName }, setState] = useState(employeeProfile)
+	const [{ firstName, email }, setState] = useState(employeeProfile)
+	const sendRequestApprovedEmail = functions.httpsCallable('requestNotifications-sendRequestApprovedEmail')
 
 	useEffect(() => {
 		setState(employeeProfile)
@@ -39,6 +40,11 @@ const Requests = () => {
 				status: 'approved',
 			})
 			.then(() => {
+				sendRequestApprovedEmail({ firstName, email })
+					.then(() => {})
+					.catch((error) => {
+						console.log(error)
+					})
 				db.collection('Employees')
 					.doc(userId)
 					.get()
