@@ -80,7 +80,7 @@ export const TextArea = (props) => (
 		placeholder={props.placeholder}
 		onChange={props.onChange}
 		required={props.required}
-		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${props.className}`}
+		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white disabled:text-purp-medium ${props.className}`}
 	/>
 )
 export const Select = (props) => (

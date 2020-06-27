@@ -5,6 +5,8 @@ import Icon from '@mdi/react'
 import { mdiCalendarEdit } from '@mdi/js'
 import { AuthContext } from '../context/Auth'
 import { db } from '../firebase/firebase'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const UserRequests = () => {
 	const { currentUser } = useContext(AuthContext)
@@ -74,18 +76,17 @@ const UserRequests = () => {
 									<div className="w-1/4 px-3">
 										<span className={`text-sm text-white px-2 py-1 rounded ${requestStyles}`}>{request.status}</span>
 									</div>
-									{request.status === 'pending' ? (
-										<Link
-											to={{
-												pathname: `/requests/edit/${request.id}`,
-												state: { data: request },
-											}}>
-											<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
-												<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
-												edit
-											</button>
-										</Link>
-									) : null}
+
+									<Link
+										to={{
+											pathname: `/requests/edit/${request.id}`,
+											state: { data: request },
+										}}>
+										<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
+											<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
+											edit
+										</button>
+									</Link>
 								</div>
 							</div>
 						) : (
@@ -117,18 +118,17 @@ const UserRequests = () => {
 									<div className="w-1/4 px-3">
 										<span className={`text-sm text-white px-2 py-1 rounded ${requestStyles}`}>{request.status}</span>
 									</div>
-									{request.status === 'pending' ? (
-										<Link
-											to={{
-												pathname: `/requests/edit/${request.id}`,
-												state: { data: request },
-											}}>
-											<button className="absolute right-0 top-20 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
-												<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
-												edit
-											</button>
-										</Link>
-									) : null}
+
+									<Link
+										to={{
+											pathname: `/requests/edit/${request.id}`,
+											state: { data: request },
+										}}>
+										<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
+											<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
+											edit
+										</button>
+									</Link>
 								</div>
 							</div>
 						)
@@ -136,6 +136,7 @@ const UserRequests = () => {
 			) : (
 				<p>You have no requests.</p>
 			)}
+			<ToastContainer position="top-center" autoClose={2000} />
 		</div>
 	)
 }

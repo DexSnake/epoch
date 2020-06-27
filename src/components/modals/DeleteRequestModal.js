@@ -4,20 +4,32 @@ import { Redirect } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 
-const DeleteRequestModal = ({ id, closeModal }) => {
+const DeleteRequestModal = ({ id, request, pto, closeModal, history }) => {
 	const [loading, setLoading] = useState(false)
 
 	const handleDelete = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		db.collection('Requests')
-			.doc(id)
-			.delete()
+		db.collection('Employees')
+			.doc(request.userId)
+			.update({
+				pto: {
+					availableHours: request.status === 'pending' ? pto.availableHours : pto.availableHours + parseInt(request.numberOfHours),
+					pendingHours: request.status === 'pending' ? pto.pendingHours - parseInt(request.numberOfHours) : pto.pendingHours,
+					usedHours: request.status === 'pending' ? pto.usedHours : pto.usedHours - parseInt(request.numberOfHours),
+				},
+			})
 			.then(() => {
 				setLoading(false)
-				toast.success('Request Deleted')
-				return <Redirect to={'/requests'} />
+				history.push('/requests')
+				db.collection('Requests')
+					.doc(id)
+					.delete()
+					.then(() => {
+						toast.success('Request Deleted')
+					})
 			})
+
 			.catch((error) => {
 				setLoading(false)
 				toast.error(error.message)
