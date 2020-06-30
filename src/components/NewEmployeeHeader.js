@@ -82,11 +82,11 @@ const NewEmployeeHeader = () => {
 					<div className="w-1/4 flex flex-col justify-between">
 						{currentUser.accessLevel > 0 ? (
 							employeeProfile.isActive ? (
-								<button onClick={() => setShowDeactivateEmployeeModal(true)} className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
+								<button onClick={() => setShowDeactivateEmployeeModal(true)} className="text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
 									Deactivate Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
 								</button>
 							) : (
-								<button onClick={() => setShowReactivateEmployeeModal(true)} className="h-px text-purp-light hover:text-green-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
+								<button onClick={() => setShowReactivateEmployeeModal(true)} className="text-purp-light hover:text-green-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
 									Reactivate Employee <Icon path={mdiRestore} size={0.8} className="inline pb-1" />
 								</button>
 							)

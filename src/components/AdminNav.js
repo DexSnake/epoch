@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
 import { db } from '../firebase/firebase'
-import { mdiAccountPlus, mdiAccountGroup, mdiMonitorDashboard, mdiCalendarImport, mdiCalendarCheck, mdiCalendarMinus } from '@mdi/js'
+import { mdiAccountPlus, mdiAccountGroup, mdiMonitorDashboard, mdiCalendarAlert, mdiCalendarCheck, mdiCalendarRemove } from '@mdi/js'
 
 const AdminNav = () => {
 	const [requests, setRequests] = useState([])
@@ -43,7 +43,7 @@ const AdminNav = () => {
 			<Link to="/pending-requests" className="focus:outline-none">
 				<li className="text-purp-light mb-3 relative focus:outline-none">
 					{requests.length > 0 ? <p className="font-semibold text-sm absolute top-neg-10 right-35 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">{requests.length}</p> : null}
-					<Icon path={mdiCalendarImport} size={1} className="mr-2 inline pb-1" />
+					<Icon path={mdiCalendarAlert} size={1} className="mr-2 inline pb-1" />
 					Pending Requests
 				</li>
 			</Link>
@@ -55,7 +55,7 @@ const AdminNav = () => {
 			</Link>
 			<Link to="/denied-requests" className="focus:outline-none">
 				<li className="text-purp-light mb-3 focus:outline-none">
-					<Icon path={mdiCalendarMinus} size={1} className="mr-2 inline pb-1" />
+					<Icon path={mdiCalendarRemove} size={1} className="mr-2 inline pb-1" />
 					Denied Requests
 				</li>
 			</Link>

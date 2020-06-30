@@ -43,7 +43,7 @@ const UpcomingRequests = () => {
 				<div className="flex items-baseline mb-6">
 					<div>
 						<h1 className="font-semibold text-3xl text-purp-normal mr-4">Upcoming Requests</h1>
-						<span className="text-xl">{range > 1 ? `(${range} days out)` : `(${range} day out)`}</span>
+						<span className="text-xl text-purp-normal">{range > 1 ? `(${range} days out)` : `(${range} day out)`}</span>
 					</div>
 					<DatePicker
 						minDate={addDays(new Date(), 1)}
