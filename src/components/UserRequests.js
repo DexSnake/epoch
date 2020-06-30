@@ -2,16 +2,23 @@ import React, { useContext, useState, useEffect } from 'react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
-import { mdiCalendarEdit } from '@mdi/js'
+import { mdiCalendarEdit, mdiArrowLeftRight } from '@mdi/js'
 import { AuthContext } from '../context/Auth'
 import { db } from '../firebase/firebase'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserRequest from './skeletons/UserRequest'
+import { Select } from './FormFields'
+import { addDays } from 'date-fns'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const UserRequests = () => {
 	const { currentUser } = useContext(AuthContext)
 	const [requests, setRequests] = useState(null)
+	const [status, setStatus] = useState('all')
+	const [startDate, setStartDate] = useState(new Date())
+	const [endDate, setEndDate] = useState(addDays(new Date(), 60))
 
 	useEffect(() => {
 		const unsubscribe = db
@@ -27,14 +34,54 @@ const UserRequests = () => {
 		return () => {
 			unsubscribe()
 		}
-	}, [currentUser.uid])
+	}, [])
 
 	return (
 		<div className="m-10">
-			<h1 className="font-semibold text-3xl text-purp-normal mb-4">My Time Off Requests</h1>
+			<div className="flex justify-between mb-6">
+				<h1 className="font-semibold text-3xl text-purp-normal">My Time Off Requests</h1>
+
+				<div className="w-1/2 flex items-center text-purp-normal">
+					<div>
+						<DatePicker
+							className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+							name="startDate"
+							showMonthDropdown
+							dropdownMode="select"
+							selected={startDate}
+							onChange={(date) => setStartDate(date)}
+							dateFormat="MMMM d, yyyy"
+						/>
+					</div>
+					<div>
+						<Icon path={mdiArrowLeftRight} size={1} className="mx-3 inline" />
+					</div>
+					<div>
+						<DatePicker
+							className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+							name="endDate"
+							showMonthDropdown
+							dropdownMode="select"
+							selected={endDate}
+							onChange={(date) => setEndDate(date)}
+							dateFormat="MMMM d, yyyy"
+						/>
+					</div>
+				</div>
+				<div className="w-1/6">
+					<Select name="filter" onChange={(e) => setStatus(e.target.value)}>
+						<option value="all">All</option>
+						<option value="pending">Pending</option>
+						<option value="approved">Approved</option>
+						<option value="denied">Denied</option>
+					</Select>
+				</div>
+			</div>
 			{requests ? (
 				requests.length > 0 ? (
 					requests
+						.filter((request) => (status === 'all' ? request.status !== status : request.status === status))
+						.filter((request) => request.startDate.toDate() > startDate && request.startDate.toDate() < endDate)
 						.sort((a, b) => (a.dates[0] > b.dates[0] ? 1 : -1))
 						.map((request) => {
 							let requestStyles
@@ -78,17 +125,18 @@ const UserRequests = () => {
 										<div className="w-1/4 px-3">
 											<span className={`text-sm text-white px-2 py-1 rounded ${requestStyles}`}>{request.status}</span>
 										</div>
-
-										<Link
-											to={{
-												pathname: `/requests/edit/${request.id}`,
-												state: { data: request },
-											}}>
-											<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
-												<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
-												edit
-											</button>
-										</Link>
+										{request.status === 'denied' ? null : (
+											<Link
+												to={{
+													pathname: `/requests/edit/${request.id}`,
+													state: { data: request },
+												}}>
+												<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
+													<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
+													edit
+												</button>
+											</Link>
+										)}
 									</div>
 								</div>
 							) : (
@@ -121,16 +169,18 @@ const UserRequests = () => {
 											<span className={`text-sm text-white px-2 py-1 rounded ${requestStyles}`}>{request.status}</span>
 										</div>
 
-										<Link
-											to={{
-												pathname: `/requests/edit/${request.id}`,
-												state: { data: request },
-											}}>
-											<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
-												<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
-												edit
-											</button>
-										</Link>
+										{request.status === 'denied' ? null : (
+											<Link
+												to={{
+													pathname: `/requests/edit/${request.id}`,
+													state: { data: request },
+												}}>
+												<button className="absolute right-0 bottom-10 uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
+													<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
+													edit
+												</button>
+											</Link>
+										)}
 									</div>
 								</div>
 							)
