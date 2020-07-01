@@ -6,6 +6,7 @@ import { Label, EmailInput } from '../FormFields'
 import PasswordResetImage from '../../images/password-reset.svg'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 import { Link } from 'react-router-dom'
+import logo from '../../images/epoch-logo.svg'
 
 const PasswordReset = () => {
 	const { currentUser } = useContext(AuthContext)
@@ -42,7 +43,7 @@ const PasswordReset = () => {
 		<div className="flex flex-col min-h-screen">
 			<header>
 				<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
-					<p className="text-white font-bold">KSTG PTO Tracker</p>
+					<img src={logo} style={{ height: 35 }} />
 				</div>
 			</header>
 			<main className="flex flex-grow items-center bg-purp-lightest flex-col">

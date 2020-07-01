@@ -5,6 +5,7 @@ import { auth } from '../../firebase/firebase'
 import { AuthContext } from '../../context/Auth'
 import { Label, TextInput, PasswordInput } from '../FormFields'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
+import logo from '../../images/epoch-logo.svg'
 
 const Login = ({ history }) => {
 	const { currentUser } = useContext(AuthContext)
@@ -43,7 +44,7 @@ const Login = ({ history }) => {
 		<div className="flex flex-col min-h-screen">
 			<header>
 				<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
-					<p className="text-white font-bold">KSTG PTO Tracker</p>
+					<img src={logo} style={{ height: 35 }} />
 				</div>
 			</header>
 			<main className="flex flex-grow items-center bg-purp-lightest flex-col">

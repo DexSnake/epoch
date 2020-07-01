@@ -4,6 +4,7 @@ import { AuthContext } from '../context/Auth'
 import { auth } from '../firebase/firebase'
 import UserNav from './UserNav'
 import AdminNav from './AdminNav'
+import logo from '../images/epoch-logo.svg'
 
 const Layout = (props) => {
 	const { currentUser } = useContext(AuthContext)
@@ -15,18 +16,18 @@ const Layout = (props) => {
 		<React.Fragment>
 			<div className="flex flex-col min-h-screen">
 				<header>
-					<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
+					<div className="mx-auto bg-purp-dark py-3 px-6 flex items-center justify-between">
 						<Link to="/" className="focus:outline-none">
-							<p className="text-white font-bold">KSTG PTO Tracker</p>
+							<img src={logo} style={{ height: 35 }} />
 						</Link>
 						<div className="flex">
 							<div>
-								<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex focus:outline-none">
-									<p className="text-purp-light hover:text-white pl-3">{currentUser.displayName}</p>
+								<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex items-center focus:outline-none">
+									<p className="text-purp-light hover:text-white text-lg mr-3">{currentUser.displayName}</p>
 									{currentUser.photoURL ? (
-										<img src={currentUser.photoURL} alt="user profile" className="h-6 w-6 rounded-full ml-2" />
+										<img src={currentUser.photoURL} alt="user profile" className="h-8 w-8 rounded-full" />
 									) : (
-										<span className="h-6 w-6 rounded-full ml-2 bg-purp-medium flex justify-center items-center text-xs text-purp-normal">{initials}</span>
+										<span className="h-8 w-8 rounded-full bg-purp-medium flex justify-center items-center text-xs text-purp-normal">{initials}</span>
 									)}
 								</button>
 							</div>
