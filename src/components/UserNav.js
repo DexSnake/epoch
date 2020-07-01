@@ -5,7 +5,7 @@ import { mdiAccount, mdiMonitorDashboard, mdiCalendarPlus, mdiCalendarAccount } 
 import { AuthContext } from '../context/Auth'
 
 const UserNav = () => {
-	const { currentUser, userProfile } = useContext(AuthContext)
+	const { currentUser } = useContext(AuthContext)
 
 	return (
 		<ul>

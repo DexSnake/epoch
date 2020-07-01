@@ -3,7 +3,7 @@ import Layout from '../Layout'
 import EditUserDetails from '../EditUserDetails'
 
 const EditUser = ({ location }) => {
-	const [user, setUser] = useState(location.state.user)
+	const [user] = useState(location.state.user)
 	return (
 		<Layout>
 			<div className="flex max-w-2xl flex-wrap m-10">

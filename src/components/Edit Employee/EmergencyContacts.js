@@ -7,7 +7,7 @@ import Icon from '@mdi/react'
 import { mdiDelete, mdiAccountPlus } from '@mdi/js'
 
 const EmergencyContacts = () => {
-	const { currentUser, employeeProfile, updateEmployeeProfile } = useContext(AuthContext)
+	const { employeeProfile, updateEmployeeProfile } = useContext(AuthContext)
 	const [{ emergencyContacts }, setState] = useState(employeeProfile)
 	const [showRemoveContactModal, setShowRemoveContactModal] = useState(false)
 	const [modalIndex, setModalIndex] = useState(null)

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { storage, functions, db } from '../../firebase/firebase'
 import { AuthContext } from '../../context/Auth'
 import Icon from '@mdi/react'
-import { mdiLoading, mdiCamera } from '@mdi/js'
+import { mdiLoading } from '@mdi/js'
 
 const ChangeProfileImage = () => {
 	const { currentUser } = useContext(AuthContext)

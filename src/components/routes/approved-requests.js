@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../Layout'
 import moment from 'moment'
 import Icon from '@mdi/react'
-import { mdiLoading, mdiCalendar, mdiCalendarMonth } from '@mdi/js'
+import { mdiCalendar, mdiCalendarMonth } from '@mdi/js'
 import { db } from '../../firebase/firebase'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -83,8 +83,11 @@ const ApprovedRequests = () => {
 													Single Day Request
 												</h4>
 												<p className="pb-3">
-													<span className="font-semibold">{request.employee}</span> is requesting off on <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> starting at{' '}
-													<span className="font-semibold">{request.startTime}</span> for a toal of <span className="font-semibold">{request.numberOfHours}</span> hours.
+													<span className="font-semibold">
+														{request.employee.firstName} {request.employee.lastName}
+													</span>{' '}
+													is requesting off on <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> starting at <span className="font-semibold">{request.startTime}</span> for a toal of{' '}
+													<span className="font-semibold">{request.numberOfHours}</span> hours.
 												</p>
 
 												<p>
@@ -105,7 +108,10 @@ const ApprovedRequests = () => {
 													Single-Day Request
 												</h4>
 												<p className="pb-3">
-													<span className="font-semibold">{request.employee}</span> is requesting off starting <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> and ending{' '}
+													<span className="font-semibold">
+														{request.employee.firstName} {request.employee.lastName}
+													</span>{' '}
+													is requesting off starting <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> and ending{' '}
 													<span className="font-semibold">{moment(request.dates[1].toDate()).format('MMMM DD, YYYY')}</span>
 													<span className="font-semibold">{request.startTime}</span> for a toal of <span className="font-semibold">{request.numberOfHours}</span> hours.
 												</p>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { db } from '../../firebase/firebase'
-import { Redirect } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
 

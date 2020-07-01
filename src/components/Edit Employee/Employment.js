@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
 import { AuthContext } from '../../context/Auth'
-import { DateInput, Select, TextInput, Label } from '../FormFields'
+import { Select, TextInput, Label } from '../FormFields'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 

@@ -6,7 +6,7 @@ import UserNav from './UserNav'
 import AdminNav from './AdminNav'
 
 const Layout = (props) => {
-	const { currentUser, userProfile } = useContext(AuthContext)
+	const { currentUser } = useContext(AuthContext)
 	const [showProfileMenu, setShowProfileMenu] = useState(false)
 
 	const matches = currentUser.displayName.match(/\b(\w)/g)
@@ -24,7 +24,7 @@ const Layout = (props) => {
 								<button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex focus:outline-none">
 									<p className="text-purp-light hover:text-white pl-3">{currentUser.displayName}</p>
 									{currentUser.photoURL ? (
-										<img src={currentUser.photoURL} alt="user profile image" className="h-6 w-6 rounded-full ml-2" />
+										<img src={currentUser.photoURL} alt="user profile" className="h-6 w-6 rounded-full ml-2" />
 									) : (
 										<span className="h-6 w-6 rounded-full ml-2 bg-purp-medium flex justify-center items-center text-xs text-purp-normal">{initials}</span>
 									)}

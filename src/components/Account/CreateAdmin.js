@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { functions } from '../../firebase/firebase'
 import { Label, TextInput, EmailInput, Select } from '../FormFields'
 import generatePassword from 'password-generator'

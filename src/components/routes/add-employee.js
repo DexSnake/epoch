@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from '../Layout'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
-import { Label, TextInput, Select, DateInput, ValidationError } from '../FormFields'
+import { Label, TextInput, Select } from '../FormFields'
 import Icon from '@mdi/react'
 import { mdiAccountPlus } from '@mdi/js'
 import { db, functions } from '../../firebase/firebase'
@@ -193,7 +193,6 @@ const AddEmployee = (props) => {
 								showYearDropdown
 								dropdownMode="select"
 								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
-								name="test"
 								selected={dateOfBirth}
 								onChange={(date) => setState((prevState) => ({ ...prevState, dateOfBirth: date }))}
 							/>

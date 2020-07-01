@@ -1,7 +1,4 @@
-import React, { useState } from 'react'
-import { db, functions } from '../firebase/firebase'
-import Icon from '@mdi/react'
-import { mdiLoading } from '@mdi/js'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Employee = ({ employees }) => {

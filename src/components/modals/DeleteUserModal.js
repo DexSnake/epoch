@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { db, functions } from '../../firebase/firebase'
 import { toast } from 'react-toastify'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
-import { Redirect } from 'react-router-dom'
 
 const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 	const [loading, setLoading] = useState(false)

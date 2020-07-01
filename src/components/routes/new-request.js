@@ -35,7 +35,6 @@ const NewRequest = () => {
 	const [disabledDates, setDisabledDates] = useState(calcWeekends(new Date(), addDays(new Date(), 730)))
 	const [toggleWeekends, setToggleWeekends] = useState(false)
 	const [loading, setLoading] = useState(false)
-	const [errors, setErrors] = useState([])
 	const pto = userProfile.pto
 	const sendRequestEmail = functions.httpsCallable('requestNotifications-sendRequestEmail')
 	const sendRequestEmailMulti = functions.httpsCallable('requestNotifications-sendRequestEmailMulti')
@@ -61,7 +60,7 @@ const NewRequest = () => {
 		db.collection('Requests')
 			.add({
 				userId: currentUser.uid,
-				employee: `${userProfile.firstName} ${userProfile.lastName}`,
+				employee: { firstName: userProfile.firstName, lastName: userProfile.lastName, email: userProfile.email },
 				requestType,
 				dates,
 				startTime,

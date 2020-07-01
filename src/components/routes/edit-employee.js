@@ -4,7 +4,6 @@ import Layout from '../Layout'
 import NewEmployeeHeader from '../NewEmployeeHeader'
 import EditEmployeeNav from '../Edit Employee/EditEmployeeNav'
 import { AuthContext } from '../../context/Auth'
-import moment from 'moment'
 
 const NewEditEmployee = (props) => {
 	const data = props.location.state
@@ -26,7 +25,7 @@ const NewEditEmployee = (props) => {
 		return () => {
 			unsubscribe()
 		}
-	}, [])
+	}, [data.id])
 	return (
 		<Layout>
 			<NewEmployeeHeader data={employeeProfile} />

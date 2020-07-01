@@ -34,7 +34,7 @@ const EditRequest = (props) => {
 		return () => {
 			unsubscribe()
 		}
-	}, [])
+	}, [data.id])
 
 	const initalState = {
 		requestType: '',

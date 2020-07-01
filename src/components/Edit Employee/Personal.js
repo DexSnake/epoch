@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
 import { AuthContext } from '../../context/Auth'
-import { DateInput, Select, TextInput, Label } from '../FormFields'
+import { Select, TextInput, Label } from '../FormFields'
 import NumberFormat from 'react-number-format'
 import Icon from '@mdi/react'
 import { mdiEyeMinus, mdiEyeCheck } from '@mdi/js'

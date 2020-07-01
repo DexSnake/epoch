@@ -2,29 +2,23 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../Layout'
 import moment from 'moment'
 import Icon from '@mdi/react'
-import { mdiLoading, mdiCalendar, mdiCalendarMonth } from '@mdi/js'
+import { mdiCalendar, mdiCalendarMonth, mdiArrowLeftRight } from '@mdi/js'
 import { db } from '../../firebase/firebase'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
-import { addDays, differenceInCalendarDays } from 'date-fns'
+import { addDays } from 'date-fns'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Label } from '../FormFields'
 
 const UpcomingRequests = () => {
 	const [requests, setRequests] = useState([])
-	const [loading, setLoading] = useState(false)
-	const [dateRange, setDateRange] = useState(addDays(new Date(), 7))
-
-	const range = differenceInCalendarDays(dateRange, new Date())
-	const dates = addDays(new Date(), range)
+	const [startDate, setStartDate] = useState(new Date())
+	const [endDate, setEndDate] = useState(addDays(new Date(), 60))
 
 	useEffect(() => {
 		const unsubscribe = db
 			.collection('Requests')
 			.where('status', '==', 'approved')
-			.where('startDate', '<=', dates)
 			.onSnapshot((snapshot) => {
 				const newRequests = snapshot.docs.map((doc) => ({
 					id: doc.id,
@@ -35,7 +29,7 @@ const UpcomingRequests = () => {
 		return () => {
 			unsubscribe()
 		}
-	}, [dateRange])
+	}, [])
 
 	return (
 		<Layout>
@@ -43,20 +37,38 @@ const UpcomingRequests = () => {
 				<div className="flex items-baseline mb-6">
 					<div>
 						<h1 className="font-semibold text-3xl text-purp-normal mr-4">Upcoming Requests</h1>
-						<span className="text-xl text-purp-normal">{range > 1 ? `(${range} days out)` : `(${range} day out)`}</span>
 					</div>
-					<DatePicker
-						minDate={addDays(new Date(), 1)}
-						name="range"
-						className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b py-1 px-2 font-semibold text-purp-normal"
-						name="test"
-						selected={dateRange}
-						onChange={(date) => setDateRange(date)}
-					/>
+					<div className="flex items-center text-purp-normal mb-4">
+						<div>
+							<DatePicker
+								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+								name="startDate"
+								showMonthDropdown
+								dropdownMode="select"
+								selected={startDate}
+								onChange={(date) => setStartDate(date)}
+								dateFormat="MMMM d, yyyy"
+							/>
+						</div>
+						<div>
+							<Icon path={mdiArrowLeftRight} size={1} className="mx-3 inline" />
+						</div>
+						<div>
+							<DatePicker
+								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+								name="endDate"
+								showMonthDropdown
+								dropdownMode="select"
+								selected={endDate}
+								onChange={(date) => setEndDate(date)}
+								dateFormat="MMMM d, yyyy"
+							/>
+						</div>
+					</div>
 				</div>
 
 				<div className="flex flex-wrap">
-					{requests.length > 0 ? (
+					{requests.filter((request) => request.startDate.toDate() > startDate && request.startDate.toDate() < endDate).length > 0 ? (
 						requests
 							.sort((a, b) => (a.dates[0] > b.dates[0] ? 1 : -1))
 							.filter((request) => request.dates[0].toDate() > new Date())
@@ -70,8 +82,11 @@ const UpcomingRequests = () => {
 													Single Day Request
 												</h4>
 												<p className="pb-3">
-													<span className="font-semibold">{request.employee}</span> is taking off on <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> starting at{' '}
-													<span className="font-semibold">{request.startTime}</span> for a toal of <span className="font-semibold">{request.numberOfHours}</span> hours.
+													<span className="font-semibold">
+														{request.employee.firstName} {request.employee.lastName}
+													</span>{' '}
+													is taking off on <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> starting at <span className="font-semibold">{request.startTime}</span> for a toal of{' '}
+													<span className="font-semibold">{request.numberOfHours}</span> hours.
 												</p>
 
 												<p>
@@ -89,7 +104,10 @@ const UpcomingRequests = () => {
 													Single-Day Request
 												</h4>
 												<p className="pb-3">
-													<span className="font-semibold">{request.employee}</span> is taking off starting <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> and ending{' '}
+													<span className="font-semibold">
+														{request.employee.firstName} {request.employee.lastName}
+													</span>{' '}
+													is taking off starting <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> and ending{' '}
 													<span className="font-semibold">{moment(request.dates[1].toDate()).format('MMMM DD, YYYY')}</span>
 													<span className="font-semibold">{request.startTime}</span> for a toal of <span className="font-semibold">{request.numberOfHours}</span> hours.
 												</p>
