@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../Layout'
+import Icon from '@mdi/react'
+import { mdiAccountCheck, mdiAccountCancel } from '@mdi/js'
 import Employee from '../Employee'
-import EmployeeDisabled from '../EmployeeDisabled'
 import { db } from '../../firebase/firebase'
 import EmployeeCard from '../skeletons/EmployeeCard'
 
 const Employees = () => {
 	const [employees, setEmployees] = useState(null)
-	const [employeesDisabled, setEmployeesDisabled] = useState([])
+	const [inactiveEmployees, setInactiveEmployees] = useState([])
 	const [requests, setRequests] = useState([])
 
 	useEffect(() => {
 		const unsubscribe = db
 			.collection('Employees')
-			.where('isActive', '==', true)
 			.orderBy('lastName', 'asc')
 			.onSnapshot((snapshot) => {
 				// Get data from Employees collection and assign it avariable
@@ -21,7 +21,8 @@ const Employees = () => {
 					id: doc.id,
 					...doc.data(),
 				}))
-				setEmployees(newEmployees)
+				setEmployees(newEmployees.filter((employee) => employee.isActive === true))
+				setInactiveEmployees(newEmployees.filter((employee) => employee.isActive === false))
 			})
 		return () => {
 			unsubscribe()
@@ -42,28 +43,13 @@ const Employees = () => {
 		}
 	})
 
-	useEffect(() => {
-		const unsubscribe = db
-			.collection('Employees')
-			.where('isActive', '==', false)
-			.orderBy('lastName', 'asc')
-			.onSnapshot((snapshot) => {
-				// Get data from Employees collection and assign it avariable
-				const newEmployees = snapshot.docs.map((doc) => ({
-					id: doc.id,
-					...doc.data(),
-				}))
-				setEmployeesDisabled(newEmployees)
-			})
-		return () => {
-			unsubscribe()
-		}
-	})
-
 	return (
 		<Layout>
 			<div className="p-10">
-				<h2 className="text-3xl text-purp-normal font-semibold pl-3 pb-4">Active Employees</h2>
+				<h1 className="text-3xl text-purp-normal font-semibold mb-4">
+					<Icon path={mdiAccountCheck} size={2.1} className="inline pb-2 mr-1" />
+					Active Employees
+				</h1>
 				<div className="flex flex-wrap">
 					{employees ? (
 						employees.map((employee) => {
@@ -79,12 +65,15 @@ const Employees = () => {
 					)}
 				</div>
 			</div>
-			{employeesDisabled.length > 0 ? (
+			{inactiveEmployees.length > 0 ? (
 				<div className="p-10">
-					<h2 className="text-3xl text-purp-normal font-semibold pl-3 pb-4">Inactive Employees</h2>
-					<div className="flex flex-wrap">
-						<EmployeeDisabled employees={employeesDisabled} requests={requests} />
-					</div>
+					<h1 className="text-3xl text-purp-normal font-semibold mb-4">
+						<Icon path={mdiAccountCancel} size={2.1} className="inline pb-2 mr-1" />
+						Inactive Employees
+					</h1>
+					{inactiveEmployees.map((employee) => {
+						return <Employee data={employee} requests={requests} inactive key={employee.id} />
+					})}
 				</div>
 			) : null}
 		</Layout>

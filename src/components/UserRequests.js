@@ -82,7 +82,7 @@ const UserRequests = () => {
 					requests
 						.filter((request) => (status === 'all' ? request.status !== status : request.status === status))
 						.filter((request) => request.startDate.toDate() > startDate && request.startDate.toDate() < endDate)
-						.sort((a, b) => (a.dates[0] > b.dates[0] ? 1 : -1))
+						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
 							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
 						})

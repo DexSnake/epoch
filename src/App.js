@@ -16,7 +16,6 @@ import AddEmployee from './components/routes/add-employee'
 import Requests from './components/routes/requests'
 import PendingRequests from './components/routes/pending-requests'
 import EditRequest from './components/routes/edit-request'
-import ApprovedRequests from './components/routes/approved-requests'
 import DeniedRequests from './components/routes/denied-requests'
 import TestPage from './components/routes/test'
 import Users from './components/routes/users'
@@ -38,7 +37,6 @@ const App = () => {
 				<PrivateRoute path="/employees/edit/:id" component={EditEmployee} />
 				<PrivateRoute path="/new-request" component={NewRequest} />
 				<PrivateRoute path="/pending-requests" component={PendingRequests} />
-				<PrivateRoute path="/approved-requests" component={ApprovedRequests} />
 				<PrivateRoute path="/upcoming-requests" component={UpcomingRequests} />
 				<PrivateRoute path="/denied-requests" component={DeniedRequests} />
 				<PrivateRoute path="/requests" exact component={Requests} />

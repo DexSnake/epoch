@@ -26,11 +26,11 @@ const MultiRequestLong = ({ request }) => {
 			<div className="flex items-center">
 				<div className="w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">Start Date</p>
-					<p>{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</p>
+					<p>{moment(request.startDate.toDate()).format('MMMM DD, YYYY')}</p>
 				</div>
 				<div className="w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">End Date</p>
-					<p>{moment(request.dates[1].toDate()).format('MMMM DD, YYYY')}</p>
+					<p>{moment(request.endDate.toDate()).format('MMMM DD, YYYY')}</p>
 				</div>
 				<div className="w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">Total Hours</p>

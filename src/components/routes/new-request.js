@@ -51,20 +51,22 @@ const NewRequest = () => {
 		e.preventDefault()
 		setLoading(true)
 		let dates = []
+		let startDate = null
+		let endDate = null
 		if (requestType === 'singleDay') {
-			dates.push(requestDate)
+			startDate = requestDate
 		} else {
-			dates.push(requestDates[0].startDate)
-			dates.push(requestDates[0].endDate)
+			startDate = requestDates[0].startDate
+			endDate = requestDates[0].endDate
 		}
 		db.collection('Requests')
 			.add({
 				userId: currentUser.uid,
 				employee: { firstName: userProfile.firstName, lastName: userProfile.lastName, email: userProfile.email },
 				requestType,
-				dates,
 				startTime,
-				startDate: requestDate,
+				startDate,
+				endDate,
 				numberOfHours: parseInt(numberOfHours),
 				comments,
 				status: 'pending',

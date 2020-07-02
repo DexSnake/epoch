@@ -6,6 +6,7 @@ import Icon from '@mdi/react'
 import { mdiCalendarEdit } from '@mdi/js'
 import { handleApprove } from './handleApprove'
 import { handleDeny } from './handleDeny'
+import { ApproveButton } from '../UI Elements/Buttons'
 
 const SingleRequestLong = ({ request }) => {
 	const { currentUser } = useContext(AuthContext)
@@ -26,7 +27,7 @@ const SingleRequestLong = ({ request }) => {
 			<div className="flex items-center">
 				<div className="w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">Date</p>
-					<p>{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</p>
+					<p>{moment(request.startDate.toDate()).format('MMMM DD, YYYY')}</p>
 				</div>
 				<div className="w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">Start Time</p>
@@ -43,24 +44,14 @@ const SingleRequestLong = ({ request }) => {
 				{currentUser.accessLevel > 0 ? (
 					request.status === 'pending' ? (
 						<div className="w-1/5 px-3 flex justify-end">
-							<button
-								className="ml-1 bg-green-500 hover:bg-green-700 text-white font-semibold text-sm rounded px-3 py-2 transition duration-200 ease"
-								onClick={() => handleApprove(request.id, request.userId, request.numberOfHours, request.employee.firstName, request.employee.email, request.status)}>
-								Approve
-							</button>
+							<ApproveButton onClick={() => handleApprove(request.id, request.userId, request.numberOfHours, request.employee.firstName, request.employee.email, request.status)} />
 							<button className="ml-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
 								Deny
 							</button>
 						</div>
 					) : (
 						<div className="w-1/5 px-3 flex justify-end">
-							{request.status === 'approved' ? null : (
-								<button
-									className="ml-1 bg-green-500 hover:bg-green-700 text-white text-sm font-semibold rounded px-3 py-2 transition duration-200 ease"
-									onClick={() => handleApprove(request.id, request.userId, request.numberOfHours, request.employee.firstName, request.employee.email, request.status)}>
-									Approve
-								</button>
-							)}
+							{request.status === 'approved' ? null : <ApproveButton onClick={() => handleApprove(request.id, request.userId, request.numberOfHours, request.employee.firstName, request.employee.email, request.status)} />}
 						</div>
 					)
 				) : request.status === 'denied' ? null : (

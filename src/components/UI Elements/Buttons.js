@@ -88,3 +88,15 @@ DeleteButton.defaultProps = {
 	loadingText: 'Deleting...',
 	loading: false,
 }
+
+export const ApproveButton = ({ text, onClick }) => {
+	return (
+		<button className="bg-green-500 hover:bg-green-700 text-white font-semibold text-sm rounded px-3 py-2 transition duration-200 ease" onClick={onClick}>
+			{text}
+		</button>
+	)
+}
+
+ApproveButton.defaultProps = {
+	text: 'Approve',
+}

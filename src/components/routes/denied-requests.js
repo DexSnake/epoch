@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../Layout'
-import moment from 'moment'
-import Icon from '@mdi/react'
-import { mdiCalendar, mdiCalendarMonth } from '@mdi/js'
 import { db } from '../../firebase/firebase'
-import { ToastContainer, toast } from 'react-toastify'
+import Icon from '@mdi/react'
+import { mdiCalendarRemove } from '@mdi/js'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
+import SingleRequestShort from 'components/Requests/SingleRequestShort'
+import MultiRequestShort from 'components/Requests/MultiRequestShort'
+import UserRequestShort from 'components/skeletons/UserRequestShort'
+import NothingHere from 'images/nothingHere.svg'
 
 const DeniedRequests = () => {
-	const [requests, setRequests] = useState([])
-	const [loading, setLoading] = useState(false)
-	const [refresh, setRefresh] = useState(false)
+	const [requests, setRequests] = useState(null)
 
 	useEffect(() => {
-		db.collection('Requests')
+		const unsubscribe = db
+			.collection('Requests')
 			.where('status', '==', 'denied')
 			.onSnapshot((snapshot) => {
 				const newRequests = snapshot.docs.map((doc) => ({
@@ -23,116 +24,43 @@ const DeniedRequests = () => {
 				}))
 				setRequests(newRequests)
 			})
-	}, [refresh])
-
-	const handleApprove = (id, userId, numberOfHours) => {
-		setLoading(true)
-		db.collection('Requests')
-			.doc(id)
-			.update({
-				status: 'approved',
-			})
-			.then(() => {
-				db.collection('Employees')
-					.doc(userId)
-					.get()
-					.then((doc) => {
-						db.collection('Employees')
-							.doc(userId)
-							.update({
-								pto: {
-									availableHours: doc.data().pto.availableHours - numberOfHours,
-									pendingHours: doc.data().pto.pendingHours,
-									usedHours: doc.data().pto.usedHours + numberOfHours,
-								},
-							})
-							.then(() => {
-								toast.success('Request Approved!')
-								setLoading(false)
-								setRefresh(!refresh)
-							})
-							.catch((err) => {
-								alert(err)
-							})
-					})
-					.catch((err) => {
-						alert(err)
-					})
-			})
-			.catch((err) => {
-				alert(err)
-			})
-	}
+		return () => {
+			unsubscribe()
+		}
+	}, [])
 
 	return (
 		<Layout>
 			<div className="m-10">
-				<h1 className="font-semibold pb-2 text-3xl text-purp-normal mb-4">Denied Requests</h1>
+				<h1 className="font-semibold pb-2 text-3xl text-purp-normal mb-4">
+					<Icon path={mdiCalendarRemove} size={2} className="inline pb-1 mr-1" />
+					Denied Requests
+				</h1>
 				<div className="flex flex-wrap">
-					{requests.length > 0 ? (
-						requests
-							.sort((a, b) => (a.dates[0] > b.dates[0] ? 1 : -1))
-							.map((request) => {
-								return request.requestType === 'singleDay' ? (
-									<div className="w-1/3 px-3" key={request.id}>
-										<div className="bg-white shadow-lg rounded mb-3 text-purp-normal" key={request.id}>
-											<div className="p-6">
-												<h4 className="font-semibold text-purp-medium pb-4 text-xl uppercase">
-													<Icon path={mdiCalendar} size={1} className="inline mr-2" />
-													Single Day Request
-												</h4>
-												<p className="pb-3">
-													<span className="font-semibold">
-														{request.employee.firstName} {request.employee.lastName}
-													</span>{' '}
-													is requesting off on <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> starting at <span className="font-semibold">{request.startTime}</span> for a toal of{' '}
-													<span className="font-semibold">{request.numberOfHours}</span> hours.
-												</p>
-
-												<p>
-													Their comments are: <span className="font-semibold">{request.comments}</span>
-												</p>
-											</div>
-											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
-												<SubmitButtonWithLoader text="Change to Approved" loadingText="Changing..." color="green" loading={loading} onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)} />
-											</div>
-										</div>
-									</div>
-								) : (
-									<div className="w-1/3 px-3" key={request.id}>
-										<div className="bg-white shadow-lg rounded mb-3 text-purp-normal" key={request.id}>
-											<div className="p-6">
-												<h4 className="font-semibold text-purp-medium pb-4 text-xl uppercase">
-													<Icon path={mdiCalendarMonth} size={1} className="inline mr-2" />
-													Multi-Day Request
-												</h4>
-												<p className="pb-3">
-													<span className="font-semibold">
-														{request.employee.firstName} {request.employee.lastName}
-													</span>{' '}
-													is requesting off starting <span className="font-semibold">{moment(request.dates[0].toDate()).format('MMMM DD, YYYY')}</span> and ending{' '}
-													<span className="font-semibold">{moment(request.dates[1].toDate()).format('MMMM DD, YYYY')}</span>
-													<span className="font-semibold">{request.startTime}</span> for a toal of <span className="font-semibold">{request.numberOfHours}</span> hours.
-												</p>
-
-												<p>
-													Their comments are: <span className="font-semibold">{request.comments}</span>
-												</p>
-											</div>
-											<div className="bg-purp-lightest px-6 py-4 flex justify-end">
-												<SubmitButtonWithLoader text="Change to Approved" loadingText="Changing..." color="green" loading={loading} onClick={() => handleApprove(request.id, request.userId, request.numberOfHours)} />
-											</div>
-										</div>
-									</div>
-								)
-							})
+					{requests ? (
+						requests.length > 0 ? (
+							requests
+								.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
+								.map((request) => {
+									return request.requestType === 'singleDay' ? <SingleRequestShort request={request} key={request.id} footer /> : <MultiRequestShort request={request} key={request.id} footer />
+								})
+						) : (
+							<div className="max-w-xl w-full mx-auto">
+								<p className="text-purp-medium font-semibold text-center text-2xl">
+									Nothing Here. Good Job Boss!{' '}
+									<span role="img" aria-label="celebrate emoji">
+										🥳
+									</span>
+								</p>
+								<img src={NothingHere} alt="nothing here" className="opacity-50" />
+							</div>
+						)
 					) : (
-						<p className="text-purp-medium font-semibold">
-							No Denied Requests! Good Job Boss!{' '}
-							<span role="img" aria-label="celebrate emoji">
-								🎉
-							</span>
-						</p>
+						<>
+							<UserRequestShort />
+							<UserRequestShort />
+							<UserRequestShort />
+						</>
 					)}
 				</div>
 				<ToastContainer position="top-center" autoClose={2000} />

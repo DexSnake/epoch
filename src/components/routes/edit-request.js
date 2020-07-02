@@ -24,8 +24,8 @@ const EditRequest = (props) => {
 			.onSnapshot((doc) => {
 				const request = {
 					...doc.data(),
-					requestDate: doc.data().dates[0].toDate(),
-					requestDates: [{ startDate: doc.data().dates[0].toDate(), endDate: doc.data().dates[1] ? doc.data().dates[1].toDate() : null, key: 'selection' }],
+					requestDate: doc.data().startDate.toDate(),
+					requestDates: [{ startDate: doc.data().startDate.toDate(), endDate: doc.data().endDate ? doc.data().endDate.toDate() : null, key: 'selection' }],
 				}
 				setRequest(request)
 				setState(request)

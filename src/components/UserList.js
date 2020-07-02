@@ -47,7 +47,7 @@ const UserList = ({ currentUser }) => {
 							const initials = matches.join('')
 							return (
 								<tr key={user.uid} className="bg-white hover:bg-purp-lightest">
-									<td className="pl-2 py-2 flex flex items-center">
+									<td className="pl-2 py-2 flex items-center">
 										{user.photoURL ? (
 											<img src={user.photoURL} alt="user profile image" className="h-10 w-10 rounded-full ml-2" />
 										) : (

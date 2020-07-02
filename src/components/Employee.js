@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Employee = ({ data, requests }) => {
+const Employee = ({ data, requests, inactive }) => {
 	return (
 		<div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3 pb-6">
-			<div className="flex flex-col items-center rounded text-center p-4 bg-white shadow-lg relative">
+			<div className={`flex flex-col items-center rounded text-center p-4 bg-white shadow-lg hover:shadow-xl transition duration-200 ease relative ${inactive ? 'opacity-50' : 'opacity-100'}`}>
 				<Link
 					to={{
 						pathname: `/employees/edit/${data.id}`,

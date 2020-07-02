@@ -26,6 +26,18 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 							toast.success('User Removed')
 						}
 					})
+					.then(() => {
+						db.collection('Requests')
+							.where('userId', '==', uid)
+							.get()
+							.then((snapshot) => {
+								const batch = db.batch()
+								snapshot.forEach((doc) => {
+									batch.delete(doc.ref)
+								})
+								return batch.commit()
+							})
+					})
 					.catch((error) => {
 						toast.error(error.message)
 					})

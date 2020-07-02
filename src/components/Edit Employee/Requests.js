@@ -17,7 +17,7 @@ const Requests = () => {
 	const [requests, setRequests] = useState([])
 	const [startDate, setStartDate] = useState(new Date())
 	const [endDate, setEndDate] = useState(addDays(new Date(), 60))
-	const [{ firstName }, setState] = useState(employeeProfile)
+	const [{ firstName, id }, setState] = useState(employeeProfile)
 
 	useEffect(() => {
 		setState(employeeProfile)
@@ -27,9 +27,9 @@ const Requests = () => {
 	}, [employeeProfile, isLoaded])
 
 	useEffect(() => {
-		if (isLoaded) {
+		if (isLoaded && id) {
 			db.collection('Requests')
-				.where('userId', '==', employeeProfile.id)
+				.where('userId', '==', id)
 				.onSnapshot((snapshot) => {
 					const requests = snapshot.docs.map((doc) => ({
 						id: doc.id,
@@ -74,7 +74,7 @@ const Requests = () => {
 				{requests.filter((request) => request.status === 'pending' && request.startDate.toDate() >= startDate && request.startDate.toDate() <= endDate).length > 0 ? (
 					requests
 						.filter((request) => request.status === 'pending')
-						.sort((a, b) => (a.dates[1] > b.dates[1] ? 1 : -1))
+						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
 							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
 						})
@@ -87,7 +87,7 @@ const Requests = () => {
 				{requests.filter((request) => request.status === 'approved' && request.startDate.toDate() >= startDate && request.startDate.toDate() <= endDate).length > 0 ? (
 					requests
 						.filter((request) => request.status === 'approved')
-						.sort((a, b) => (a.dates[1] > b.dates[1] ? 1 : -1))
+						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
 							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
 						})
@@ -100,7 +100,7 @@ const Requests = () => {
 				{requests.filter((request) => request.status === 'denied' && request.startDate.toDate() >= startDate && request.startDate.toDate() <= endDate).length > 0 ? (
 					requests
 						.filter((request) => request.status === 'denied')
-						.sort((a, b) => (a.dates[1] > b.dates[1] ? 1 : -1))
+						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
 							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
 						})
