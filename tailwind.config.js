@@ -19,6 +19,22 @@ module.exports = {
 			'35': '35px',
 			'6r': '6rem',
 		},
+		scale: {
+			'0': '0',
+			'10': '.10',
+			'20': '.20',
+			'25': '.25',
+			'50': '.5',
+			'75': '.75',
+			'90': '.9',
+			'95': '.95',
+			'100': '1',
+			'105': '1.05',
+			'110': '1.1',
+			'125': '1.25',
+			'150': '1.5',
+			'200': '2',
+		},
 		extend: {
 			colors: {
 				purp: {
@@ -39,6 +55,7 @@ module.exports = {
 		backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
 		cursor: ['responsive,', 'hover', 'focus', 'disabled'],
 		padding: ['responsive', 'hover', 'focus', 'disabled'],
+		margin: ['responsive', 'hover', 'focus', 'disabled', 'first', 'last'],
 	},
 	plugins: [],
 }

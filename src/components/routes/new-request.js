@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import Layout from '../Layout'
+import Layout from 'components/Layout/Layout'
 import Icon from '@mdi/react'
 import { mdiCalendarPlus, mdiLoading } from '@mdi/js'
 import { Label, Select, NumberInput, TextArea } from '../FormFields'
@@ -50,7 +50,6 @@ const NewRequest = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		let dates = []
 		let startDate = null
 		let endDate = null
 		if (requestType === 'singleDay') {

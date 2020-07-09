@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import Layout from '../Layout'
+import Layout from 'components/Layout/Layout'
 import Icon from '@mdi/react'
 import { mdiCalendarEdit } from '@mdi/js'
 import { Label, Select, NumberInput, TextArea } from '../FormFields'

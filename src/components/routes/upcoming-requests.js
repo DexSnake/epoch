@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../Layout'
+import Layout from 'components/Layout/Layout'
 import Icon from '@mdi/react'
 import { mdiArrowLeftRight, mdiCalendarCheck } from '@mdi/js'
 import { db } from '../../firebase/firebase'

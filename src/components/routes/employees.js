@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Layout from '../Layout'
+import Layout from 'components/Layout/Layout'
 import Icon from '@mdi/react'
 import { mdiAccountCheck, mdiAccountCancel } from '@mdi/js'
 import Employee from '../Employee'

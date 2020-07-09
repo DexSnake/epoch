@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import Layout from '../Layout'
+import Layout from 'components/Layout/Layout'
 import ChangePassword from '../Account/ChangePassword'
 import CreateAdmin from '../Account/CreateAdmin'
 import ChangeProfileImage from '../Account/ChangeProfileImage'

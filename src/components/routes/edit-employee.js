@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { db } from '../../firebase/firebase'
-import Layout from '../Layout'
+import Layout from 'components/Layout/Layout'
 import NewEmployeeHeader from '../NewEmployeeHeader'
 import EditEmployeeNav from '../Edit Employee/EditEmployeeNav'
 import { AuthContext } from '../../context/Auth'

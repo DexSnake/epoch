@@ -38,7 +38,7 @@ const Requests = () => {
 					setRequests(requests)
 				})
 		}
-	}, [employeeProfile, isLoaded])
+	}, [employeeProfile, isLoaded, id])
 
 	return (
 		<React.Fragment>

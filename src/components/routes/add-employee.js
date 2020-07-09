@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Layout from '../Layout'
+import Layout from 'components/Layout/Layout'
 import EmployeeInfoContainer from '../EmployeeInfoContainer'
 import { Label, TextInput, Select } from '../FormFields'
 import Icon from '@mdi/react'

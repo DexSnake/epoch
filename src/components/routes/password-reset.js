@@ -43,7 +43,7 @@ const PasswordReset = () => {
 		<div className="flex flex-col min-h-screen">
 			<header>
 				<div className="mx-auto bg-purp-dark py-3 px-6 flex justify-between">
-					<img src={logo} style={{ height: 35 }} />
+					<img src={logo} style={{ height: 35 }} alt="epoch logo" />
 				</div>
 			</header>
 			<main className="flex flex-grow items-center bg-purp-lightest flex-col">
