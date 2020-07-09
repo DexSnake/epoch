@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@mdi/react'
 import {
 	mdiAccountPlusOutline,
 	mdiAccountGroupOutline,
@@ -10,7 +11,7 @@ import DashboardButton from './DashboardButton'
 
 const AdminDashboard = () => {
 	return (
-		<>
+		<div className="max-w-6xl mx-auto">
 			<div className="flex flex-wrap mx-10 my-10">
 				<div className="w-1/4 px-3">
 					<DashboardButton link="/employees" icon={mdiAccountGroupOutline} text="Employee List" />
@@ -28,7 +29,7 @@ const AdminDashboard = () => {
 					<DashboardButton link="/denied-requests" icon={mdiCalendarRemove} text="Denied Requests" />
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 

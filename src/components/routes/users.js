@@ -7,7 +7,7 @@ const Users = () => {
 	const { currentUser } = useContext(AuthContext)
 	return (
 		<Layout>
-			<div className="m-10 max-w-6xl">
+			<div className="my-10 max-w-6xl mx-auto">
 				<UserList currentUser={currentUser} />
 			</div>
 		</Layout>

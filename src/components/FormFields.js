@@ -19,6 +19,7 @@ export const TextInput = (props) => (
 		placeholder={props.placeholder}
 		onChange={props.onChange}
 		required={props.required}
+		ref={props.validation}
 		className={`w-full text-purp-normal font-semibold border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${
 			props.className ? props.className : ''
 		}`}
@@ -33,6 +34,7 @@ export const EmailInput = (props) => (
 		placeholder={props.placeholder}
 		onChange={props.onChange}
 		required={props.required}
+		ref={props.validation}
 		className={`w-full text-purp-normal font-semibold border-b pb-1 focus:outline-none focus:border-purp-bright px-2 disabled:bg-white disabled:text-purp-medium ${
 			props.className ? props.className : ''
 		}`}
@@ -78,6 +80,7 @@ export const PasswordInput = (props) => (
 		placeholder={props.placeholder}
 		onChange={props.onChange}
 		required={props.required}
+		ref={props.validation}
 		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white ${
 			props.className ? props.className : ''
 		}`}
@@ -93,6 +96,7 @@ export const TextArea = (props) => (
 		placeholder={props.placeholder}
 		onChange={props.onChange}
 		required={props.required}
+		ref={props.validation}
 		className={`w-full text-purp-normal font-semibold focus:outline-none focus:border-purp-bright border-b pb-1 px-2 disabled:bg-white disabled:text-purp-medium ${
 			props.className ? props.className : ''
 		}`}
@@ -106,6 +110,7 @@ export const Select = (props) => (
 		onChange={props.onChange}
 		required={props.required}
 		disabled={props.disabled}
+		ref={props.validation}
 		style={{
 			backgroundImage:
 				'url(https://firebasestorage.googleapis.com/v0/b/kstg-6225.appspot.com/o/images%2Fchevron-down.svg?alt=media&token=b9079f2a-0432-4e54-b26a-60d20d3e5f88)',
@@ -119,5 +124,5 @@ export const Select = (props) => (
 )
 
 export const ValidationError = (props) => {
-	return <span className="text-red-500 text-sm font-semibold">{props.fieldName} is required</span>
+	return <span className="text-red-500 text-sm font-semibold block">{props.children}</span>
 }

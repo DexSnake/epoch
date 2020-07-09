@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext } from 'context/Auth'
-import UserNav from 'components/UserNav'
-import AdminNav from 'components/AdminNav'
+import UserNav from 'components/SideNav/UserNav'
+import AdminNav from 'components/SideNav/AdminNav'
 import AccountNav from './AccountNav/AccountNav'
 import Header from './Header'
 
