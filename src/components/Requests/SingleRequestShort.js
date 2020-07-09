@@ -27,7 +27,11 @@ const SingleRequestShort = ({ request, footer }) => {
 						<span className="font-semibold">
 							{request.employee.firstName} {request.employee.lastName}
 						</span>{' '}
-						is requesting off on <span className="font-semibold">{moment(request.startDate.toDate()).format('MMMM DD, YYYY')}</span> starting at <span className="font-semibold">{request.startTime}</span> for a toal of{' '}
+						is requesting off on{' '}
+						<span className="font-semibold">
+							{moment(request.startDate.toDate()).format('MMMM DD, YYYY')}
+						</span>{' '}
+						starting at <span className="font-semibold">{request.startTime}</span> for a toal of{' '}
 						<span className="font-semibold">{request.numberOfHours}</span> hours.
 					</p>
 
@@ -38,11 +42,25 @@ const SingleRequestShort = ({ request, footer }) => {
 				{footer ? (
 					<div className="bg-purp-lightest px-6 py-3 flex justify-end">
 						{request.status === 'pending' ? (
-							<button className="mr-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+							<button
+								className="mr-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease"
+								onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}
+							>
 								Deny
 							</button>
 						) : null}
-						<ApproveButton onClick={() => handleApprove(request.id, request.userId, request.numberOfHours, request.employee.firstName, request.employee.email, request.status)} />
+						<ApproveButton
+							onClick={() =>
+								handleApprove(
+									request.id,
+									request.userId,
+									request.numberOfHours,
+									request.employee.firstName,
+									request.employee.email,
+									request.status
+								)
+							}
+						/>
 					</div>
 				) : null}
 			</div>

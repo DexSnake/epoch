@@ -25,7 +25,12 @@ const Update = () => {
 
 	return (
 		<React.Fragment>
-			<SubmitButtonWithLoader text="Update Profile" loadingText="Updating..." loading={loading} onClick={handleUpdate} />
+			<SubmitButtonWithLoader
+				text="Update Profile"
+				loadingText="Updating..."
+				loading={loading}
+				onClick={handleUpdate}
+			/>
 			<ToastContainer position="top-center" autoClose={2000} />
 		</React.Fragment>
 	)

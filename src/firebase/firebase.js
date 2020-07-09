@@ -12,7 +12,7 @@ const firebaseConfig = {
 	storageBucket: 'kstg-6225.appspot.com',
 	messagingSenderId: '127304247581',
 	appId: '1:127304247581:web:0be49bc6fa771c8cd719f4',
-	measurementId: 'G-SH0TY3JJSP',
+	measurementId: 'G-SH0TY3JJSP'
 }
 
 firebase.initializeApp(firebaseConfig)

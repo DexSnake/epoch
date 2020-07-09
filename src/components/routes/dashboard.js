@@ -6,7 +6,15 @@ import UserDashboard from '../UserDashboard'
 
 const Dashboard = () => {
 	const { userProfile, currentUser } = useContext(AuthContext)
-	return <Layout>{currentUser.accessLevel > 0 ? <AdminDashboard userProfile={userProfile} /> : <UserDashboard userProfile={userProfile} />}</Layout>
+	return (
+		<Layout>
+			{currentUser.accessLevel > 0 ? (
+				<AdminDashboard userProfile={userProfile} />
+			) : (
+				<UserDashboard userProfile={userProfile} />
+			)}
+		</Layout>
+	)
 }
 
 export default Dashboard

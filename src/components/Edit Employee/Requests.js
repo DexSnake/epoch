@@ -33,7 +33,7 @@ const Requests = () => {
 				.onSnapshot((snapshot) => {
 					const requests = snapshot.docs.map((doc) => ({
 						id: doc.id,
-						...doc.data(),
+						...doc.data()
 					}))
 					setRequests(requests)
 				})
@@ -71,12 +71,21 @@ const Requests = () => {
 					</div>
 				</div>
 				<p className="uppercase text-purp-normal font-semibold mb-5">Pending Requests</p>
-				{requests.filter((request) => request.status === 'pending' && request.startDate.toDate() >= startDate && request.startDate.toDate() <= endDate).length > 0 ? (
+				{requests.filter(
+					(request) =>
+						request.status === 'pending' &&
+						request.startDate.toDate() >= startDate &&
+						request.startDate.toDate() <= endDate
+				).length > 0 ? (
 					requests
 						.filter((request) => request.status === 'pending')
 						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
-							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
+							return request.requestType === 'singleDay' ? (
+								<SingleRequestLong request={request} key={request.id} />
+							) : (
+								<MultiRequestLong request={request} key={request.id} />
+							)
 						})
 				) : (
 					<p className="text-purp-medium font-semibold">{firstName} does not have any pending requests.</p>
@@ -84,12 +93,21 @@ const Requests = () => {
 			</div>
 			<div className="px-10 pt-8">
 				<p className="uppercase text-purp-normal font-semibold mb-5">Approved Requests</p>
-				{requests.filter((request) => request.status === 'approved' && request.startDate.toDate() >= startDate && request.startDate.toDate() <= endDate).length > 0 ? (
+				{requests.filter(
+					(request) =>
+						request.status === 'approved' &&
+						request.startDate.toDate() >= startDate &&
+						request.startDate.toDate() <= endDate
+				).length > 0 ? (
 					requests
 						.filter((request) => request.status === 'approved')
 						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
-							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
+							return request.requestType === 'singleDay' ? (
+								<SingleRequestLong request={request} key={request.id} />
+							) : (
+								<MultiRequestLong request={request} key={request.id} />
+							)
 						})
 				) : (
 					<p className="text-purp-medium font-semibold">{firstName} does not have any approved requests.</p>
@@ -97,12 +115,21 @@ const Requests = () => {
 			</div>
 			<div className="px-10 pt-8 mb-10">
 				<p className="uppercase text-purp-normal font-semibold mb-5">Denied Requests</p>
-				{requests.filter((request) => request.status === 'denied' && request.startDate.toDate() >= startDate && request.startDate.toDate() <= endDate).length > 0 ? (
+				{requests.filter(
+					(request) =>
+						request.status === 'denied' &&
+						request.startDate.toDate() >= startDate &&
+						request.startDate.toDate() <= endDate
+				).length > 0 ? (
 					requests
 						.filter((request) => request.status === 'denied')
 						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
-							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
+							return request.requestType === 'singleDay' ? (
+								<SingleRequestLong request={request} key={request.id} />
+							) : (
+								<MultiRequestLong request={request} key={request.id} />
+							)
 						})
 				) : (
 					<p className="text-purp-medium font-semibold">{firstName} does not have any denied requests.</p>

@@ -19,7 +19,7 @@ const Employees = () => {
 				// Get data from Employees collection and assign it avariable
 				const newEmployees = snapshot.docs.map((doc) => ({
 					id: doc.id,
-					...doc.data(),
+					...doc.data()
 				}))
 				setEmployees(newEmployees.filter((employee) => employee.isActive === true))
 				setInactiveEmployees(newEmployees.filter((employee) => employee.isActive === false))
@@ -34,7 +34,7 @@ const Employees = () => {
 			// Get data from Employees collection and assign it avariable
 			const newRequests = snapshot.docs.map((doc) => ({
 				id: doc.id,
-				...doc.data(),
+				...doc.data()
 			}))
 			setRequests(newRequests)
 		})

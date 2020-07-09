@@ -10,7 +10,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const Personal = () => {
 	const { currentUser, employeeProfile, updateEmployeeProfile } = useContext(AuthContext)
-	const [{ firstName, middleName, lastName, dateOfBirth, ssn, gender, ethnicity, maritalStatus }, setState] = useState(employeeProfile)
+	const [
+		{ firstName, middleName, lastName, dateOfBirth, ssn, gender, ethnicity, maritalStatus },
+		setState
+	] = useState(employeeProfile)
 	const [showSsn, setShowSsn] = useState(false)
 
 	const data = { firstName, middleName, lastName, dateOfBirth, ssn, gender, ethnicity, maritalStatus }
@@ -39,15 +42,30 @@ const Personal = () => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="First Name" htmlFor="firstName" />
-							<TextInput name="firstName" disabled={!currentUser.accessLevel > 0} value={firstName || ''} onChange={handleChange} />
+							<TextInput
+								name="firstName"
+								disabled={!currentUser.accessLevel > 0}
+								value={firstName || ''}
+								onChange={handleChange}
+							/>
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Middle Name" htmlFor="middleName" />
-							<TextInput name="middleName" disabled={!currentUser.accessLevel > 0} value={middleName || ''} onChange={handleChange} />
+							<TextInput
+								name="middleName"
+								disabled={!currentUser.accessLevel > 0}
+								value={middleName || ''}
+								onChange={handleChange}
+							/>
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Last Name" htmlFor="lastName" />
-							<TextInput name="lastName" disabled={!currentUser.accessLevel > 0} value={lastName || ''} onChange={handleChange} />
+							<TextInput
+								name="lastName"
+								disabled={!currentUser.accessLevel > 0}
+								value={lastName || ''}
+								onChange={handleChange}
+							/>
 						</div>
 					</div>
 				</div>
@@ -80,7 +98,13 @@ const Personal = () => {
 							) : (
 								<TextInput name="ssn" disabled value="XXX-XX-XXXX" />
 							)}
-							<Icon path={showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer absolute right-20" onClick={() => setShowSsn(!showSsn)} />
+							<Icon
+								path={showSsn ? mdiEyeMinus : mdiEyeCheck}
+								size={1}
+								color="#414255"
+								className="pb-1 inline ml-2 cursor-pointer absolute right-20"
+								onClick={() => setShowSsn(!showSsn)}
+							/>
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Gender" htmlFor="gender" />

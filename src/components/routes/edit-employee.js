@@ -18,7 +18,7 @@ const NewEditEmployee = (props) => {
 					id: doc.id,
 					...doc.data(),
 					startDate: doc.data().startDate.toDate(),
-					dateOfBirth: doc.data().dateOfBirth.toDate(),
+					dateOfBirth: doc.data().dateOfBirth.toDate()
 				}
 				setProfile(profile)
 			})

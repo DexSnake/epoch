@@ -61,14 +61,18 @@ const NewRequest = () => {
 		db.collection('Requests')
 			.add({
 				userId: currentUser.uid,
-				employee: { firstName: userProfile.firstName, lastName: userProfile.lastName, email: userProfile.email },
+				employee: {
+					firstName: userProfile.firstName,
+					lastName: userProfile.lastName,
+					email: userProfile.email
+				},
 				requestType,
 				startTime,
 				startDate,
 				endDate,
 				numberOfHours: parseInt(numberOfHours),
 				comments,
-				status: 'pending',
+				status: 'pending'
 			})
 			.then((doc) => {
 				db.collection('Employees')
@@ -77,19 +81,25 @@ const NewRequest = () => {
 						pto: {
 							availableHours: pto.availableHours,
 							pendingHours: pto.pendingHours + parseInt(numberOfHours),
-							usedHours: pto.usedHours,
-						},
+							usedHours: pto.usedHours
+						}
 					})
 					.then(() => {
 						if (requestType === 'singleDay') {
-							sendRequestEmail({ firstName: userProfile.firstName, requestDate: moment(requestDate).format('MMMM DD, YYYY').toString(), totalHours: numberOfHours, startTime: startTime, comments: comments })
+							sendRequestEmail({
+								firstName: userProfile.firstName,
+								requestDate: moment(requestDate).format('MMMM DD, YYYY').toString(),
+								totalHours: numberOfHours,
+								startTime: startTime,
+								comments: comments
+							})
 						} else {
 							sendRequestEmailMulti({
 								firstName: userProfile.firstName,
 								startDate: moment(requestDates[0].startDate).format('MMMM DD, YYYY').toString(),
 								endDate: moment(requestDates[0].endDate).format('MMMM DD, YYYY').toString(),
 								totalHours: numberOfHours,
-								comments: comments,
+								comments: comments
 							})
 						}
 						setLoading(false)
@@ -117,11 +127,22 @@ const NewRequest = () => {
 					<div className="flex flex-wrap">
 						<div className="w-1/2 px-3 mb-5">
 							<Label name="Single Day" htmlFor="dayType" className="mr-2" />
-							<input type="radio" defaultChecked value="singleDay" name="dayType" onChange={(e) => setRequestType(e.target.value)} />
+							<input
+								type="radio"
+								defaultChecked
+								value="singleDay"
+								name="dayType"
+								onChange={(e) => setRequestType(e.target.value)}
+							/>
 						</div>
 						<div className="w-1/2 px-3 mb-5">
 							<Label name="Multi-Day" htmlFor="dayType" className="mr-2" />
-							<input type="radio" value="multiDay" name="dayType" onChange={(e) => setRequestType(e.target.value)} />
+							<input
+								type="radio"
+								value="multiDay"
+								name="dayType"
+								onChange={(e) => setRequestType(e.target.value)}
+							/>
 						</div>
 
 						<div className="w-full mb-5">
@@ -130,29 +151,60 @@ const NewRequest = () => {
 									<>
 										<Label name="Date Requested" htmlFor="dateRequested" />
 										<div className="w-full flex items-center mt-3">
-											<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
+											<div
+												className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${
+													toggleWeekends ? 'bg-green-400' : 'bg-gray-400'
+												}`}
+											>
 												<label
 													htmlFor="toggle"
 													className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
-														toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
-													}`}></label>
-												<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+														toggleWeekends
+															? 'translate-x-full border-green-400'
+															: 'translate-x-0 border-gray-400'
+													}`}
+												></label>
+												<input
+													type="checkbox"
+													id="toggle"
+													name="toggle"
+													className="appearance-none w-full h-full active:outline-none focus:outline-none"
+													onChange={() => setToggleWeekends(!toggleWeekends)}
+												/>
 											</div>
 											<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
 										</div>
-										<Calendar disabledDates={disabledDates} date={requestDate} minDate={new Date()} onChange={(requestDate) => setRequestDate(requestDate)} />
+										<Calendar
+											disabledDates={disabledDates}
+											date={requestDate}
+											minDate={new Date()}
+											onChange={(requestDate) => setRequestDate(requestDate)}
+										/>
 									</>
 								) : (
 									<>
 										<Label name="Dates Requested" htmlFor="dateRequested" />
 										<div className="w-full flex items-center mt-3 mb-3">
-											<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
+											<div
+												className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${
+													toggleWeekends ? 'bg-green-400' : 'bg-gray-400'
+												}`}
+											>
 												<label
 													htmlFor="toggle"
 													className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
-														toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
-													}`}></label>
-												<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+														toggleWeekends
+															? 'translate-x-full border-green-400'
+															: 'translate-x-0 border-gray-400'
+													}`}
+												></label>
+												<input
+													type="checkbox"
+													id="toggle"
+													name="toggle"
+													className="appearance-none w-full h-full active:outline-none focus:outline-none"
+													onChange={() => setToggleWeekends(!toggleWeekends)}
+												/>
 											</div>
 											<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
 										</div>
@@ -173,7 +225,11 @@ const NewRequest = () => {
 							<>
 								<div className="w-1/2 mb-5 px-3">
 									<Label name="Start Time" htmlFor="startTime" />
-									<Select name="startTime" value={startTime} onChange={(e) => setStartTime(e.target.value)}>
+									<Select
+										name="startTime"
+										value={startTime}
+										onChange={(e) => setStartTime(e.target.value)}
+									>
 										<option defaultValue value=""></option>
 										<option value="7:00 AM">7:00 AM</option>
 										<option value="7:30 AM">7:30 AM</option>
@@ -204,21 +260,41 @@ const NewRequest = () => {
 								</div>
 								<div className="w-1/2 mb-5 px-3">
 									<Label name="Total Hours" htmlFor="numberOfHours" />
-									<NumberInput name="numberOfHours" min="1" max="8" value={numberOfHours} onChange={(e) => setNumberOfHours(e.target.value)} />
+									<NumberInput
+										name="numberOfHours"
+										min="1"
+										max="8"
+										value={numberOfHours}
+										onChange={(e) => setNumberOfHours(e.target.value)}
+									/>
 								</div>
 							</>
 						) : (
 							<div className="w-full mb-5 px-3">
 								<Label name="Total Hours" htmlFor="numberOfHours" />
-								<NumberInput name="numberOfHours" min="1" value={numberOfHours} onChange={(e) => setNumberOfHours(e.target.value)} />
+								<NumberInput
+									name="numberOfHours"
+									min="1"
+									value={numberOfHours}
+									onChange={(e) => setNumberOfHours(e.target.value)}
+								/>
 							</div>
 						)}
 						<div className="w-full mb-5 px-3">
 							<Label name="Comments" htmlFor="comments" />
-							<TextArea name="comments" rows="2" value={comments} onChange={(e) => setComments(e.target.value)} />
+							<TextArea
+								name="comments"
+								rows="2"
+								value={comments}
+								onChange={(e) => setComments(e.target.value)}
+							/>
 						</div>
 						<div>
-							<button onClick={handleSubmit} type="submit" className="bg-purp-brightest hover:bg-purp-bright transition rounded duration-200 ease-in-out focus:outline-none text-white block w-full px-8 py-2 font-semibold">
+							<button
+								onClick={handleSubmit}
+								type="submit"
+								className="bg-purp-brightest hover:bg-purp-bright transition rounded duration-200 ease-in-out focus:outline-none text-white block w-full px-8 py-2 font-semibold"
+							>
 								{loading ? <Icon path={mdiLoading} spin={(true, 1)} size={1} /> : 'Submit Request'}
 							</button>
 						</div>

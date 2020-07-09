@@ -36,7 +36,10 @@ const SignUp = ({ history }) => {
 							password
 						</label>
 						<input type="password" name="password" className="border border-purp-light p-2 mb-5" />
-						<button type="submit" className="bg-purp-brightest hover:bg-purp-bright text-white block w-full px-8 py-2 font-semibold">
+						<button
+							type="submit"
+							className="bg-purp-brightest hover:bg-purp-bright text-white block w-full px-8 py-2 font-semibold"
+						>
 							Sign In
 						</button>
 					</form>

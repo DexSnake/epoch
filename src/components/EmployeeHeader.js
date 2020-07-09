@@ -10,7 +10,11 @@ const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
 		<div className="bg-white pb-6 pt-8 px-8 flex">
 			<div className="w-40 mx-2 relative">
 				{data.imageUrl ? (
-					<img src={data.imageUrl} alt="employee headshot" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
+					<img
+						src={data.imageUrl}
+						alt="employee headshot"
+						className="rounded-full h-32 w-32 mb-3 border-purp-light border-4"
+					/>
 				) : (
 					<div className="rounded-full bg-purp-light h-32 w-32 mb-3 flex items-center justify-center">
 						<span className="font-semibold text-2xl text-purp-normal">
@@ -21,10 +25,18 @@ const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
 				)}
 				<div className="absolute" style={{ bottom: 50, right: 50 }}>
 					<div className="relative">
-						<label htmlFor="profileImage" className="text-purp-normal absolute flex items-center justify-center shadow left-0 top-0 h-8 w-8 bg-white hover:text-purp-lightest rounded-full">
+						<label
+							htmlFor="profileImage"
+							className="text-purp-normal absolute flex items-center justify-center shadow left-0 top-0 h-8 w-8 bg-white hover:text-purp-lightest rounded-full"
+						>
 							<Icon path={mdiCameraOutline} size={0.8} style={{ marginTop: 2 }} />
 						</label>
-						<input type="file" onChange={handleFile} name="profileImage" className="cursor-pointer opacity-0 absolute left-0 top-0 w-6" />
+						<input
+							type="file"
+							onChange={handleFile}
+							name="profileImage"
+							className="cursor-pointer opacity-0 absolute left-0 top-0 w-6"
+						/>
 					</div>
 				</div>
 			</div>
@@ -37,16 +49,29 @@ const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
 				</div>
 				<div className="w-1/4">
 					<p className="text-purp-normal mb-3">
-						Hired on: <span className="font-semibold">{data.startDate ? moment(data.startDate).format('MMMM DD, YYYY') : null}</span>
+						Hired on:{' '}
+						<span className="font-semibold">
+							{data.startDate ? moment(data.startDate).format('MMMM DD, YYYY') : null}
+						</span>
 					</p>
 					<p className="text-purp-normal mb-3">
-						SSN: <span className={`font-semibold ${data.showSsn ? 'tracking-widest' : null}`}>{data.showSsn ? data.ssn : 'XXX-XXX-XXXX'}</span>
-						<Icon onClick={showSsn} path={data.showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer" />
+						SSN:{' '}
+						<span className={`font-semibold ${data.showSsn ? 'tracking-widest' : null}`}>
+							{data.showSsn ? data.ssn : 'XXX-XXX-XXXX'}
+						</span>
+						<Icon
+							onClick={showSsn}
+							path={data.showSsn ? mdiEyeMinus : mdiEyeCheck}
+							size={1}
+							color="#414255"
+							className="pb-1 inline ml-2 cursor-pointer"
+						/>
 					</p>
 					<p className="text-purp-normal mb-3">
 						DOB:
 						<span className="font-semibold">
-							{data.dateOfBirth ? moment(data.dateOfBirth).format('MMMM DD, YYYY') : null} ({moment().diff(moment(data.dateOfBirth), 'years')})
+							{data.dateOfBirth ? moment(data.dateOfBirth).format('MMMM DD, YYYY') : null} (
+							{moment().diff(moment(data.dateOfBirth), 'years')})
 						</span>
 					</p>
 					<p className="text-purp-normal mb-3">
@@ -59,7 +84,10 @@ const EmployeeHeader = ({ data, handleFile, showModal, showSsn }) => {
 				</div>
 				{currentUser.accessLevel > 0 ? (
 					<div className="w-1/4 flex justify-end">
-						<button onClick={showModal} className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
+						<button
+							onClick={showModal}
+							className="h-px text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease"
+						>
 							Deactivate Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
 						</button>
 					</div>

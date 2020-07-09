@@ -20,7 +20,10 @@ const TimeOff = () => {
 	// Function to handle the onChange event of the dateOfBirth input
 	const handlePtoChange = (e) => {
 		const { name, value } = e.target
-		setState((prevState) => ({ ...prevState, pto: { [name]: parseInt(value), pendingHours: pto.pendingHours, usedHours: pto.usedHours } }))
+		setState((prevState) => ({
+			...prevState,
+			pto: { [name]: parseInt(value), pendingHours: pto.pendingHours, usedHours: pto.usedHours }
+		}))
 	}
 
 	return (
@@ -33,7 +36,12 @@ const TimeOff = () => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="Available Hours" htmlFor="availableHours" />
-							<TextInput name="availableHours" disabled={!currentUser.accessLevel > 0} value={pto ? pto.availableHours : 0} onChange={handlePtoChange} />
+							<TextInput
+								name="availableHours"
+								disabled={!currentUser.accessLevel > 0}
+								value={pto ? pto.availableHours : 0}
+								onChange={handlePtoChange}
+							/>
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Pending Hours" htmlFor="pendingHours" />

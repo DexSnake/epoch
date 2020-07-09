@@ -51,9 +51,19 @@ const CreateAdmin = () => {
 				<p className="text-purp-normal font-semibold mb-4">Invite a User</p>
 				<form onSubmit={makeAdmin}>
 					<Label name="Name" htmlFor="name" />
-					<TextInput name="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className="mb-4" />
+					<TextInput
+						name="name"
+						value={displayName}
+						onChange={(e) => setDisplayName(e.target.value)}
+						className="mb-4"
+					/>
 					<Label name="email" htmlFor="email" />
-					<EmailInput name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
+					<EmailInput
+						name="email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						className="mb-4"
+					/>
 					<Label name="Role" htmlFor="role" />
 					<Select
 						value={role.name}
@@ -65,13 +75,19 @@ const CreateAdmin = () => {
 							} else {
 								setRole({ name: 'Supervisor', accessLevel: 1 })
 							}
-						}}>
+						}}
+					>
 						<option defaultValue value=""></option>
 						<option value="Super Admin">Super Admin</option>
 						<option value="Admin">Admin</option>
 						<option value="Supervisor">Supervisor</option>
 					</Select>
-					<SubmitButtonWithLoader text="Send Invite" loadingText="Sending..." loading={loading} className="mt-6" />
+					<SubmitButtonWithLoader
+						text="Send Invite"
+						loadingText="Sending..."
+						loading={loading}
+						className="mt-6"
+					/>
 				</form>
 				<p className="text-red-500">{errorMsg}</p>
 			</div>

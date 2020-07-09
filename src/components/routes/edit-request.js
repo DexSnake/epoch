@@ -25,7 +25,13 @@ const EditRequest = (props) => {
 				const request = {
 					...doc.data(),
 					requestDate: doc.data().startDate.toDate(),
-					requestDates: [{ startDate: doc.data().startDate.toDate(), endDate: doc.data().endDate ? doc.data().endDate.toDate() : null, key: 'selection' }],
+					requestDates: [
+						{
+							startDate: doc.data().startDate.toDate(),
+							endDate: doc.data().endDate ? doc.data().endDate.toDate() : null,
+							key: 'selection'
+						}
+					]
 				}
 				setRequest(request)
 				setState(request)
@@ -42,7 +48,7 @@ const EditRequest = (props) => {
 		requestDates: [],
 		startTime: '',
 		numberOfHours: 0,
-		comments: '',
+		comments: ''
 	}
 
 	const calcWeekends = (startDate, endDate) => {
@@ -96,7 +102,7 @@ const EditRequest = (props) => {
 				dates,
 				startTime,
 				numberOfHours: parseInt(numberOfHours),
-				comments,
+				comments
 			})
 			.then(() => {
 				db.collection('Employees')
@@ -104,9 +110,12 @@ const EditRequest = (props) => {
 					.update({
 						pto: {
 							availableHours: pto.availableHours,
-							pendingHours: numberOfHours <= data.numberOfHours ? pto.pendingHours - parseInt(data.numberOfHours - numberOfHours) : pto.pendingHours + parseInt(numberOfHours - data.numberOfHours),
-							usedHours: pto.usedHours,
-						},
+							pendingHours:
+								numberOfHours <= data.numberOfHours
+									? pto.pendingHours - parseInt(data.numberOfHours - numberOfHours)
+									: pto.pendingHours + parseInt(numberOfHours - data.numberOfHours),
+							usedHours: pto.usedHours
+						}
 					})
 					.then(() => {
 						setLoading(false)
@@ -137,11 +146,25 @@ const EditRequest = (props) => {
 						<div className="flex flex-wrap">
 							<div className="w-1/2 px-3 mb-5">
 								<Label name="Single Day" htmlFor="requestType" className="mr-2" />
-								<input type="radio" checked={requestType === 'singleDay'} disabled={request.status === 'approved'} value="singleDay" name="requestType" onChange={handleChange} />
+								<input
+									type="radio"
+									checked={requestType === 'singleDay'}
+									disabled={request.status === 'approved'}
+									value="singleDay"
+									name="requestType"
+									onChange={handleChange}
+								/>
 							</div>
 							<div className="w-1/2 px-3 mb-5">
 								<Label name="Multi-Day" htmlFor="requestType" className="mr-2" />
-								<input type="radio" checked={requestType === 'multiDay'} disabled={request.status === 'approved'} value="multiDay" name="requestType" onChange={handleChange} />
+								<input
+									type="radio"
+									checked={requestType === 'multiDay'}
+									disabled={request.status === 'approved'}
+									value="multiDay"
+									name="requestType"
+									onChange={handleChange}
+								/>
 							</div>
 							<div className="w-full mb-5">
 								<div>
@@ -150,13 +173,26 @@ const EditRequest = (props) => {
 											<Label name="Request Date" htmlFor="dateRequested" />
 											{request.status === 'approved' ? null : (
 												<div className="w-full flex items-center mt-3">
-													<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
+													<div
+														className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${
+															toggleWeekends ? 'bg-green-400' : 'bg-gray-400'
+														}`}
+													>
 														<label
 															htmlFor="toggle"
 															className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
-																toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
-															}`}></label>
-														<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+																toggleWeekends
+																	? 'translate-x-full border-green-400'
+																	: 'translate-x-0 border-gray-400'
+															}`}
+														></label>
+														<input
+															type="checkbox"
+															id="toggle"
+															name="toggle"
+															className="appearance-none w-full h-full active:outline-none focus:outline-none"
+															onChange={() => setToggleWeekends(!toggleWeekends)}
+														/>
 													</div>
 													<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
 												</div>
@@ -164,8 +200,15 @@ const EditRequest = (props) => {
 											<Calendar
 												disabledDates={disabledDates}
 												date={requestDate}
-												minDate={request.status === 'approved' ? addDays(new Date(), 60) : new Date()}
-												onChange={(requestDate) => setState((prevState) => ({ ...prevState, requestDate: requestDate }))}
+												minDate={
+													request.status === 'approved' ? addDays(new Date(), 60) : new Date()
+												}
+												onChange={(requestDate) =>
+													setState((prevState) => ({
+														...prevState,
+														requestDate: requestDate
+													}))
+												}
 											/>
 										</>
 									) : (
@@ -173,18 +216,39 @@ const EditRequest = (props) => {
 											<Label name="Request Dates" htmlFor="dateRequested" />
 											{request.status === 'approved' ? null : (
 												<div className="w-full flex items-center mt-3 mb-3">
-													<div className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${toggleWeekends ? 'bg-green-400' : 'bg-gray-400'}`}>
+													<div
+														className={`relative rounded-full w-12 h-6 transition duration-200 ease-linear ${
+															toggleWeekends ? 'bg-green-400' : 'bg-gray-400'
+														}`}
+													>
 														<label
 															htmlFor="toggle"
 															className={`absolute left-0 bg-white border-2 mb-2 w-6 h-6 rounded-full transition transform duration-100 ease-linear cursor-pointer ${
-																toggleWeekends ? 'translate-x-full border-green-400' : 'translate-x-0 border-gray-400'
-															}`}></label>
-														<input type="checkbox" id="toggle" name="toggle" className="appearance-none w-full h-full active:outline-none focus:outline-none" onChange={() => setToggleWeekends(!toggleWeekends)} />
+																toggleWeekends
+																	? 'translate-x-full border-green-400'
+																	: 'translate-x-0 border-gray-400'
+															}`}
+														></label>
+														<input
+															type="checkbox"
+															id="toggle"
+															name="toggle"
+															className="appearance-none w-full h-full active:outline-none focus:outline-none"
+															onChange={() => setToggleWeekends(!toggleWeekends)}
+														/>
 													</div>
 													<Label name="Toggle Weekends" htmlFor="toggle" className="ml-3" />
 												</div>
 											)}
-											<DateRange minDate={request.status === 'approved' ? addDays(new Date(), 60) : new Date()} disabledDates={disabledDates} ranges={requestDates} onChange={(item) => setRequestDates([item.selection])} focusedRange={[0, 0]} />
+											<DateRange
+												minDate={
+													request.status === 'approved' ? addDays(new Date(), 60) : new Date()
+												}
+												disabledDates={disabledDates}
+												ranges={requestDates}
+												onChange={(item) => setRequestDates([item.selection])}
+												focusedRange={[0, 0]}
+											/>
 										</>
 									)}
 								</div>
@@ -193,7 +257,12 @@ const EditRequest = (props) => {
 								<>
 									<div className="w-1/2 mb-5 px-3">
 										<Label name="Start Time" htmlFor="startTime" />
-										<Select name="startTime" value={startTime} disabled={request.status === 'approved'} onChange={handleChange}>
+										<Select
+											name="startTime"
+											value={startTime}
+											disabled={request.status === 'approved'}
+											onChange={handleChange}
+										>
 											<option defaultValue value=""></option>
 											<option value="7:00 AM">7:00 AM</option>
 											<option value="7:30 AM">7:30 AM</option>
@@ -224,21 +293,48 @@ const EditRequest = (props) => {
 									</div>
 									<div className="w-1/2 mb-5 px-3">
 										<Label name="Total Hours" htmlFor="numberOfHours" />
-										<NumberInput disabled={request.status === 'approved'} name="numberOfHours" min="1" max="8" value={numberOfHours} onChange={handleChange} />
+										<NumberInput
+											disabled={request.status === 'approved'}
+											name="numberOfHours"
+											min="1"
+											max="8"
+											value={numberOfHours}
+											onChange={handleChange}
+										/>
 									</div>
 								</>
 							) : (
 								<div className="w-full mb-5 px-3">
 									<Label name="Total Hours" htmlFor="numberOfHours" />
-									<NumberInput disabled={request.status === 'approved'} name="numberOfHours" min="1" value={numberOfHours} onChange={handleChange} />
+									<NumberInput
+										disabled={request.status === 'approved'}
+										name="numberOfHours"
+										min="1"
+										value={numberOfHours}
+										onChange={handleChange}
+									/>
 								</div>
 							)}
 							<div className="w-full mb-5 px-3">
 								<Label name="Comments" htmlFor="comments" />
-								<TextArea name="comments" disabled={request.status === 'approved'} rows="2" value={comments} onChange={handleChange} />
+								<TextArea
+									name="comments"
+									disabled={request.status === 'approved'}
+									rows="2"
+									value={comments}
+									onChange={handleChange}
+								/>
 							</div>
 							<div className="w-full flex items-center justify-between">
-								{request.status === 'approved' ? null : <SubmitButtonWithLoader onClick={handleUpdate} disabled={request.status === 'approved'} text="Update Request" loadingText="Updating..." loading={loading} />}
+								{request.status === 'approved' ? null : (
+									<SubmitButtonWithLoader
+										onClick={handleUpdate}
+										disabled={request.status === 'approved'}
+										text="Update Request"
+										loadingText="Updating..."
+										loading={loading}
+									/>
+								)}
 								<DeleteButton onClick={() => setShowModal(true)} text="Delete Request" />
 							</div>
 						</div>
@@ -248,7 +344,15 @@ const EditRequest = (props) => {
 				<RequestForm />
 			)}
 			<ToastContainer position="top-center" autoClose={2000} />
-			{showModal ? <DeleteRequestModal id={data.id} history={props.history} request={request} pto={pto} closeModal={closeModal} /> : null}
+			{showModal ? (
+				<DeleteRequestModal
+					id={data.id}
+					history={props.history}
+					request={request}
+					pto={pto}
+					closeModal={closeModal}
+				/>
+			) : null}
 		</Layout>
 	)
 }

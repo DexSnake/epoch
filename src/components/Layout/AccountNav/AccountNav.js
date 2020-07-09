@@ -13,10 +13,16 @@ const AccountNav = ({ showProfileMenu }) => {
 	}
 
 	return (
-		<div className={`absolute bg-purp-normal right-20 top-0 w-40 rounded-b transition-transform duration-200 ease origin-top transform ${showProfileMenu ? 'scale-y-100' : 'scale-y-0'}`}>
+		<div
+			className={`absolute bg-purp-normal right-20 top-0 w-40 rounded-b transition-transform duration-200 ease origin-top transform ${
+				showProfileMenu ? 'scale-y-100' : 'scale-y-0'
+			}`}
+		>
 			<ul className="first:mt-2 last:mb-2">
 				<AccountNavLink linkTo="account" icon={mdiAccount} text="Account" />
-				{currentUser.accessLevel > 0 ? <AccountNavLink linkTo="users" icon={mdiAccountMultiple} text="Users" /> : null}
+				{currentUser.accessLevel > 0 ? (
+					<AccountNavLink linkTo="users" icon={mdiAccountMultiple} text="Users" />
+				) : null}
 				<AccountNavButton onClick={signOut} icon={mdiLogout} text="Logout" />
 			</ul>
 		</div>

@@ -20,7 +20,7 @@ const PendingRequests = () => {
 			.onSnapshot((snapshot) => {
 				const newRequests = snapshot.docs.map((doc) => ({
 					id: doc.id,
-					...doc.data(),
+					...doc.data()
 				}))
 				setRequests(newRequests)
 			})
@@ -42,7 +42,11 @@ const PendingRequests = () => {
 							requests
 								.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 								.map((request) => {
-									return request.requestType === 'singleDay' ? <SingleRequestShort request={request} key={request.id} footer /> : <MultiRequestShort request={request} key={request.id} footer />
+									return request.requestType === 'singleDay' ? (
+										<SingleRequestShort request={request} key={request.id} footer />
+									) : (
+										<MultiRequestShort request={request} key={request.id} footer />
+									)
 								})
 						) : (
 							<div className="max-w-xl w-full mx-auto">

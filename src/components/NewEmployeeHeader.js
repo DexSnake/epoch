@@ -35,10 +35,16 @@ const NewEmployeeHeader = () => {
 			<div className="bg-white px-6 pt-8 pb-6 flex">
 				<div style={{ minWidth: 128 }}>
 					{employeeProfile.imageUrl ? (
-						<img src={employeeProfile.imageUrl} alt="employee headshot" className="rounded-full h-32 w-32 mb-3 border-purp-light border-4" />
+						<img
+							src={employeeProfile.imageUrl}
+							alt="employee headshot"
+							className="rounded-full h-32 w-32 mb-3 border-purp-light border-4"
+						/>
 					) : (
 						<div className="rounded-full bg-purp-light h-32 w-32 mb-3 flex items-center justify-center mx-auto">
-							<span className="text-4xl text-purp-normal">{getInitals(employeeProfile.firstName, employeeProfile.lastName)}</span>
+							<span className="text-4xl text-purp-normal">
+								{getInitals(employeeProfile.firstName, employeeProfile.lastName)}
+							</span>
 						</div>
 					)}
 				</div>
@@ -62,14 +68,33 @@ const NewEmployeeHeader = () => {
 					</div>
 					<div className="w-1/4">
 						<p className="text-purp-normal mb-3">
-							Hired on: <span className="font-semibold">{employeeProfile.startDate ? moment(employeeProfile.startDate).format('MMMM DD, YYYY') : null}</span>
+							Hired on:{' '}
+							<span className="font-semibold">
+								{employeeProfile.startDate
+									? moment(employeeProfile.startDate).format('MMMM DD, YYYY')
+									: null}
+							</span>
 						</p>
 						<p className="text-purp-normal mb-3">
-							SSN: <span className={`font-semibold ${showSsn ? 'tracking-widest' : null}`}>{showSsn ? employeeProfile.ssn : 'XXX-XXX-XXXX'}</span>
-							<Icon onClick={() => setShowSsn(!showSsn)} path={showSsn ? mdiEyeMinus : mdiEyeCheck} size={1} color="#414255" className="pb-1 inline ml-2 cursor-pointer" />
+							SSN:{' '}
+							<span className={`font-semibold ${showSsn ? 'tracking-widest' : null}`}>
+								{showSsn ? employeeProfile.ssn : 'XXX-XXX-XXXX'}
+							</span>
+							<Icon
+								onClick={() => setShowSsn(!showSsn)}
+								path={showSsn ? mdiEyeMinus : mdiEyeCheck}
+								size={1}
+								color="#414255"
+								className="pb-1 inline ml-2 cursor-pointer"
+							/>
 						</p>
 						<p className="text-purp-normal mb-3">
-							DOB: <span className="font-semibold">{employeeProfile.dateOfBirth ? moment(employeeProfile.dateOfBirth).format('MMMM DD, YYYY') : null}</span>
+							DOB:{' '}
+							<span className="font-semibold">
+								{employeeProfile.dateOfBirth
+									? moment(employeeProfile.dateOfBirth).format('MMMM DD, YYYY')
+									: null}
+							</span>
 						</p>
 						<p className="text-purp-normal mb-3">
 							Salary:{' '}
@@ -82,11 +107,17 @@ const NewEmployeeHeader = () => {
 					<div className="w-1/4 flex flex-col justify-between">
 						{currentUser.accessLevel > 0 ? (
 							employeeProfile.isActive ? (
-								<button onClick={() => setShowDeactivateEmployeeModal(true)} className="text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
+								<button
+									onClick={() => setShowDeactivateEmployeeModal(true)}
+									className="text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease"
+								>
 									Deactivate Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
 								</button>
 							) : (
-								<button onClick={() => setShowReactivateEmployeeModal(true)} className="text-purp-light hover:text-green-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease">
+								<button
+									onClick={() => setShowReactivateEmployeeModal(true)}
+									className="text-purp-light hover:text-green-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease"
+								>
 									Reactivate Employee <Icon path={mdiRestore} size={0.8} className="inline pb-1" />
 								</button>
 							)
@@ -95,8 +126,19 @@ const NewEmployeeHeader = () => {
 				</div>
 			</div>
 
-			{showDeactivateEmployeeModal ? <DeactivateEmployeeModal closeModal={closeDeactivateModal} data={{ id: employeeProfile.id, firstName: employeeProfile.firstName, lastName: employeeProfile.lastName }} /> : null}
-			{showReactivateEmployeeModal ? <ReactivateEmployeeModal closeModal={closeReactivateModal} data={{ id: employeeProfile.id }} /> : null}
+			{showDeactivateEmployeeModal ? (
+				<DeactivateEmployeeModal
+					closeModal={closeDeactivateModal}
+					data={{
+						id: employeeProfile.id,
+						firstName: employeeProfile.firstName,
+						lastName: employeeProfile.lastName
+					}}
+				/>
+			) : null}
+			{showReactivateEmployeeModal ? (
+				<ReactivateEmployeeModal closeModal={closeReactivateModal} data={{ id: employeeProfile.id }} />
+			) : null}
 		</React.Fragment>
 	)
 }

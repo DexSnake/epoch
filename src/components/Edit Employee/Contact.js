@@ -6,7 +6,9 @@ import NumberFormat from 'react-number-format'
 
 const Contact = () => {
 	const { currentUser, employeeProfile, updateEmployeeProfile } = useContext(AuthContext)
-	const [{ phoneNumber, alternatePhoneNumber, email, address1, address2, city, state, zipCode }, setState] = useState(employeeProfile)
+	const [{ phoneNumber, alternatePhoneNumber, email, address1, address2, city, state, zipCode }, setState] = useState(
+		employeeProfile
+	)
 
 	const data = { phoneNumber, alternatePhoneNumber, email, address1, address2, city, state, zipCode }
 
@@ -34,15 +36,32 @@ const Contact = () => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="Phone Number" htmlFor="phoneNumber" />
-							<NumberFormat format="(###) ###-####" name="phoneNumber" value={phoneNumber} onChange={handleChange} className="w-full text-purp-normal focus:outline-none font-semibold border-b pb-1 px-2 disabled:bg-white" />
+							<NumberFormat
+								format="(###) ###-####"
+								name="phoneNumber"
+								value={phoneNumber}
+								onChange={handleChange}
+								className="w-full text-purp-normal focus:outline-none font-semibold border-b pb-1 px-2 disabled:bg-white"
+							/>
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
-							<NumberFormat format="(###) ###-####" name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} className="w-full text-purp-normal focus:outline-none font-semibold border-b pb-1 px-2 disabled:bg-white" />
+							<NumberFormat
+								format="(###) ###-####"
+								name="alternatePhoneNumber"
+								value={alternatePhoneNumber}
+								onChange={handleChange}
+								className="w-full text-purp-normal focus:outline-none font-semibold border-b pb-1 px-2 disabled:bg-white"
+							/>
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Email" htmlFor="email" />
-							<TextInput name="email" disabled={!currentUser.accessLevel > 0} value={email || ''} onChange={handleChange} />
+							<TextInput
+								name="email"
+								disabled={!currentUser.accessLevel > 0}
+								value={email || ''}
+								onChange={handleChange}
+							/>
 						</div>
 					</div>
 				</div>

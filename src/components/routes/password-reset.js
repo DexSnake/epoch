@@ -23,8 +23,7 @@ const PasswordReset = () => {
 	const handlePasswordReset = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		auth
-			.sendPasswordResetEmail(email)
+		auth.sendPasswordResetEmail(email)
 			.then(() => {
 				setLoading(false)
 				setSent(true)
@@ -51,18 +50,26 @@ const PasswordReset = () => {
 				<div className="bg-white p-8 rounded shadow-lg max-w-sm">
 					{!sent ? (
 						<>
-							<p className="text-purp-normal">To reset your password, enter the email address you use to sign in.</p>
+							<p className="text-purp-normal">
+								To reset your password, enter the email address you use to sign in.
+							</p>
 							<form className="pt-4" onSubmit={handlePasswordReset}>
 								<Label name="Email" htmlFor="email" />
 								<EmailInput name="email" className="mb-4" onChange={(e) => setEmail(e.target.value)} />
-								<SubmitButtonWithLoader text="Get Reset Link" loadingText="Checking..." loading={loading} />
+								<SubmitButtonWithLoader
+									text="Get Reset Link"
+									loadingText="Checking..."
+									loading={loading}
+								/>
 								<p className="text-red-500">{errorMsg}</p>
 							</form>
 						</>
 					) : (
 						<>
 							<img src={PasswordResetImage} alt="password reset email sent" />
-							<p className="text-purp-normal pt-4">Check your {email} inbox for instructions on how to reset your password.</p>
+							<p className="text-purp-normal pt-4">
+								Check your {email} inbox for instructions on how to reset your password.
+							</p>
 						</>
 					)}
 				</div>

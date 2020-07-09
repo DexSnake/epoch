@@ -12,12 +12,12 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 		.createUser({
 			email: data.email,
 			password: data.password,
-			displayName: data.displayName,
+			displayName: data.displayName
 		})
 		.then((user) => {
 			return admin.auth().setCustomUserClaims(user.uid, {
 				role: data.role,
-				accessLevel: data.accessLevel,
+				accessLevel: data.accessLevel
 			})
 		})
 		.catch((err) => {
@@ -44,7 +44,7 @@ exports.sendAdminEmail = functions.https.onCall((data, context) => {
 		subject: "You've got admin privleges!",
 		text: 'You have been granted admin access to the KSTG PTO Tracker.',
 		template: 'template.test',
-		'v:password': data.password,
+		'v:password': data.password
 	}
 	mailgun.messages().send(emailData, (error, body) => {
 		console.log(body)
@@ -55,7 +55,7 @@ exports.updateUserPhoto = functions.https.onCall((data, context) => {
 	return admin
 		.auth()
 		.updateUser(data.id, {
-			photoURL: data.photoURL,
+			photoURL: data.photoURL
 		})
 		.then((user) => {
 			return user
@@ -71,7 +71,7 @@ exports.createUser = functions.https.onCall((data, context) => {
 		.createUser({
 			email: data.email,
 			password: data.password,
-			displayName: `${data.firstName} ${data.lastName}`,
+			displayName: `${data.firstName} ${data.lastName}`
 		})
 		.then((user) => {
 			return user
@@ -86,7 +86,7 @@ exports.setUserPermissions = functions.https.onCall((data, context) => {
 		.auth()
 		.setCustomUserClaims(data.uid, {
 			role: data.role,
-			accessLevel: data.accessLevel,
+			accessLevel: data.accessLevel
 		})
 		.then(() => {
 			return 'Success.'
@@ -100,7 +100,7 @@ exports.disableUser = functions.https.onCall((data, context) => {
 	return admin
 		.auth()
 		.updateUser(data.id, {
-			disabled: true,
+			disabled: true
 		})
 		.then((user) => {
 			return user
@@ -126,7 +126,7 @@ exports.enableUser = functions.https.onCall((data, context) => {
 	return admin
 		.auth()
 		.updateUser(data.id, {
-			disabled: false,
+			disabled: false
 		})
 		.then((user) => {
 			return user

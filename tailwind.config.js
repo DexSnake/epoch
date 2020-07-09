@@ -6,7 +6,7 @@ module.exports = {
 			'1/4': '25%',
 			'1/2': '50%',
 			'3/4': '75%',
-			full: '100%',
+			full: '100%'
 		},
 		inset: {
 			'0': 0,
@@ -17,7 +17,7 @@ module.exports = {
 			'20': '20px',
 			'25': '25px',
 			'35': '35px',
-			'6r': '6rem',
+			'6r': '6rem'
 		},
 		scale: {
 			'0': '0',
@@ -33,7 +33,7 @@ module.exports = {
 			'110': '1.1',
 			'125': '1.25',
 			'150': '1.5',
-			'200': '2',
+			'200': '2'
 		},
 		extend: {
 			colors: {
@@ -44,10 +44,10 @@ module.exports = {
 					normal: '#414255',
 					dark: '#3A3B4E',
 					bright: '#75107B',
-					brightest: '#9815a0',
-				},
-			},
-		},
+					brightest: '#9815a0'
+				}
+			}
+		}
 	},
 	variants: {
 		textColor: ['responsive', 'group-hover', 'hover', 'focus', 'disabled'],
@@ -55,7 +55,7 @@ module.exports = {
 		backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
 		cursor: ['responsive,', 'hover', 'focus', 'disabled'],
 		padding: ['responsive', 'hover', 'focus', 'disabled'],
-		margin: ['responsive', 'hover', 'focus', 'disabled', 'first', 'last'],
+		margin: ['responsive', 'hover', 'focus', 'disabled', 'first', 'last']
 	},
-	plugins: [],
+	plugins: []
 }

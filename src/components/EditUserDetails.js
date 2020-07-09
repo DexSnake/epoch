@@ -38,7 +38,11 @@ const EditUserDetails = ({ user }) => {
 				<div className="px-6 pb-6 flex">
 					<div className="w-32 -mt-12">
 						{user.photoURL ? (
-							<div className="h-32 w-32 rounded-full border-4 border-white relative" alt="profile image" style={{ backgroundImage: `url('${user.photoURL}')`, backgroundSize: 'cover' }}></div>
+							<div
+								className="h-32 w-32 rounded-full border-4 border-white relative"
+								alt="profile image"
+								style={{ backgroundImage: `url('${user.photoURL}')`, backgroundSize: 'cover' }}
+							></div>
 						) : (
 							<div className="h-32 w-32 rounded-full border-4 border-white bg-purp-light relative flex items-center justify-center">
 								<p className="absolute text-3xl">{initials}</p>
@@ -63,7 +67,8 @@ const EditUserDetails = ({ user }) => {
 									} else {
 										setRole({ name: 'User', accessLevel: 0 })
 									}
-								}}>
+								}}
+							>
 								<option value="User">User</option>
 								<option value="Supervisor">Supervisor</option>
 								<option value="Admin">Admin</option>
@@ -72,11 +77,26 @@ const EditUserDetails = ({ user }) => {
 						</div>
 					</div>
 					<div className="w-full flex flex-col justify-end items-end">
-						<SubmitButtonWithLoader onClick={handleSubmit} text="Update" loadingText="Updating..." loading={loading} />
+						<SubmitButtonWithLoader
+							onClick={handleSubmit}
+							text="Update"
+							loadingText="Updating..."
+							loading={loading}
+						/>
 					</div>
 				</div>
 			</div>
-			<div className="flex justify-end px-6">{user.customClaims.accessLevel > 2 ? null : <DeleteButton text="Remove User" loadingText="Removing..." onClick={() => setShowModal(true)} size="sm" className="mt-2" />}</div>
+			<div className="flex justify-end px-6">
+				{user.customClaims.accessLevel > 2 ? null : (
+					<DeleteButton
+						text="Remove User"
+						loadingText="Removing..."
+						onClick={() => setShowModal(true)}
+						size="sm"
+						className="mt-2"
+					/>
+				)}
+			</div>
 			{showModal ? <DeleteUserModal user={user.uid} closeModal={closeModal} /> : null}
 			<ToastContainer position="top-center" autoClose={2000} />
 		</>

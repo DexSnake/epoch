@@ -19,8 +19,9 @@ const UserNav = () => {
 				className="focus:outline-none"
 				to={{
 					pathname: `/employees/edit/${currentUser.uid}`,
-					state: { id: currentUser.uid },
-				}}>
+					state: { id: currentUser.uid }
+				}}
+			>
 				<li className="text-purp-light mb-3 focus:outline-none">
 					<Icon path={mdiAccount} size={1} className="mr-2 inline pb-1" />
 					My Profile

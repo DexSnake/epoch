@@ -52,11 +52,21 @@ const ChangePassword = () => {
 					<div className="flex">
 						<div className="px-2">
 							<Label name="New Password" htmlFor="password1" />
-							<PasswordInput name="password1" value={password1} onChange={(e) => setPassword1(e.target.value)} className="mb-4" />
+							<PasswordInput
+								name="password1"
+								value={password1}
+								onChange={(e) => setPassword1(e.target.value)}
+								className="mb-4"
+							/>
 						</div>
 						<div className="px-2">
 							<Label name="Verifiy Password" htmlFor="password2" />
-							<PasswordInput name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)} className="mb-4" />
+							<PasswordInput
+								name="password2"
+								value={password2}
+								onChange={(e) => setPassword2(e.target.value)}
+								className="mb-4"
+							/>
 						</div>
 					</div>
 					<SubmitButtonWithLoader text="Change Password" loadingText="Changing..." loading={loading} />

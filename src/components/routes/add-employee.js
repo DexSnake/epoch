@@ -39,7 +39,7 @@ const AddEmployee = (props) => {
 		ecRelationship: '',
 		ecPhoneNumber: '',
 		availableHours: '',
-		role: { name: 'User', accessLevel: 0 },
+		role: { name: 'User', accessLevel: 0 }
 	}
 	const [
 		{
@@ -68,9 +68,9 @@ const AddEmployee = (props) => {
 			ecRelationship,
 			ecPhoneNumber,
 			availableHours,
-			role,
+			role
 		},
-		setState,
+		setState
 	] = useState(initalState)
 
 	const [loading, setLoading] = useState(false)
@@ -99,7 +99,14 @@ const AddEmployee = (props) => {
 	const handleAddEmployee = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		createUser({ email: email, password: userPassword, firstName: firstName, lastName: lastName, role: 'Employee', accessLevel: 0 })
+		createUser({
+			email: email,
+			password: userPassword,
+			firstName: firstName,
+			lastName: lastName,
+			role: 'Employee',
+			accessLevel: 0
+		})
 			.then((newUser) => {
 				const uid = newUser.data.uid
 				setUserPermissions({ uid: uid, role: role.name, accessLevel: role.accessLevel })
@@ -134,14 +141,14 @@ const AddEmployee = (props) => {
 										firstName: ecFirstName,
 										lastName: ecLastName,
 										relationship: ecRelationship,
-										phoneNumber: ecPhoneNumber,
-									},
+										phoneNumber: ecPhoneNumber
+									}
 								],
 								pto: {
 									availableHours: parseInt(availableHours),
 									pendingHours: 0,
-									usedHours: 0,
-								},
+									usedHours: 0
+								}
 							})
 							.then(function () {
 								props.history.push('/employees')
@@ -199,7 +206,14 @@ const AddEmployee = (props) => {
 						</div>
 						<div className="w-1/5 px-3 relative">
 							<Label name="SSN" htmlFor="ssn" required />
-							<NumberFormat format="###-##-####" name="ssn" value={ssn} onChange={handleChange} className="w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white" required />
+							<NumberFormat
+								format="###-##-####"
+								name="ssn"
+								value={ssn}
+								onChange={handleChange}
+								className="w-full text-purp-normal focus:outline-none border-b pb-1 px-2 disabled:bg-white"
+								required
+							/>
 						</div>
 						<div className="w-1/5 px-3">
 							<Label name="Gender" htmlFor="gender" />
@@ -290,11 +304,24 @@ const AddEmployee = (props) => {
 					<div className="flex">
 						<div className="w-1/3 px-3">
 							<Label name="Phone Number" htmlFor="phoneNumber" required />
-							<NumberFormat format="(###) ###-####" name="phoneNumber" value={phoneNumber} onChange={handleChange} className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white" required />
+							<NumberFormat
+								format="(###) ###-####"
+								name="phoneNumber"
+								value={phoneNumber}
+								onChange={handleChange}
+								className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white"
+								required
+							/>
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
-							<NumberFormat format="(###) ###-####" name="alternatePhoneNumber" value={alternatePhoneNumber} onChange={handleChange} className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+							<NumberFormat
+								format="(###) ###-####"
+								name="alternatePhoneNumber"
+								value={alternatePhoneNumber}
+								onChange={handleChange}
+								className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white"
+							/>
 						</div>
 						<div className="w-1/3 px-3">
 							<Label name="Email" htmlFor="email" required />
@@ -347,7 +374,13 @@ const AddEmployee = (props) => {
 						</div>
 						<div className="w-1/4 px-3">
 							<Label name="Phone Number" htmlFor="ecPhoneNumber" />
-							<NumberFormat format="(###) ###-####" name="ecPhoneNumber" value={ecPhoneNumber} onChange={handleChange} className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white" />
+							<NumberFormat
+								format="(###) ###-####"
+								name="ecPhoneNumber"
+								value={ecPhoneNumber}
+								onChange={handleChange}
+								className="w-full focus:outline-none text-purp-normal border-b pb-1 px-2 disabled:bg-white"
+							/>
 						</div>
 					</div>
 				</div>
@@ -371,7 +404,13 @@ const AddEmployee = (props) => {
 				</div>
 			</EmployeeInfoContainer>
 			<div className="pb-6 px-10 flex justify-end items-center">
-				<SubmitButtonWithLoader onClick={handleAddEmployee} text="Create Employee" loadingText="Creating Employee..." loading={loading} fullWidth={false} />
+				<SubmitButtonWithLoader
+					onClick={handleAddEmployee}
+					text="Create Employee"
+					loadingText="Creating Employee..."
+					loading={loading}
+					fullWidth={false}
+				/>
 			</div>
 			<ToastContainer position="top-center" autoClose={2000} />
 		</Layout>

@@ -49,9 +49,15 @@ const UserList = ({ currentUser }) => {
 								<tr key={user.uid} className="bg-white hover:bg-purp-lightest">
 									<td className="pl-2 py-2 flex items-center">
 										{user.photoURL ? (
-											<img src={user.photoURL} alt="user profile" className="h-10 w-10 rounded-full ml-2" />
+											<img
+												src={user.photoURL}
+												alt="user profile"
+												className="h-10 w-10 rounded-full ml-2"
+											/>
 										) : (
-											<span className="h-10 w-10 rounded-full ml-2 bg-purp-medium flex justify-center items-center text-sm text-purp-normal">{initials}</span>
+											<span className="h-10 w-10 rounded-full ml-2 bg-purp-medium flex justify-center items-center text-sm text-purp-normal">
+												{initials}
+											</span>
 										)}
 										<div>
 											<p className="ml-2 font-semibold">{user.displayName}</p>
@@ -78,9 +84,10 @@ const UserList = ({ currentUser }) => {
 												<Link
 													to={{
 														pathname: `/users/edit/${user.uid}`,
-														state: { user },
+														state: { user }
 													}}
-													className="text-sm text-purp-normal hover:opacity-50 font-semibold mr-3">
+													className="text-sm text-purp-normal hover:opacity-50 font-semibold mr-3"
+												>
 													Edit User
 												</Link>
 												{currentUser.uid === user.uid ? null : (

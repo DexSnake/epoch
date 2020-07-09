@@ -5,7 +5,7 @@ export const handleDeny = (id, userId, numberOfHours) => {
 	db.collection('Requests')
 		.doc(id)
 		.update({
-			status: 'denied',
+			status: 'denied'
 		})
 		.then(() => {
 			db.collection('Employees')
@@ -18,8 +18,8 @@ export const handleDeny = (id, userId, numberOfHours) => {
 							pto: {
 								availableHours: doc.data().pto.availableHours,
 								pendingHours: doc.data().pto.pendingHours - numberOfHours,
-								usedHours: doc.data().pto.usedHours,
-							},
+								usedHours: doc.data().pto.usedHours
+							}
 						})
 						.then(() => {
 							toast.error('Request Denied.')

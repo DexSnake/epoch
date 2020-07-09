@@ -39,19 +39,48 @@ const SingleRequestLong = ({ request }) => {
 				</div>
 				<div className="w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">Status</p>
-					<span className={`text-sm text-white px-2 py-1 rounded ${statusColorBackground}`}>{request.status}</span>
+					<span className={`text-sm text-white px-2 py-1 rounded ${statusColorBackground}`}>
+						{request.status}
+					</span>
 				</div>
 				{currentUser.accessLevel > 0 ? (
 					request.status === 'pending' ? (
 						<div className="w-1/5 px-3 flex justify-end">
-							<ApproveButton onClick={() => handleApprove(request.id, request.userId, request.numberOfHours, request.employee.firstName, request.employee.email, request.status)} />
-							<button className="ml-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease" onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}>
+							<ApproveButton
+								onClick={() =>
+									handleApprove(
+										request.id,
+										request.userId,
+										request.numberOfHours,
+										request.employee.firstName,
+										request.employee.email,
+										request.status
+									)
+								}
+							/>
+							<button
+								className="ml-3 hover:text-red-600 text-purp-medium font-semibold transition duration-200 ease"
+								onClick={() => handleDeny(request.id, request.userId, request.numberOfHours)}
+							>
 								Deny
 							</button>
 						</div>
 					) : (
 						<div className="w-1/5 px-3 flex justify-end">
-							{request.status === 'approved' ? null : <ApproveButton onClick={() => handleApprove(request.id, request.userId, request.numberOfHours, request.employee.firstName, request.employee.email, request.status)} />}
+							{request.status === 'approved' ? null : (
+								<ApproveButton
+									onClick={() =>
+										handleApprove(
+											request.id,
+											request.userId,
+											request.numberOfHours,
+											request.employee.firstName,
+											request.employee.email,
+											request.status
+										)
+									}
+								/>
+							)}
 						</div>
 					)
 				) : request.status === 'denied' ? null : (
@@ -59,8 +88,9 @@ const SingleRequestLong = ({ request }) => {
 						<Link
 							to={{
 								pathname: `/requests/edit/${request.id}`,
-								state: { data: request },
-							}}>
+								state: { data: request }
+							}}
+						>
 							<button className="uppercase text-sm text-purp-medium hover:text-purp-normal font-semibold transition duration-200 ease-in-out">
 								<Icon path={mdiCalendarEdit} size={0.8} className="mr-1 inline" />
 								edit

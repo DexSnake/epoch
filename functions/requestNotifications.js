@@ -14,7 +14,7 @@ exports.sendRequestEmail = functions.https.onCall((data, context) => {
 		'v:requestDate': data.requestDate,
 		'v:totalHours': data.totalHours,
 		'v:startTime': data.startTime,
-		'v:comments': data.comments,
+		'v:comments': data.comments
 	}
 	mailgun.messages().send(emailData, (error, body) => {
 		console.log(body)
@@ -32,7 +32,7 @@ exports.sendRequestEmailMulti = functions.https.onCall((data, context) => {
 		'v:startDate': data.startDate,
 		'v:endDate': data.endDate,
 		'v:totalHours': data.totalHours,
-		'v:comments': data.comments,
+		'v:comments': data.comments
 	}
 	mailgun.messages().send(emailData, (error, body) => {
 		console.log(body)
@@ -46,7 +46,7 @@ exports.sendRequestApprovedEmail = functions.https.onCall((data, context) => {
 		subject: 'Your request has been approved!',
 		text: `Hi ${data.firstName}, just letting you know that your pto request has been approved!`,
 		template: 'template.approved.request',
-		'v:firstName': data.firstName,
+		'v:firstName': data.firstName
 	}
 	mailgun.messages().send(emailData, (error, body) => {
 		console.log(body)

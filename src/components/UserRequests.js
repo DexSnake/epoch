@@ -27,7 +27,7 @@ const UserRequests = () => {
 			.onSnapshot((snapshot) => {
 				const newRequests = snapshot.docs.map((doc) => ({
 					id: doc.id,
-					...doc.data(),
+					...doc.data()
 				}))
 				setRequests(newRequests)
 			})
@@ -81,10 +81,16 @@ const UserRequests = () => {
 				requests.length > 0 ? (
 					requests
 						.filter((request) => (status === 'all' ? request.status !== status : request.status === status))
-						.filter((request) => request.startDate.toDate() > startDate && request.startDate.toDate() < endDate)
+						.filter(
+							(request) => request.startDate.toDate() > startDate && request.startDate.toDate() < endDate
+						)
 						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 						.map((request) => {
-							return request.requestType === 'singleDay' ? <SingleRequestLong request={request} key={request.id} /> : <MultiRequestLong request={request} key={request.id} />
+							return request.requestType === 'singleDay' ? (
+								<SingleRequestLong request={request} key={request.id} />
+							) : (
+								<MultiRequestLong request={request} key={request.id} />
+							)
 						})
 				) : (
 					<p>You have no requests.</p>

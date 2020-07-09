@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 				.onSnapshot((doc) => {
 					setUserProfile({
 						id: doc.id,
-						...doc.data(),
+						...doc.data()
 					})
 				})
 		}
@@ -46,5 +46,9 @@ export const AuthProvider = ({ children }) => {
 		return <>Loading...</>
 	}
 
-	return <AuthContext.Provider value={{ currentUser, userProfile, setProfile, updateEmployeeProfile, employeeProfile }}>{children}</AuthContext.Provider>
+	return (
+		<AuthContext.Provider value={{ currentUser, userProfile, setProfile, updateEmployeeProfile, employeeProfile }}>
+			{children}
+		</AuthContext.Provider>
+	)
 }

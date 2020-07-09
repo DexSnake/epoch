@@ -1,5 +1,11 @@
 import React from 'react'
-import { mdiAccountPlusOutline, mdiAccountGroupOutline, mdiCalendarAlert, mdiCalendarCheck, mdiCalendarRemove } from '@mdi/js'
+import {
+	mdiAccountPlusOutline,
+	mdiAccountGroupOutline,
+	mdiCalendarAlert,
+	mdiCalendarCheck,
+	mdiCalendarRemove
+} from '@mdi/js'
 import DashboardButton from './DashboardButton'
 
 const AdminDashboard = () => {

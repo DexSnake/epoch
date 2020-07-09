@@ -22,7 +22,9 @@ const Header = ({ onClick }) => {
 							{currentUser.photoURL ? (
 								<img src={currentUser.photoURL} alt="user profile" className="h-8 w-8 rounded-full" />
 							) : (
-								<span className="h-8 w-8 rounded-full bg-purp-medium flex justify-center items-center text-xs text-purp-normal">{initials}</span>
+								<span className="h-8 w-8 rounded-full bg-purp-medium flex justify-center items-center text-xs text-purp-normal">
+									{initials}
+								</span>
 							)}
 						</button>
 					</div>

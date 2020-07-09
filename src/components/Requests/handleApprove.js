@@ -7,7 +7,7 @@ export const handleApprove = (id, userId, numberOfHours, firstName, email, statu
 	db.collection('Requests')
 		.doc(id)
 		.update({
-			status: 'approved',
+			status: 'approved'
 		})
 		.then(() => {
 			sendRequestApprovedEmail({ firstName, email })
@@ -24,9 +24,12 @@ export const handleApprove = (id, userId, numberOfHours, firstName, email, statu
 						.update({
 							pto: {
 								availableHours: doc.data().pto.availableHours - numberOfHours,
-								pendingHours: status === 'pending' ? doc.data().pto.pendingHours - numberOfHours : doc.data().pto.pendingHours,
-								usedHours: doc.data().pto.usedHours + numberOfHours,
-							},
+								pendingHours:
+									status === 'pending'
+										? doc.data().pto.pendingHours - numberOfHours
+										: doc.data().pto.pendingHours,
+								usedHours: doc.data().pto.usedHours + numberOfHours
+							}
 						})
 						.then(() => {
 							toast.success('Request Approved!')

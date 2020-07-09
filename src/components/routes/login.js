@@ -18,8 +18,7 @@ const Login = ({ history }) => {
 	const handleLogin = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		auth
-			.signInWithEmailAndPassword(email, password)
+		auth.signInWithEmailAndPassword(email, password)
 			.then(() => {
 				history.push('/')
 				setLoading(false)
@@ -57,7 +56,9 @@ const Login = ({ history }) => {
 						<Label name="Password" htmlFor="password" />
 						<PasswordInput name="password" className="mb-2" onChange={(e) => setPassword(e.target.value)} />
 						<Link to="/password-reset">
-							<small className="text-purp-medium hover:text-purp-normal underline transition duration-200 ease">Forgot Password?</small>
+							<small className="text-purp-medium hover:text-purp-normal underline transition duration-200 ease">
+								Forgot Password?
+							</small>
 						</Link>
 						<div className="mt-6">
 							<SubmitButtonWithLoader text="Login" loadingText="Logging In..." loading={loading} />
