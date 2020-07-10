@@ -1,6 +1,13 @@
 module.exports = {
 	purge: [],
 	theme: {
+		screens: {
+			xs: '465px',
+			sm: '640px',
+			md: '768px',
+			lg: '1024px',
+			xl: '1280px'
+		},
 		maxHeight: {
 			'0': '0',
 			'1/4': '25%',
@@ -8,15 +15,22 @@ module.exports = {
 			'3/4': '75%',
 			full: '100%'
 		},
+		minWidth: {
+			'0': '0',
+			'side-bar': '260px',
+			full: '100%'
+		},
 		inset: {
 			'0': 0,
 			auto: 'auto',
 			'neg-10': '-10px',
+			'neg-6': '-6px',
 			'10': '10px',
 			'15': '15px',
 			'20': '20px',
 			'25': '25px',
 			'35': '35px',
+			'50': '50px',
 			'6r': '6rem'
 		},
 		scale: {

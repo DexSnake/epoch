@@ -4,7 +4,7 @@ import { functions } from '../firebase/firebase'
 import { SubmitButtonWithLoader, DeleteButton } from './UI Elements/Buttons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import DeleteUserModal from './modals/DeleteUserModal'
+import DeleteUserModal from './Modals/DeleteUserModal'
 
 const EditUserDetails = ({ user }) => {
 	const [role, setRole] = useState({ name: user.customClaims.role, accessLevel: user.customClaims.accessLevel })

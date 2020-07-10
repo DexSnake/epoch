@@ -31,43 +31,45 @@ const DeniedRequests = () => {
 
 	return (
 		<Layout>
-			<div className="m-10">
-				<h1 className="font-semibold pb-2 text-3xl text-purp-normal mb-4">
-					<Icon path={mdiCalendarRemove} size={2} className="inline pb-1 mr-1" />
-					Denied Requests
-				</h1>
-				<div className="flex flex-wrap">
-					{requests ? (
-						requests.length > 0 ? (
-							requests
-								.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
-								.map((request) => {
-									return request.requestType === 'singleDay' ? (
-										<SingleRequestShort request={request} key={request.id} footer />
-									) : (
-										<MultiRequestShort request={request} key={request.id} footer />
-									)
-								})
+			<div className="max-w-6xl mx-auto">
+				<div className="m-10">
+					<h1 className="font-semibold pb-2 text-3xl text-purp-normal mb-4">
+						<Icon path={mdiCalendarRemove} size={2} className="inline pb-1 mr-1" />
+						Denied Requests
+					</h1>
+					<div className="flex flex-wrap">
+						{requests ? (
+							requests.length > 0 ? (
+								requests
+									.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
+									.map((request) => {
+										return request.requestType === 'singleDay' ? (
+											<SingleRequestShort request={request} key={request.id} footer />
+										) : (
+											<MultiRequestShort request={request} key={request.id} footer />
+										)
+									})
+							) : (
+								<div className="max-w-xl w-full mx-auto">
+									<p className="text-purp-medium font-semibold text-center text-2xl">
+										Nothing Here. Good Job Boss!{' '}
+										<span role="img" aria-label="celebrate emoji">
+											🥳
+										</span>
+									</p>
+									<img src={NothingHere} alt="nothing here" className="opacity-50" />
+								</div>
+							)
 						) : (
-							<div className="max-w-xl w-full mx-auto">
-								<p className="text-purp-medium font-semibold text-center text-2xl">
-									Nothing Here. Good Job Boss!{' '}
-									<span role="img" aria-label="celebrate emoji">
-										🥳
-									</span>
-								</p>
-								<img src={NothingHere} alt="nothing here" className="opacity-50" />
-							</div>
-						)
-					) : (
-						<>
-							<UserRequestShort />
-							<UserRequestShort />
-							<UserRequestShort />
-						</>
-					)}
+							<>
+								<UserRequestShort />
+								<UserRequestShort />
+								<UserRequestShort />
+							</>
+						)}
+					</div>
+					<ToastContainer position="top-center" autoClose={2000} />
 				</div>
-				<ToastContainer position="top-center" autoClose={2000} />
 			</div>
 		</Layout>
 	)

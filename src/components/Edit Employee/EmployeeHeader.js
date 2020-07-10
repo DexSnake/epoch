@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react'
 import Icon from '@mdi/react'
 import { mdiCheckBold, mdiCloseCircleOutline, mdiEyeMinus, mdiEyeCheck, mdiDelete, mdiRestore } from '@mdi/js'
 import moment from 'moment'
-import { AuthContext } from '../context/Auth'
-import DeactivateEmployeeModal from './modals/DeactivateEmployeeModal'
-import ReactivateEmployeeModal from './modals/ReactivateEmployeeModal'
+import { AuthContext } from 'context/Auth'
+import DeactivateEmployeeModal from 'components/Modals/DeactivateEmployeeModal'
+import ReactivateEmployeeModal from 'components/Modals/ReactivateEmployeeModal'
 
 const NewEmployeeHeader = () => {
 	const { currentUser, employeeProfile } = useContext(AuthContext)

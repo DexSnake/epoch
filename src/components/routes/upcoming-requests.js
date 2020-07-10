@@ -11,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import SingleRequestShort from 'components/Requests/SingleRequestShort'
 import MultiRequestShort from 'components/Requests/MultiRequestShort'
 import UserRequestShort from 'components/skeletons/UserRequestShort'
+import NothingHere from 'images/nothingHere.svg'
 
 const UpcomingRequests = () => {
 	const [requests, setRequests] = useState(null)
@@ -35,69 +36,77 @@ const UpcomingRequests = () => {
 
 	return (
 		<Layout>
-			<div className="m-10">
-				<div className="flex items-baseline justify-between mb-6">
-					<div>
-						<h1 className="font-semibold text-3xl text-purp-normal mr-4">
-							<Icon path={mdiCalendarCheck} size={2} className="inline pb-1 mr-1" />
-							Upcoming Requests
-						</h1>
+			<div className="max-w-6xl mx-auto">
+				<div className="m-10">
+					<div className="flex items-baseline justify-between mb-6">
+						<div>
+							<h1 className="font-semibold text-3xl text-purp-normal mr-4">
+								<Icon path={mdiCalendarCheck} size={2} className="inline pb-1 mr-1" />
+								Upcoming Requests
+							</h1>
+						</div>
+						<div className="flex items-center text-purp-normal mb-4">
+							<div>
+								<DatePicker
+									className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+									name="startDate"
+									showMonthDropdown
+									dropdownMode="select"
+									selected={startDate}
+									onChange={(date) => setStartDate(date)}
+									dateFormat="MMMM d, yyyy"
+								/>
+							</div>
+							<div>
+								<Icon path={mdiArrowLeftRight} size={1} className="mx-3 inline" />
+							</div>
+							<div>
+								<DatePicker
+									className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+									name="endDate"
+									showMonthDropdown
+									dropdownMode="select"
+									selected={endDate}
+									onChange={(date) => setEndDate(date)}
+									dateFormat="MMMM d, yyyy"
+								/>
+							</div>
+						</div>
 					</div>
-					<div className="flex items-center text-purp-normal mb-4">
-						<div>
-							<DatePicker
-								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
-								name="startDate"
-								showMonthDropdown
-								dropdownMode="select"
-								selected={startDate}
-								onChange={(date) => setStartDate(date)}
-								dateFormat="MMMM d, yyyy"
-							/>
-						</div>
-						<div>
-							<Icon path={mdiArrowLeftRight} size={1} className="mx-3 inline" />
-						</div>
-						<div>
-							<DatePicker
-								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
-								name="endDate"
-								showMonthDropdown
-								dropdownMode="select"
-								selected={endDate}
-								onChange={(date) => setEndDate(date)}
-								dateFormat="MMMM d, yyyy"
-							/>
-						</div>
-					</div>
-				</div>
 
-				<div className="flex flex-wrap">
-					{requests ? (
-						requests.filter(
-							(request) => request.startDate.toDate() > startDate && request.startDate.toDate() < endDate
-						).length > 0 ? (
-							requests
-								.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
-								.map((request) => {
-									return request.requestType === 'singleDay' ? (
-										<SingleRequestShort request={request} key={request.id} />
-									) : (
-										<MultiRequestShort request={request} key={request.id} />
-									)
-								})
+					<div className="flex flex-wrap">
+						{requests ? (
+							requests.filter(
+								(request) =>
+									request.startDate.toDate() > startDate && request.startDate.toDate() < endDate
+							).length > 0 ? (
+								requests
+									.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
+									.map((request) => {
+										return request.requestType === 'singleDay' ? (
+											<SingleRequestShort request={request} key={request.id} />
+										) : (
+											<MultiRequestShort request={request} key={request.id} />
+										)
+									})
+							) : (
+								<div className="max-w-xl w-full mx-auto">
+									<p className="text-purp-medium font-semibold text-center text-2xl">
+										No requests that match that date range...{' '}
+									</p>
+									<img src={NothingHere} alt="nothing here" className="opacity-50" />
+								</div>
+							)
 						) : (
-							<p className="text-purp-medium font-semibold">No Upcoming Requests.</p>
-						)
-					) : (
-						<>
-							<UserRequestShort />
-							<UserRequestShort />
-							<UserRequestShort />
-						</>
-					)}
+							<>
+								<UserRequestShort />
+								<UserRequestShort />
+								<UserRequestShort />
+							</>
+						)}
+					</div>
+					<ToastContainer position="top-center" autoClose={2000} />
 				</div>
-				<ToastContainer position="top-center" autoClose={2000} />
 			</div>
 		</Layout>
 	)

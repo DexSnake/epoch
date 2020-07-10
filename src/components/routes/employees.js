@@ -45,37 +45,39 @@ const Employees = () => {
 
 	return (
 		<Layout>
-			<div className="p-10">
-				<h1 className="text-3xl text-purp-normal font-semibold mb-4">
-					<Icon path={mdiAccountCheck} size={2.1} className="inline pb-2 mr-1" />
-					Active Employees
-				</h1>
-				<div className="flex flex-wrap">
-					{employees ? (
-						employees.map((employee) => {
-							return <Employee data={employee} requests={requests} key={employee.id} />
-						})
-					) : (
-						<>
-							<EmployeeCard />
-							<EmployeeCard />
-							<EmployeeCard />
-							<EmployeeCard />
-						</>
-					)}
-				</div>
-			</div>
-			{inactiveEmployees.length > 0 ? (
+			<div className="max-w-6xl mx-auto">
 				<div className="p-10">
 					<h1 className="text-3xl text-purp-normal font-semibold mb-4">
-						<Icon path={mdiAccountCancel} size={2.1} className="inline pb-2 mr-1" />
-						Inactive Employees
+						<Icon path={mdiAccountCheck} size={2.1} className="inline pb-2 mr-1" />
+						Active Employees
 					</h1>
-					{inactiveEmployees.map((employee) => {
-						return <Employee data={employee} requests={requests} inactive key={employee.id} />
-					})}
+					<div className="flex flex-wrap">
+						{employees ? (
+							employees.map((employee) => {
+								return <Employee data={employee} requests={requests} key={employee.id} />
+							})
+						) : (
+							<>
+								<EmployeeCard />
+								<EmployeeCard />
+								<EmployeeCard />
+								<EmployeeCard />
+							</>
+						)}
+					</div>
 				</div>
-			) : null}
+				{inactiveEmployees.length > 0 ? (
+					<div className="p-10">
+						<h1 className="text-3xl text-purp-normal font-semibold mb-4">
+							<Icon path={mdiAccountCancel} size={2.1} className="inline pb-2 mr-1" />
+							Inactive Employees
+						</h1>
+						{inactiveEmployees.map((employee) => {
+							return <Employee data={employee} requests={requests} inactive key={employee.id} />
+						})}
+					</div>
+				) : null}
+			</div>
 		</Layout>
 	)
 }

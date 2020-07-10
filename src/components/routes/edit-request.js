@@ -11,7 +11,7 @@ import { Calendar, DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import { DeleteButton, SubmitButtonWithLoader } from '../UI Elements/Buttons'
-import DeleteRequestModal from '../modals/DeleteRequestModal'
+import DeleteRequestModal from '../Modals/DeleteRequestModal'
 import { addDays, isWeekend } from 'date-fns'
 import RequestForm from '../skeletons/RequestForm'
 
@@ -143,6 +143,12 @@ const EditRequest = (props) => {
 							<Icon path={mdiCalendarEdit} size={1.8} className="inline mr-2 pb-1" />
 							Edit Time Off Request
 						</h1>
+						{request.status === 'approved' && (
+							<p className="px-2 pb-4 text-sm leading-tight text-gray-800 font-semibold">
+								This request has been approved and can no longer be edited. If you want to make changes
+								to this request, delete it, and submit a new request.
+							</p>
+						)}
 						<div className="flex flex-wrap">
 							<div className="w-1/2 px-3 mb-5">
 								<Label name="Single Day" htmlFor="requestType" className="mr-2" />

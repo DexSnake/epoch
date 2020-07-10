@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import Icon from '@mdi/react'
 import { mdiCalendarPlus, mdiAccountEdit, mdiCalendarCheck } from '@mdi/js'
 import DashboardButton from './DashboardButton'
 import { AuthContext } from '../context/Auth'

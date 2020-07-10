@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
-import { db } from '../../firebase/firebase'
+import { db } from '../../../firebase/firebase'
 import {
 	mdiAccountPlus,
 	mdiAccountGroup,
@@ -29,14 +29,14 @@ const AdminNav = () => {
 	}, [])
 
 	return (
-		<ul>
+		<ul className="flex">
 			<NavLink linkTo="" icon={mdiMonitorDashboard} text="Dashboard" />
 			<NavLink linkTo="add-employee" icon={mdiAccountPlus} text="Add Employee" />
 			<NavLink linkTo="employees" icon={mdiAccountGroup} text="Employee List" />
 			<Link to="/pending-requests" className="focus:outline-none">
 				<li className="text-purp-light py-2 pl-6 pr-8 relative focus:outline-none hover:bg-purp-dark flex items-center">
 					{requests.length > 0 ? (
-						<p className="font-semibold text-sm absolute top-neg-10 right-35 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">
+						<p className="font-semibold text-sm absolute top-neg-6 right-50 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">
 							{requests.length}
 						</p>
 					) : null}

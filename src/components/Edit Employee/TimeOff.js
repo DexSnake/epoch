@@ -28,32 +28,34 @@ const TimeOff = () => {
 
 	return (
 		<React.Fragment>
-			<div className="px-10 pt-8">
-				<p className="uppercase text-purp-normal font-semibold">Time Off</p>
-			</div>
-			<EmployeeInfoContainer>
-				<div className="p-8">
-					<div className="flex">
-						<div className="w-1/3 px-3">
-							<Label name="Available Hours" htmlFor="availableHours" />
-							<TextInput
-								name="availableHours"
-								disabled={!currentUser.accessLevel > 0}
-								value={pto ? pto.availableHours : 0}
-								onChange={handlePtoChange}
-							/>
-						</div>
-						<div className="w-1/3 px-3">
-							<Label name="Pending Hours" htmlFor="pendingHours" />
-							<TextInput name="pendingHours" disabled value={pto ? pto.pendingHours : 0} />
-						</div>
-						<div className="w-1/3 px-3">
-							<Label name="Hours Used" htmlFor="usedHours" />
-							<TextInput name="usedHours" disabled value={pto ? pto.usedHours : 0} />
+			<div className="max-w-6xl mx-auto">
+				<div className="px-10 pt-8">
+					<p className="uppercase text-purp-normal font-semibold">Time Off</p>
+				</div>
+				<EmployeeInfoContainer>
+					<div className="p-8">
+						<div className="flex">
+							<div className="w-1/3 px-3">
+								<Label name="Available Hours" htmlFor="availableHours" />
+								<TextInput
+									name="availableHours"
+									disabled={!currentUser.accessLevel > 0}
+									value={pto ? pto.availableHours : 0}
+									onChange={handlePtoChange}
+								/>
+							</div>
+							<div className="w-1/3 px-3">
+								<Label name="Pending Hours" htmlFor="pendingHours" />
+								<TextInput name="pendingHours" disabled value={pto ? pto.pendingHours : 0} />
+							</div>
+							<div className="w-1/3 px-3">
+								<Label name="Hours Used" htmlFor="usedHours" />
+								<TextInput name="usedHours" disabled value={pto ? pto.usedHours : 0} />
+							</div>
 						</div>
 					</div>
-				</div>
-			</EmployeeInfoContainer>
+				</EmployeeInfoContainer>
+			</div>
 		</React.Fragment>
 	)
 }

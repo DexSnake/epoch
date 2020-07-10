@@ -27,7 +27,7 @@ const MultiRequestShort = ({ request, footer }) => {
 						<span className="font-semibold">
 							{request.employee.firstName} {request.employee.lastName}
 						</span>{' '}
-						is requesting off starting{' '}
+						is {request.status === 'approved' ? 'taking' : 'requesting'} off starting{' '}
 						<span className="font-semibold">
 							{moment(request.startDate.toDate()).format('MMMM DD, YYYY')}
 						</span>{' '}

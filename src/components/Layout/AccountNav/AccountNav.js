@@ -14,7 +14,7 @@ const AccountNav = ({ showProfileMenu }) => {
 
 	return (
 		<div
-			className={`absolute bg-purp-normal right-20 top-0 w-40 rounded-b transition-transform duration-200 ease origin-top transform ${
+			className={`absolute bg-purp-normal right-20 top-0 w-40 rounded-b transition-transform duration-200 ease origin-top transform z-10 ${
 				showProfileMenu ? 'scale-y-100' : 'scale-y-0'
 			}`}
 		>

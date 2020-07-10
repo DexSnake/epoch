@@ -26,61 +26,63 @@ const Employment = () => {
 
 	return (
 		<React.Fragment>
-			<div className="px-10 pt-8">
-				<p className="uppercase text-purp-normal font-semibold mb-5">Employment Information</p>
-			</div>
-			<EmployeeInfoContainer>
-				<div className="p-8">
-					<div className="flex">
-						<div className="w-1/4 px-3">
-							<Label name="Hire Date" htmlFor="startDate" />
-							<DatePicker
-								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
-								name="test"
-								showMonthDropdown
-								showYearDropdown
-								dropdownMode="select"
-								disabled={!currentUser.accessLevel > 0}
-								selected={startDate}
-								onChange={(date) => setState((prevState) => ({ ...prevState, startDate: date }))}
-							/>
-						</div>
-						<div className="w-1/4 px-3">
-							<Label name="Salary" htmlFor="salary" />
-							<TextInput
-								name="salary"
-								disabled={!currentUser.accessLevel > 0}
-								value={salary || ''}
-								onChange={handleChange}
-							/>
-						</div>
-						<div className="w-1/4 px-3">
-							<Label name="salaryRate" htmlFor="salaryRate" />
-							<Select
-								name="salaryRate"
-								disabled={!currentUser.accessLevel > 0}
-								value={salaryRate || ''}
-								onChange={handleChange}
-							>
-								<option disabled defaultValue value=""></option>
-								<option value="/year">Per Year</option>
-								<option value="/hour">Per Hour</option>
-								<option value="/week">Per Week</option>
-								<option value="/month">Per Month</option>
-							</Select>
-						</div>
-						<div className="w-1/4 px-3">
-							<Label name="Title" htmlFor="title" />
-							<TextInput
-								name="title"
-								disabled={!currentUser.accessLevel > 0}
-								value={title || ''}
-								onChange={handleChange}
-							/>
+			<div className="max-w-6xl mx-auto">
+				<div className="px-10 pt-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Employment Information</p>
+				</div>
+				<EmployeeInfoContainer>
+					<div className="p-8">
+						<div className="flex">
+							<div className="w-1/4 px-3">
+								<Label name="Hire Date" htmlFor="startDate" />
+								<DatePicker
+									className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
+									name="test"
+									showMonthDropdown
+									showYearDropdown
+									dropdownMode="select"
+									disabled={!currentUser.accessLevel > 0}
+									selected={startDate}
+									onChange={(date) => setState((prevState) => ({ ...prevState, startDate: date }))}
+								/>
+							</div>
+							<div className="w-1/4 px-3">
+								<Label name="Salary" htmlFor="salary" />
+								<TextInput
+									name="salary"
+									disabled={!currentUser.accessLevel > 0}
+									value={salary || ''}
+									onChange={handleChange}
+								/>
+							</div>
+							<div className="w-1/4 px-3">
+								<Label name="salaryRate" htmlFor="salaryRate" />
+								<Select
+									name="salaryRate"
+									disabled={!currentUser.accessLevel > 0}
+									value={salaryRate || ''}
+									onChange={handleChange}
+								>
+									<option disabled defaultValue value=""></option>
+									<option value="/year">Per Year</option>
+									<option value="/hour">Per Hour</option>
+									<option value="/week">Per Week</option>
+									<option value="/month">Per Month</option>
+								</Select>
+							</div>
+							<div className="w-1/4 px-3">
+								<Label name="Title" htmlFor="title" />
+								<TextInput
+									name="title"
+									disabled={!currentUser.accessLevel > 0}
+									value={title || ''}
+									onChange={handleChange}
+								/>
+							</div>
 						</div>
 					</div>
-				</div>
-			</EmployeeInfoContainer>
+				</EmployeeInfoContainer>
+			</div>
 		</React.Fragment>
 	)
 }

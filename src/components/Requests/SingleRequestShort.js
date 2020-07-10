@@ -27,7 +27,7 @@ const SingleRequestShort = ({ request, footer }) => {
 						<span className="font-semibold">
 							{request.employee.firstName} {request.employee.lastName}
 						</span>{' '}
-						is requesting off on{' '}
+						is {request.status === 'approved' ? 'taking' : 'requesting'} off on{' '}
 						<span className="font-semibold">
 							{moment(request.startDate.toDate()).format('MMMM DD, YYYY')}
 						</span>{' '}

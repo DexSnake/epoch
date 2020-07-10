@@ -42,100 +42,105 @@ const Requests = () => {
 
 	return (
 		<React.Fragment>
-			<div className="px-10 pt-2">
-				<div className="flex items-center text-purp-normal mb-4">
-					<div>
-						<DatePicker
-							className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
-							name="startDate"
-							showMonthDropdown
-							dropdownMode="select"
-							selected={startDate}
-							onChange={(date) => setStartDate(date)}
-							dateFormat="MMMM d, yyyy"
-						/>
+			<div className="max-w-6xl mx-auto">
+				<div className="px-10 pt-2">
+					<div className="flex items-center text-purp-normal mb-4">
+						<div>
+							<DatePicker
+								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+								name="startDate"
+								showMonthDropdown
+								dropdownMode="select"
+								selected={startDate}
+								onChange={(date) => setStartDate(date)}
+								dateFormat="MMMM d, yyyy"
+							/>
+						</div>
+						<div>
+							<Icon path={mdiArrowLeftRight} size={1} className="mx-3 inline" />
+						</div>
+						<div>
+							<DatePicker
+								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
+								name="endDate"
+								showMonthDropdown
+								dropdownMode="select"
+								selected={endDate}
+								onChange={(date) => setEndDate(date)}
+								dateFormat="MMMM d, yyyy"
+							/>
+						</div>
 					</div>
-					<div>
-						<Icon path={mdiArrowLeftRight} size={1} className="mx-3 inline" />
-					</div>
-					<div>
-						<DatePicker
-							className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
-							name="endDate"
-							showMonthDropdown
-							dropdownMode="select"
-							selected={endDate}
-							onChange={(date) => setEndDate(date)}
-							dateFormat="MMMM d, yyyy"
-						/>
-					</div>
+					<p className="uppercase text-purp-normal font-semibold mb-5">Pending Requests</p>
+					{requests.filter(
+						(request) =>
+							request.status === 'pending' &&
+							request.startDate.toDate() >= startDate &&
+							request.startDate.toDate() <= endDate
+					).length > 0 ? (
+						requests
+							.filter((request) => request.status === 'pending')
+							.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
+							.map((request) => {
+								return request.requestType === 'singleDay' ? (
+									<SingleRequestLong request={request} key={request.id} />
+								) : (
+									<MultiRequestLong request={request} key={request.id} />
+								)
+							})
+					) : (
+						<p className="text-purp-medium font-semibold">
+							{firstName} does not have any pending requests.
+						</p>
+					)}
 				</div>
-				<p className="uppercase text-purp-normal font-semibold mb-5">Pending Requests</p>
-				{requests.filter(
-					(request) =>
-						request.status === 'pending' &&
-						request.startDate.toDate() >= startDate &&
-						request.startDate.toDate() <= endDate
-				).length > 0 ? (
-					requests
-						.filter((request) => request.status === 'pending')
-						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
-						.map((request) => {
-							return request.requestType === 'singleDay' ? (
-								<SingleRequestLong request={request} key={request.id} />
-							) : (
-								<MultiRequestLong request={request} key={request.id} />
-							)
-						})
-				) : (
-					<p className="text-purp-medium font-semibold">{firstName} does not have any pending requests.</p>
-				)}
+				<div className="px-10 pt-8">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Approved Requests</p>
+					{requests.filter(
+						(request) =>
+							request.status === 'approved' &&
+							request.startDate.toDate() >= startDate &&
+							request.startDate.toDate() <= endDate
+					).length > 0 ? (
+						requests
+							.filter((request) => request.status === 'approved')
+							.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
+							.map((request) => {
+								return request.requestType === 'singleDay' ? (
+									<SingleRequestLong request={request} key={request.id} />
+								) : (
+									<MultiRequestLong request={request} key={request.id} />
+								)
+							})
+					) : (
+						<p className="text-purp-medium font-semibold">
+							{firstName} does not have any approved requests.
+						</p>
+					)}
+				</div>
+				<div className="px-10 pt-8 mb-10">
+					<p className="uppercase text-purp-normal font-semibold mb-5">Denied Requests</p>
+					{requests.filter(
+						(request) =>
+							request.status === 'denied' &&
+							request.startDate.toDate() >= startDate &&
+							request.startDate.toDate() <= endDate
+					).length > 0 ? (
+						requests
+							.filter((request) => request.status === 'denied')
+							.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
+							.map((request) => {
+								return request.requestType === 'singleDay' ? (
+									<SingleRequestLong request={request} key={request.id} />
+								) : (
+									<MultiRequestLong request={request} key={request.id} />
+								)
+							})
+					) : (
+						<p className="text-purp-medium font-semibold">{firstName} does not have any denied requests.</p>
+					)}
+				</div>
 			</div>
-			<div className="px-10 pt-8">
-				<p className="uppercase text-purp-normal font-semibold mb-5">Approved Requests</p>
-				{requests.filter(
-					(request) =>
-						request.status === 'approved' &&
-						request.startDate.toDate() >= startDate &&
-						request.startDate.toDate() <= endDate
-				).length > 0 ? (
-					requests
-						.filter((request) => request.status === 'approved')
-						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
-						.map((request) => {
-							return request.requestType === 'singleDay' ? (
-								<SingleRequestLong request={request} key={request.id} />
-							) : (
-								<MultiRequestLong request={request} key={request.id} />
-							)
-						})
-				) : (
-					<p className="text-purp-medium font-semibold">{firstName} does not have any approved requests.</p>
-				)}
-			</div>
-			<div className="px-10 pt-8 mb-10">
-				<p className="uppercase text-purp-normal font-semibold mb-5">Denied Requests</p>
-				{requests.filter(
-					(request) =>
-						request.status === 'denied' &&
-						request.startDate.toDate() >= startDate &&
-						request.startDate.toDate() <= endDate
-				).length > 0 ? (
-					requests
-						.filter((request) => request.status === 'denied')
-						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
-						.map((request) => {
-							return request.requestType === 'singleDay' ? (
-								<SingleRequestLong request={request} key={request.id} />
-							) : (
-								<MultiRequestLong request={request} key={request.id} />
-							)
-						})
-				) : (
-					<p className="text-purp-medium font-semibold">{firstName} does not have any denied requests.</p>
-				)}
-			</div>
-
 			<ToastContainer position="top-center" autoClose={2000} />
 		</React.Fragment>
 	)

@@ -1,26 +1,26 @@
 import React from 'react'
-import './styles/styles.css'
+import 'styles/styles.css'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { AuthProvider } from './context/Auth'
-import PrivateRoute from './components/PrivateRoute'
-import AdminRoute from './components/AdminRoute'
-import SuperAdminRoute from './components/SuperAdminRoute'
-import Dashboard from './components/routes/dashboard'
-import Login from './components/routes/login'
-import Employees from './components/routes/employees'
-import EditEmployee from './components/routes/edit-employee'
-import NewRequest from './components/routes/new-request'
-import Account from './components/routes/account'
-import ResetPassword from './components/routes/password-reset'
-import AddEmployee from './components/routes/add-employee'
-import Requests from './components/routes/requests'
-import PendingRequests from './components/routes/pending-requests'
-import EditRequest from './components/routes/edit-request'
-import DeniedRequests from './components/routes/denied-requests'
-import TestPage from './components/routes/test'
-import Users from './components/routes/users'
-import EditUser from './components/routes/edit-user'
-import UpcomingRequests from './components/routes/upcoming-requests'
+import { AuthProvider } from 'context/Auth'
+import PrivateRoute from 'components/PrivateRoute'
+import AdminRoute from 'components/AdminRoute'
+import SuperAdminRoute from 'components/SuperAdminRoute'
+import Dashboard from 'components/routes/dashboard'
+import Login from 'components/routes/login'
+import Employees from 'components/routes/employees'
+import EditEmployee from 'components/routes/edit-employee'
+import AddRequest from 'components/routes/add-request'
+import Account from 'components/routes/account'
+import ResetPassword from 'components/routes/password-reset'
+import AddEmployee from 'components/routes/add-employee'
+import Requests from 'components/routes/requests'
+import PendingRequests from 'components/routes/pending-requests'
+import EditRequest from 'components/routes/edit-request'
+import DeniedRequests from 'components/routes/denied-requests'
+import TestPage from 'components/routes/test'
+import Users from 'components/routes/users'
+import EditUser from 'components/routes/edit-user'
+import UpcomingRequests from 'components/routes/upcoming-requests'
 
 const App = () => {
 	return (
@@ -35,7 +35,7 @@ const App = () => {
 				<SuperAdminRoute path="/users/edit/:id" component={EditUser} />
 				<AdminRoute path="/employees" exact component={Employees} />
 				<PrivateRoute path="/employees/edit/:id" component={EditEmployee} />
-				<PrivateRoute path="/new-request" component={NewRequest} />
+				<PrivateRoute path="/add-request" component={AddRequest} />
 				<PrivateRoute path="/pending-requests" component={PendingRequests} />
 				<PrivateRoute path="/upcoming-requests" component={UpcomingRequests} />
 				<PrivateRoute path="/denied-requests" component={DeniedRequests} />
