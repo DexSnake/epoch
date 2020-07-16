@@ -18,12 +18,12 @@ const UserNav = () => {
 					state: { id: currentUser.uid }
 				}}
 			>
-				<li className="text-purp-light py-2 pl-6 pr-8 focus:outline-none hover:bg-purp-dark flex items-center">
-					<Icon path={mdiAccount} size={0.8} className="mr-2" />
-					My Profile
+				<li className="text-purp-light md:py-2 md:pl-6 md:pr-8 relative focus:outline-none hover:bg-purp-dark flex items-center">
+					<Icon path={mdiAccount} size={0.8} className="md:mr-2" />
+					<span className="hidden md:inline">My Profile</span>
 				</li>
 			</Link>
-			<NavLink linkTo="new-request" icon={mdiCalendarPlus} text="New Request" />
+			<NavLink linkTo="add-request" icon={mdiCalendarPlus} text="New Request" />
 			<NavLink linkTo="requests" icon={mdiCalendarAccount} text="My Requests" />
 		</ul>
 	)

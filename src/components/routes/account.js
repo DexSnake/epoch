@@ -9,19 +9,21 @@ const Account = () => {
 	const { currentUser } = useContext(AuthContext)
 	return (
 		<Layout>
-			<div className="flex max-w-2xl flex-wrap m-10">
-				<div className="w-full py-2">
-					<ChangeProfileImage />
-				</div>
-
-				<div className="w-full py-2">
-					<ChangePassword />
-				</div>
-				{currentUser.accessLevel >= 2 ? (
+			<div className="max-w-3xl mx-auto">
+				<div className="m-10">
 					<div className="w-full py-2">
-						<CreateAdmin />
+						<ChangeProfileImage />
 					</div>
-				) : null}
+
+					<div className="w-full py-2">
+						<ChangePassword />
+					</div>
+					{currentUser.accessLevel >= 2 ? (
+						<div className="w-full py-2">
+							<CreateAdmin />
+						</div>
+					) : null}
+				</div>
 			</div>
 		</Layout>
 	)

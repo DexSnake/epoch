@@ -35,7 +35,7 @@ const EditUserDetails = ({ user }) => {
 		<>
 			<div className="w-full bg-white rounded shadow">
 				<div className="h-32 bg-purp-medium"></div>
-				<div className="px-6 pb-6 flex">
+				<div className="px-6 pb-6 flex flex-col md:flex-row">
 					<div className="w-32 -mt-12">
 						{user.photoURL ? (
 							<div
@@ -76,7 +76,7 @@ const EditUserDetails = ({ user }) => {
 							</Select>
 						</div>
 					</div>
-					<div className="w-full flex flex-col justify-end items-end">
+					<div className="w-full flex flex-col justify-end items-end mt-4 md:mt-0">
 						<SubmitButtonWithLoader
 							onClick={handleSubmit}
 							text="Update"

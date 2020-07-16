@@ -24,20 +24,20 @@ const SingleRequestLong = ({ request }) => {
 	}
 	return (
 		<div className={`p-6 bg-white shadow rounded mb-3 border-l-4 ${statusColorBorder}`}>
-			<div className="flex items-center">
-				<div className="w-1/5 px-3">
+			<div className="flex flex-wrap items-center">
+				<div className="w-1/2 md:w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">Date</p>
 					<p>{moment(request.startDate.toDate()).format('MMMM DD, YYYY')}</p>
 				</div>
-				<div className="w-1/5 px-3">
+				<div className="w-1/5 px-3 hidden md:block">
 					<p className="text-purp-normal font-semibold">Start Time</p>
 					<p>{request.startTime}</p>
 				</div>
-				<div className="w-1/5 px-3">
+				<div className="w-1/5 px-3 hidden md:block">
 					<p className="text-purp-normal font-semibold">Total Hours</p>
 					<p>{request.numberOfHours}</p>
 				</div>
-				<div className="w-1/5 px-3">
+				<div className="w-1/3 md:w-1/5 px-3">
 					<p className="text-purp-normal font-semibold">Status</p>
 					<span className={`text-sm text-white px-2 py-1 rounded ${statusColorBackground}`}>
 						{request.status}
@@ -84,7 +84,7 @@ const SingleRequestLong = ({ request }) => {
 						</div>
 					)
 				) : request.status === 'denied' ? null : (
-					<div className="w-1/5 px-3 flex justify-end">
+					<div className="w-1/6 md:w-1/5 px-3 flex justify-end">
 						<Link
 							to={{
 								pathname: `/requests/edit/${request.id}`,

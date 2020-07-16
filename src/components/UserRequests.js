@@ -40,10 +40,9 @@ const UserRequests = () => {
 	return (
 		<div className="max-w-6xl mx-auto">
 			<div className="m-10">
-				<div className="flex justify-between mb-6">
-					<h1 className="font-semibold text-3xl text-purp-normal">My Time Off Requests</h1>
-
-					<div className="w-1/2 flex items-center text-purp-normal">
+				<div className="flex flex-wrap mb-6">
+					<h1 className="font-semibold text-3xl mb-4 xl:mb-0 text-purp-normal">My Time Off Requests</h1>
+					<div className="w-full lg:w-2/3 xl:w-1/2 flex items-center flex-col md:flex-row text-purp-normal px-3">
 						<div>
 							<DatePicker
 								className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
@@ -70,7 +69,7 @@ const UserRequests = () => {
 							/>
 						</div>
 					</div>
-					<div className="w-1/6 flex items-center">
+					<div className="md:w-1/4 xl:w-1/6 flex items-center mx-auto mt-4 lg:mt-0 px-3">
 						<Select name="filter" onChange={(e) => setStatus(e.target.value)}>
 							<option value="all">All</option>
 							<option value="pending">Pending</option>

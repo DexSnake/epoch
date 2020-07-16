@@ -11,7 +11,7 @@ import { Calendar, DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import { DeleteButton, SubmitButtonWithLoader } from '../UI Elements/Buttons'
-import DeleteRequestModal from '../Modals/DeleteRequestModal'
+import DeleteRequestModal from 'components/Modals/DeleteRequestModal'
 import { addDays, isWeekend } from 'date-fns'
 import RequestForm from '../skeletons/RequestForm'
 

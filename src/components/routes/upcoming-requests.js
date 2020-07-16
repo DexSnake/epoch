@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from 'components/Layout/Layout'
 import Icon from '@mdi/react'
-import { mdiArrowLeftRight, mdiCalendarCheck } from '@mdi/js'
+import { mdiArrowLeftRight, mdiCalendarCheck, mdiArrowUpDown } from '@mdi/js'
 import { db } from '../../firebase/firebase'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -45,7 +45,7 @@ const UpcomingRequests = () => {
 								Upcoming Requests
 							</h1>
 						</div>
-						<div className="flex items-center text-purp-normal mb-4">
+						<div className="mx-auto sm:mx-0 mt-3 sm:mt-0 flex flex-wrap items-center flex-col sm:flex-row text-purp-normal mb-4">
 							<div>
 								<DatePicker
 									className="disabled:bg-white disabled:text-purp-medium focus:outline-none border rounded px-2 py-1 font-semibold text-purp-normal"
@@ -57,8 +57,11 @@ const UpcomingRequests = () => {
 									dateFormat="MMMM d, yyyy"
 								/>
 							</div>
-							<div>
+							<div className="hidden sm:flex">
 								<Icon path={mdiArrowLeftRight} size={1} className="mx-3 inline" />
+							</div>
+							<div className="flex sm:hidden my-2">
+								<Icon path={mdiArrowUpDown} size={1} className="mx-3 inline" />
 							</div>
 							<div>
 								<DatePicker

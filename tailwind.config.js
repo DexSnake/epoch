@@ -23,6 +23,7 @@ module.exports = {
 		inset: {
 			'0': 0,
 			auto: 'auto',
+			'neg-20': '-20px',
 			'neg-10': '-10px',
 			'neg-6': '-6px',
 			'10': '10px',
@@ -63,7 +64,8 @@ module.exports = {
 			},
 			spacing: {
 				'side-bar': '260px',
-				'top-bar': '56px'
+				'top-bar': '56px',
+				'profile-pic': '128px'
 			}
 		}
 	},

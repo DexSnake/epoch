@@ -16,7 +16,7 @@ const MultiRequestShort = ({ request, footer }) => {
 		requestStyles = 'border-red-500'
 	}
 	return (
-		<div className="w-1/3 px-3">
+		<div className="w-full lg:w-1/2 xl:w-1/3 px-3 mb-3">
 			<div className={`bg-white shadow-lg rounded mb-3 text-purp-normal border-t-4 ${requestStyles}`}>
 				<div className="p-6">
 					<h4 className="font-semibold text-purp-medium pb-4 text-lg uppercase">

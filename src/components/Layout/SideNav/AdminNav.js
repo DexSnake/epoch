@@ -36,9 +36,9 @@ const AdminNav = () => {
 			<Link to="/pending-requests" className="focus:outline-none">
 				<li className="text-purp-light md:py-2 md:pl-6 md:pr-8 relative focus:outline-none hover:bg-purp-dark flex items-center">
 					{requests.length > 0 ? (
-						<p className="font-semibold text-sm absolute top-neg-6 right-50 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">
+						<span className="font-semibold text-sm absolute top-0 ml-6 -mt-3 md:ml-0 md:mt-0 md:top-neg-6 md:right-50 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">
 							{requests.length}
-						</p>
+						</span>
 					) : null}
 					<Icon path={mdiCalendarAlert} size={0.8} className="md:mr-2" />
 					<span className="hidden md:inline">Pending Requests</span>

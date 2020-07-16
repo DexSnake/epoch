@@ -33,40 +33,42 @@ const NewEmployeeHeader = () => {
 	return (
 		<React.Fragment>
 			<div className="bg-white px-6 pt-8 pb-6 flex">
-				<div style={{ minWidth: 128 }}>
-					{employeeProfile.imageUrl ? (
-						<img
-							src={employeeProfile.imageUrl}
-							alt="employee headshot"
-							className="rounded-full h-32 w-32 mb-3 border-purp-light border-4"
-						/>
-					) : (
-						<div className="rounded-full bg-purp-light h-32 w-32 mb-3 flex items-center justify-center mx-auto">
-							<span className="text-4xl text-purp-normal">
-								{getInitals(employeeProfile.firstName, employeeProfile.lastName)}
-							</span>
+				<div className="w-full flex flex-wrap relative">
+					<div className="w-full lg:w-1/2 px-3 flex">
+						<div className="min-w-profile-pic mr-4">
+							{employeeProfile.imageUrl ? (
+								<img
+									src={employeeProfile.imageUrl}
+									alt="employee headshot"
+									className="rounded-full h-24 w-24 md:h-32 md:w-32 mb-3 border-purp-light border-4"
+								/>
+							) : (
+								<div className="rounded-full bg-purp-light h-32 w-32 mb-3 flex items-center justify-center mx-auto">
+									<span className="text-4xl text-purp-normal">
+										{getInitals(employeeProfile.firstName, employeeProfile.lastName)}
+									</span>
+								</div>
+							)}
 						</div>
-					)}
-				</div>
-				<div className="w-full flex">
-					<div className="w-1/2 pl-6 pr-3">
-						<h1 className="font-thin leading-none text-5xl text-purp-normal">
-							{employeeProfile.firstName} {employeeProfile.lastName}
-						</h1>
-						<p className="text-purp-normal my-2 font-semibold">{employeeProfile.title}</p>
-						{employeeProfile.isActive ? (
-							<p className="text-green-400 text-sm font-semibold uppercase">
-								<Icon path={mdiCheckBold} size={0.8} className="pb-1 inline" />
-								active
-							</p>
-						) : (
-							<p className="text-red-400 text-sm font-semibold uppercase">
-								<Icon path={mdiCloseCircleOutline} size={0.8} className="pb-1 inline" />
-								inactive
-							</p>
-						)}
+						<div>
+							<h1 className="font-thin leading-none text-4xl md:text-5xl text-purp-normal">
+								{employeeProfile.firstName} {employeeProfile.lastName}
+							</h1>
+							<p className="text-purp-normal my-2 font-semibold">{employeeProfile.title}</p>
+							{employeeProfile.isActive ? (
+								<p className="text-green-400 text-sm font-semibold uppercase">
+									<Icon path={mdiCheckBold} size={0.8} className="pb-1 inline" />
+									active
+								</p>
+							) : (
+								<p className="text-red-400 text-sm font-semibold uppercase">
+									<Icon path={mdiCloseCircleOutline} size={0.8} className="pb-1 inline" />
+									inactive
+								</p>
+							)}
+						</div>
 					</div>
-					<div className="w-1/4">
+					<div className="w-1/2 px-3 hidden lg:block">
 						<p className="text-purp-normal mb-3">
 							Hired on:{' '}
 							<span className="font-semibold">
@@ -104,14 +106,14 @@ const NewEmployeeHeader = () => {
 							</span>
 						</p>
 					</div>
-					<div className="w-1/4 flex flex-col justify-between">
+					<div className="absolute top-neg-20 lg:top-0 right-0">
 						{currentUser.accessLevel > 0 ? (
 							employeeProfile.isActive ? (
 								<button
 									onClick={() => setShowDeactivateEmployeeModal(true)}
 									className="text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease"
 								>
-									Deactivate Employee <Icon path={mdiDelete} size={0.8} className="inline pb-1" />
+									<Icon path={mdiDelete} size={1} />
 								</button>
 							) : (
 								<button
