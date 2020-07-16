@@ -9,7 +9,7 @@ const UserNav = () => {
 	const { currentUser } = useContext(AuthContext)
 
 	return (
-		<ul>
+		<ul className="flex flex-wrap justify-between px-4 py-3 md:px-0 md:py-0 md:block">
 			<NavLink linkTo="" icon={mdiMonitorDashboard} text="Dashboard" />
 			<Link
 				className="focus:outline-none cursor-pointer"

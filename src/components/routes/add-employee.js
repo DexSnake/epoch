@@ -181,10 +181,10 @@ const AddEmployee = (props) => {
 				</h1>
 				<form onSubmit={handleSubmit(handleAddEmployee)}>
 					<EmployeeInfoContainer>
-						<div className="p-8">
+						<div className="px-8 pt-8 pb-2">
 							<p className="uppercase text-purp-normal font-semibold mb-5">Personal Info</p>
-							<div className="flex">
-								<div className="w-1/3 px-3">
+							<div className="flex flex-wrap">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="First Name" htmlFor="firstName" required />
 									<TextInput
 										name="firstName"
@@ -200,7 +200,7 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.firstName && errors.firstName.message}</ValidationError>
 								</div>
-								<div className="w-1/3 px-3">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="Middle Name" htmlFor="middleName" />
 									<TextInput
 										name="middleName"
@@ -209,7 +209,7 @@ const AddEmployee = (props) => {
 										validation={register}
 									/>
 								</div>
-								<div className="w-1/3 px-3">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="Last Name" htmlFor="lastName" required />
 									<TextInput
 										name="lastName"
@@ -225,19 +225,16 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.lastName && errors.lastName.message}</ValidationError>
 								</div>
-							</div>
-						</div>
-						<div className="p-8">
-							<div className="flex">
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="DOB" htmlFor="dateOfBirth" required />
 									<DatePicker
 										name="dateOfBirth"
 										showMonthDropdown
 										showYearDropdown
 										dropdownMode="select"
-										className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
+										className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal w-full"
 										selected={dateOfBirth}
+										wrapperClassName="w-full"
 										onChange={(date) => {
 											setState((prevState) => ({ ...prevState, dateOfBirth: date }))
 											setValue('dateOfBirth', date)
@@ -247,7 +244,7 @@ const AddEmployee = (props) => {
 										{errors.dateOfBirth && errors.dateOfBirth.message}
 									</ValidationError>
 								</div>
-								<div className="w-1/5 px-3 relative">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="SSN" htmlFor="ssn" required />
 									<NumberFormat
 										format="###-##-####"
@@ -265,7 +262,7 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.ssn && errors.ssn.message}</ValidationError>
 								</div>
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="Gender" htmlFor="gender" />
 									<Select name="gender" value={gender} onChange={handleChange} validation={register}>
 										<option disabled defaultValue value=""></option>
@@ -274,7 +271,7 @@ const AddEmployee = (props) => {
 										<option value="Other">Other</option>
 									</Select>
 								</div>
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="Ethnicity" htmlFor="ethnicity" />
 									<Select
 										name="ethnicity"
@@ -292,7 +289,7 @@ const AddEmployee = (props) => {
 										<option value="White/Caucasian">White/Caucasian</option>
 									</Select>
 								</div>
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="Marital Status" htmlFor="maritalStatus" />
 									<Select
 										name="maritalStatus"
@@ -311,10 +308,10 @@ const AddEmployee = (props) => {
 						</div>
 					</EmployeeInfoContainer>
 					<EmployeeInfoContainer>
-						<div className="p-8">
+						<div className="px-8 pt-8 pb-2">
 							<p className="uppercase text-purp-normal font-semibold mb-5">Time Off Info</p>
-							<div className="flex">
-								<div className="w-1/3 px-3">
+							<div className="flex flex-wrap">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="Available Hours" htmlFor="availableHours" required />
 									<TextInput
 										name="availableHours"
@@ -336,18 +333,19 @@ const AddEmployee = (props) => {
 						</div>
 					</EmployeeInfoContainer>
 					<EmployeeInfoContainer>
-						<div className="p-8">
+						<div className="px-8 pt-8 pb-2">
 							<p className="uppercase text-purp-normal font-semibold mb-5">Employment Info</p>
-							<div className="flex">
-								<div className="w-1/4 px-3">
+							<div className="flex flex-wrap">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="Start Date" htmlFor="startDate" required />
 									<DatePicker
-										className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
+										className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal w-full"
 										name="startDate"
 										showMonthDropdown
 										showYearDropdown
 										dropdownMode="select"
 										selected={startDate}
+										wrapperClassName="w-full"
 										onChange={(date) => {
 											setState((prevState) => ({ ...prevState, startDate: date }))
 											setValue('startDate', date)
@@ -355,7 +353,7 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.startDate && errors.startDate.message}</ValidationError>
 								</div>
-								<div className="w-1/4 px-3">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="Salary" htmlFor="salary" />
 									<TextInput
 										name="salary"
@@ -364,7 +362,7 @@ const AddEmployee = (props) => {
 										validation={register}
 									/>
 								</div>
-								<div className="w-1/4 px-3">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="salaryRate" htmlFor="salaryRate" />
 									<Select
 										name="salaryRate"
@@ -379,7 +377,7 @@ const AddEmployee = (props) => {
 										<option value="/month">Per Month</option>
 									</Select>
 								</div>
-								<div className="w-1/4 px-3">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="title" htmlFor="title" required />
 									<TextInput
 										name="title"
@@ -395,10 +393,10 @@ const AddEmployee = (props) => {
 						</div>
 					</EmployeeInfoContainer>
 					<EmployeeInfoContainer>
-						<div className="p-8">
+						<div className="px-8 pt-8 pb-2">
 							<p className="uppercase text-purp-normal font-semibold mb-5">Contact Info</p>
-							<div className="flex">
-								<div className="w-1/3 px-3">
+							<div className="flex flex-wrap">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="Phone Number" htmlFor="phoneNumber" required />
 									<NumberFormat
 										format="(###) ###-####"
@@ -418,7 +416,7 @@ const AddEmployee = (props) => {
 										{errors.phoneNumber && errors.phoneNumber.message}
 									</ValidationError>
 								</div>
-								<div className="w-1/3 px-3">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
 									<NumberFormat
 										format="(###) ###-####"
@@ -429,7 +427,7 @@ const AddEmployee = (props) => {
 										ref={register}
 									/>
 								</div>
-								<div className="w-1/3 px-3">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="Email" htmlFor="email" required />
 									<TextInput
 										name="email"
@@ -445,11 +443,7 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.email && errors.email.message}</ValidationError>
 								</div>
-							</div>
-						</div>
-						<div className="p-8">
-							<div className="flex">
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="Address 1" htmlFor="address1" required />
 									<TextInput
 										name="address1"
@@ -461,7 +455,7 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.address1 && errors.address1.message}</ValidationError>
 								</div>
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="Address 2" htmlFor="address2" />
 									<TextInput
 										name="address2"
@@ -470,7 +464,7 @@ const AddEmployee = (props) => {
 										validation={register}
 									/>
 								</div>
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="City" htmlFor="city" required />
 									<TextInput
 										name="city"
@@ -482,7 +476,7 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.city && errors.city.message}</ValidationError>
 								</div>
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="State" htmlFor="state" required />
 									<TextInput
 										name="state"
@@ -498,7 +492,7 @@ const AddEmployee = (props) => {
 									/>
 									<ValidationError>{errors.state && errors.state.message}</ValidationError>
 								</div>
-								<div className="w-1/5 px-3">
+								<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 									<Label name="Zip Code" htmlFor="zipCode" required />
 									<TextInput
 										name="zipCode"
@@ -518,12 +512,12 @@ const AddEmployee = (props) => {
 						</div>
 					</EmployeeInfoContainer>
 					<EmployeeInfoContainer>
-						<div className="p-8">
+						<div className="px-8 pt-8 pb-2">
 							<div className="flex justify-between">
 								<p className="uppercase text-purp-normal font-semibold">Emergency Contact</p>
 							</div>
-							<div className="flex">
-								<div className="w-1/4 px-3">
+							<div className="flex flex-wrap">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="First Name" htmlFor="ecFirstName" />
 									<TextInput
 										name="ecFirstName"
@@ -532,7 +526,7 @@ const AddEmployee = (props) => {
 										validation={register}
 									/>
 								</div>
-								<div className="w-1/4 px-3">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="Last Name" htmlFor="ecLastName" />
 									<TextInput
 										name="ecLastName"
@@ -541,7 +535,7 @@ const AddEmployee = (props) => {
 										validation={register}
 									/>
 								</div>
-								<div className="w-1/4 px-3">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="Relationship" htmlFor="ecRelationship" />
 									<TextInput
 										name="ecRelationship"
@@ -550,7 +544,7 @@ const AddEmployee = (props) => {
 										validation={register}
 									/>
 								</div>
-								<div className="w-1/4 px-3">
+								<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 									<Label name="Phone Number" htmlFor="ecPhoneNumber" />
 									<NumberFormat
 										format="(###) ###-####"
@@ -565,10 +559,10 @@ const AddEmployee = (props) => {
 						</div>
 					</EmployeeInfoContainer>
 					<EmployeeInfoContainer>
-						<div className="p-8">
+						<div className="px-8 pt-8 pb-2">
 							<p className="uppercase text-purp-normal font-semibold mb-5">Permissions</p>
-							<div className="flex">
-								<div className="w-1/3 px-3">
+							<div className="flex flex-wrap">
+								<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 									<Label name="User Role" htmlFor="userRole" required />
 									<Select name="userRole" value={role.name} onChange={handleUserRole}>
 										<option defaultValue value="User">

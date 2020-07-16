@@ -14,10 +14,10 @@ const Layout = (props) => {
 			<div className="flex flex-col min-h-screen">
 				<Header onClick={() => setShowProfileMenu(!showProfileMenu)} />
 				<main className="flex flex-grow flex-col-reverse md:flex-row">
-					<div className="bg-purp-normal py-10 min-w-side-bar">
+					<div className="bg-purp-normal py-2 md:py-20 min-w-side-bar w-full md:h-full fixed z-10 bottom-0 md:w-auto md:inset-auto">
 						{currentUser.accessLevel > 0 ? <AdminNav /> : <UserNav />}
 					</div>
-					<div className="bg-purp-lightest flex-grow relative">
+					<div className="bg-purp-lightest flex-grow relative mt-top-bar ml-0 md:ml-side-bar pb-20 md:pb-0">
 						<AccountNav showProfileMenu={showProfileMenu} />
 						{props.children}
 					</div>

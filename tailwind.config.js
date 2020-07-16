@@ -60,6 +60,10 @@ module.exports = {
 					bright: '#75107B',
 					brightest: '#9815a0'
 				}
+			},
+			spacing: {
+				'side-bar': '260px',
+				'top-bar': '56px'
 			}
 		}
 	},

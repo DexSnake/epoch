@@ -49,8 +49,8 @@ const ChangePassword = () => {
 			<div className="w-full bg-white p-6 rounded shadow">
 				<p className="text-purp-normal font-semibold mb-4">Change Your Password</p>
 				<form onSubmit={handleChangePassword}>
-					<div className="flex">
-						<div className="px-2">
+					<div className="flex flex-wrap">
+						<div className="px-2 w-full md:w-1/2">
 							<Label name="New Password" htmlFor="password1" />
 							<PasswordInput
 								name="password1"
@@ -59,7 +59,7 @@ const ChangePassword = () => {
 								className="mb-4"
 							/>
 						</div>
-						<div className="px-2">
+						<div className="px-2 w-full md:w-1/2">
 							<Label name="Verifiy Password" htmlFor="password2" />
 							<PasswordInput
 								name="password2"

@@ -38,7 +38,7 @@ const UpcomingRequests = () => {
 		<Layout>
 			<div className="max-w-6xl mx-auto">
 				<div className="m-10">
-					<div className="flex items-baseline justify-between mb-6">
+					<div className="flex items-baseline justify-between mb-6 flex-wrap">
 						<div>
 							<h1 className="font-semibold text-3xl text-purp-normal mr-4">
 								<Icon path={mdiCalendarCheck} size={2} className="inline pb-1 mr-1" />

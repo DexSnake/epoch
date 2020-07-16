@@ -29,19 +29,19 @@ const AdminNav = () => {
 	}, [])
 
 	return (
-		<ul className="flex">
+		<ul className="flex flex-wrap justify-between px-4 py-3 md:px-0 md:py-0 md:block">
 			<NavLink linkTo="" icon={mdiMonitorDashboard} text="Dashboard" />
 			<NavLink linkTo="add-employee" icon={mdiAccountPlus} text="Add Employee" />
 			<NavLink linkTo="employees" icon={mdiAccountGroup} text="Employee List" />
 			<Link to="/pending-requests" className="focus:outline-none">
-				<li className="text-purp-light py-2 pl-6 pr-8 relative focus:outline-none hover:bg-purp-dark flex items-center">
+				<li className="text-purp-light md:py-2 md:pl-6 md:pr-8 relative focus:outline-none hover:bg-purp-dark flex items-center">
 					{requests.length > 0 ? (
 						<p className="font-semibold text-sm absolute top-neg-6 right-50 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">
 							{requests.length}
 						</p>
 					) : null}
-					<Icon path={mdiCalendarAlert} size={0.8} className="mr-2" />
-					Pending Requests
+					<Icon path={mdiCalendarAlert} size={0.8} className="md:mr-2" />
+					<span className="hidden md:inline">Pending Requests</span>
 				</li>
 			</Link>
 			<NavLink linkTo="upcoming-requests" icon={mdiCalendarCheck} text="Upcoming Requests" />

@@ -47,7 +47,7 @@ const Employees = () => {
 		<Layout>
 			<div className="max-w-6xl mx-auto">
 				<div className="p-10">
-					<h1 className="text-3xl text-purp-normal font-semibold mb-4">
+					<h1 className="text-xl sm:text-3xl text-purp-normal font-semibold mb-4">
 						<Icon path={mdiAccountCheck} size={2.1} className="inline pb-2 mr-1" />
 						Active Employees
 					</h1>
