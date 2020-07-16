@@ -65,11 +65,11 @@ const ChangeProfileImage = () => {
 	return (
 		<div>
 			<div className="w-full bg-white rounded shadow">
-				<div className="h-32 bg-purp-medium"></div>
+				<div className="h-20 sm:h-32 bg-purp-medium"></div>
 				<div className="px-6 pb-8 -mt-16 flex items-center">
 					{currentUser.photoURL ? (
 						<div
-							className="h-32 w-32 rounded-full border-4 border-white relative"
+							className="h-20 w-20 sm:h-32 sm:w-32 rounded-full border-4 border-white relative"
 							alt="profile image"
 							style={{ backgroundImage: `url('${currentUser.photoURL}')`, backgroundSize: 'cover' }}
 						>
@@ -89,7 +89,7 @@ const ChangeProfileImage = () => {
 							</div>
 						</div>
 					) : (
-						<div className="h-32 w-32 rounded-full border-4 border-white bg-purp-light relative flex items-center justify-center">
+						<div className="h-20 w-20 sm:h-32 sm:w-32 rounded-full border-4 border-white bg-purp-light relative flex items-center justify-center">
 							<p className="absolute text-3xl">{initials}</p>
 							<div
 								className="w-full h-full z-50 opacity-0 hover:opacity-100 rounded-full transition duration-200 ease-in-out"

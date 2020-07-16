@@ -39,7 +39,7 @@ const UserRequests = () => {
 
 	return (
 		<div className="max-w-6xl mx-auto">
-			<div className="m-10">
+			<div className="m-4 sm:m-10">
 				<div className="flex flex-wrap mb-6">
 					<h1 className="font-semibold text-3xl mb-4 xl:mb-0 text-purp-normal">My Time Off Requests</h1>
 					<div className="w-full lg:w-2/3 xl:w-1/2 flex items-center flex-col md:flex-row text-purp-normal px-3">

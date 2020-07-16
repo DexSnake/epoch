@@ -32,7 +32,7 @@ const DeniedRequests = () => {
 	return (
 		<Layout>
 			<div className="max-w-6xl mx-auto">
-				<div className="m-10">
+				<div className="m-4 sm:m-10">
 					<h1 className="font-semibold pb-2 text-3xl text-purp-normal mb-4">
 						<Icon path={mdiCalendarRemove} size={2} className="inline pb-1 mr-1" />
 						Denied Requests

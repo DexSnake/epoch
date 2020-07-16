@@ -137,7 +137,7 @@ const EditRequest = (props) => {
 	return (
 		<Layout>
 			{request ? (
-				<div className="flex justify-center m-10">
+				<div className="flex justify-center m-4 sm:m-10">
 					<div className="w-full max-w-sm bg-white p-6">
 						<h1 className="text-purp-normal font-semibold text-2xl pb-4">
 							<Icon path={mdiCalendarEdit} size={1.8} className="inline mr-2 pb-1" />

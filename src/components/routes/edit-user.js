@@ -7,7 +7,7 @@ const EditUser = ({ location }) => {
 	return (
 		<Layout>
 			<div className="max-w-2xl mx-auto">
-				<div className="m-10">
+				<div className="m-4 sm:m-10">
 					<EditUserDetails user={user} />
 				</div>
 			</div>

@@ -175,7 +175,7 @@ const AddEmployee = (props) => {
 	return (
 		<Layout>
 			<div className="max-w-6xl mx-auto">
-				<h1 className="m-10 text-purp-normal text-3xl">
+				<h1 className="m-4 sm:m-10 text-purp-normal text-3xl">
 					<Icon path={mdiAccountPlus} size={2.2} className="inline mr-3 pb-1" />
 					Add New Employee
 				</h1>
@@ -576,7 +576,7 @@ const AddEmployee = (props) => {
 							</div>
 						</div>
 					</EmployeeInfoContainer>
-					<div className="pb-6 px-10 flex justify-end items-center">
+					<div className="pb-6 px-4 sm:px-10 flex justify-end items-center">
 						<SubmitButtonWithLoader
 							text="Create Employee"
 							loadingText="Creating Employee..."

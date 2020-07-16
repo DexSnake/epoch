@@ -8,7 +8,7 @@ const UserDashboard = () => {
 
 	return (
 		<div className="max-w-6xl mx-auto">
-			<div className="flex flex-wrap mx-10 my-10">
+			<div className="flex flex-wrap m-4 sm:m-10">
 				<DashboardButton link="/requests" icon={mdiCalendarCheck} text="View My Requests" />
 				<DashboardButton link="/new-request" icon={mdiCalendarPlus} text="Submit New Request" />
 				<DashboardButton

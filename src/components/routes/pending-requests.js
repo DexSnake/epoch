@@ -32,7 +32,7 @@ const PendingRequests = () => {
 	return (
 		<Layout>
 			<div className="max-w-6xl mx-auto">
-				<div className="m-10">
+				<div className="m-4 sm:m-10">
 					<h1 className="font-semibold text-3xl text-purp-normal mb-4">
 						<Icon path={mdiCalendarAlert} size={2} className="inline pb-1 mr-1" />
 						Pending Requests

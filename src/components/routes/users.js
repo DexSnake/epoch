@@ -8,7 +8,7 @@ const Users = () => {
 	return (
 		<Layout>
 			<div className="max-w-6xl mx-auto">
-				<div className="m-10">
+				<div className="m-4 sm:m-10">
 					<UserList currentUser={currentUser} />
 				</div>
 			</div>

@@ -34,7 +34,7 @@ const EditUserDetails = ({ user }) => {
 	return (
 		<>
 			<div className="w-full bg-white rounded shadow">
-				<div className="h-32 bg-purp-medium"></div>
+				<div className="h-20 sm:h-32 bg-purp-medium"></div>
 				<div className="px-6 pb-6 flex flex-col md:flex-row">
 					<div className="w-32 -mt-12">
 						{user.photoURL ? (
