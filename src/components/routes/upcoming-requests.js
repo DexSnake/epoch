@@ -34,6 +34,8 @@ const UpcomingRequests = () => {
 		}
 	}, [])
 
+	console.log(requests && requests.filter((request) => request.startDate.toDate() > addDays(startDate, 20)))
+
 	return (
 		<Layout>
 			<div className="max-w-6xl mx-auto">
@@ -79,11 +81,13 @@ const UpcomingRequests = () => {
 
 					<div className="flex flex-wrap">
 						{requests ? (
-							requests.filter(
-								(request) =>
-									request.startDate.toDate() > startDate && request.startDate.toDate() < endDate
-							).length > 0 ? (
+							requests.length > 0 ? (
 								requests
+									.filter(
+										(request) =>
+											request.startDate.toDate() > startDate &&
+											request.startDate.toDate() < endDate
+									)
 									.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 									.map((request) => {
 										return request.requestType === 'singleDay' ? (
