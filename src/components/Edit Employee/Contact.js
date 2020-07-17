@@ -33,9 +33,9 @@ const Contact = () => {
 					<p className="uppercase text-purp-normal font-semibold mb-5">Contact Information</p>
 				</div>
 				<EmployeeInfoContainer>
-					<div className="p-8">
-						<div className="flex">
-							<div className="w-1/3 px-3">
+					<div className="px-8 pt-8 pb-2">
+						<div className="flex flex-wrap">
+							<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 								<Label name="Phone Number" htmlFor="phoneNumber" />
 								<NumberFormat
 									format="(###) ###-####"
@@ -45,7 +45,7 @@ const Contact = () => {
 									className="w-full text-purp-normal focus:outline-none font-semibold border-b pb-1 px-2 disabled:bg-white"
 								/>
 							</div>
-							<div className="w-1/3 px-3">
+							<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 								<Label name="Alt Phone Number" htmlFor="alternatePhoneNumber" />
 								<NumberFormat
 									format="(###) ###-####"
@@ -55,7 +55,7 @@ const Contact = () => {
 									className="w-full text-purp-normal focus:outline-none font-semibold border-b pb-1 px-2 disabled:bg-white"
 								/>
 							</div>
-							<div className="w-1/3 px-3">
+							<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 								<Label name="Email" htmlFor="email" />
 								<TextInput
 									name="email"
@@ -64,27 +64,24 @@ const Contact = () => {
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
-					</div>
-					<div className="p-8">
-						<div className="flex">
-							<div className="w-1/4 px-3">
+
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="Address 1" htmlFor="address1" />
 								<TextInput name="address1" value={address1 || ''} onChange={handleChange} />
 							</div>
-							<div className="w-1/4 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="Address 2" htmlFor="address2" />
 								<TextInput name="address2" value={address2 || ''} onChange={handleChange} />
 							</div>
-							<div className="w-1/4 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="City" htmlFor="city" />
 								<TextInput name="city" value={city || ''} onChange={handleChange} />
 							</div>
-							<div className="w-1/12 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="State" htmlFor="state" />
 								<TextInput name="state" value={state || ''} onChange={handleChange} />
 							</div>
-							<div className="w-1/6 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="Zip Code" htmlFor="zipCode" />
 								<TextInput name="zipCode" value={zipCode || ''} onChange={handleChange} />
 							</div>

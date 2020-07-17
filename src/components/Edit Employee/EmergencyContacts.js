@@ -70,7 +70,7 @@ const EmergencyContacts = () => {
 					{emergencyContacts
 						? emergencyContacts.map((ec, i) => {
 								return (
-									<div className="w-1/2" key={i}>
+									<div className="w-full lg:w-1/2" key={i}>
 										<EmployeeInfoContainer>
 											<div className="pb-8 px-8">
 												<div>

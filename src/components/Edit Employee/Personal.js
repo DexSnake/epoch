@@ -39,9 +39,9 @@ const Personal = () => {
 					<p className="uppercase text-purp-normal font-semibold">Personal Information</p>
 				</div>
 				<EmployeeInfoContainer>
-					<div className="p-8">
-						<div className="flex">
-							<div className="w-1/3 px-3">
+					<div className="px-8 pt-8 pb-2">
+						<div className="flex flex-wrap">
+							<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 								<Label name="First Name" htmlFor="firstName" />
 								<TextInput
 									name="firstName"
@@ -50,7 +50,7 @@ const Personal = () => {
 									onChange={handleChange}
 								/>
 							</div>
-							<div className="w-1/3 px-3">
+							<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 								<Label name="Middle Name" htmlFor="middleName" />
 								<TextInput
 									name="middleName"
@@ -59,7 +59,7 @@ const Personal = () => {
 									onChange={handleChange}
 								/>
 							</div>
-							<div className="w-1/3 px-3">
+							<div className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
 								<Label name="Last Name" htmlFor="lastName" />
 								<TextInput
 									name="lastName"
@@ -68,11 +68,7 @@ const Personal = () => {
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
-					</div>
-					<div className="p-8">
-						<div className="flex">
-							<div className="w-1/5 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="DOB" htmlFor="dob" />
 								<DatePicker
 									className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
@@ -85,7 +81,7 @@ const Personal = () => {
 									onChange={(date) => setState((prevState) => ({ ...prevState, dateOfBirth: date }))}
 								/>
 							</div>
-							<div className="w-1/5 px-3 relative">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6 relative">
 								<Label name="SSN" htmlFor="ssn" />
 								{showSsn ? (
 									<NumberFormat
@@ -107,7 +103,7 @@ const Personal = () => {
 									onClick={() => setShowSsn(!showSsn)}
 								/>
 							</div>
-							<div className="w-1/5 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="Gender" htmlFor="gender" />
 								<Select name="gender" value={gender} onChange={handleChange}>
 									<option value="Male">Male</option>
@@ -115,7 +111,7 @@ const Personal = () => {
 									<option value="Other">Other</option>
 								</Select>
 							</div>
-							<div className="w-1/5 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="Ethnicity" htmlFor="ethnicity" />
 								<Select name="ethnicity" value={ethnicity} onChange={handleChange}>
 									<option value="American Indian">American Indian</option>
@@ -127,7 +123,7 @@ const Personal = () => {
 									<option value="White/Caucasian">White/Caucasian</option>
 								</Select>
 							</div>
-							<div className="w-1/5 px-3">
+							<div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/5 px-3 mb-6">
 								<Label name="Marital Status" htmlFor="maritalStatus" />
 								<Select name="maritalStatus" value={maritalStatus} onChange={handleChange}>
 									<option value="Single">Single</option>

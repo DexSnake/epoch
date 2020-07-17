@@ -31,9 +31,9 @@ const Employment = () => {
 					<p className="uppercase text-purp-normal font-semibold mb-5">Employment Information</p>
 				</div>
 				<EmployeeInfoContainer>
-					<div className="p-8">
-						<div className="flex">
-							<div className="w-1/4 px-3">
+					<div className="px-8 pt-8 pb-2">
+						<div className="flex flex-wrap">
+							<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 								<Label name="Hire Date" htmlFor="startDate" />
 								<DatePicker
 									className="disabled:bg-white disabled:text-purp-medium focus:outline-none border-b pb-1 font-semibold text-purp-normal"
@@ -46,7 +46,7 @@ const Employment = () => {
 									onChange={(date) => setState((prevState) => ({ ...prevState, startDate: date }))}
 								/>
 							</div>
-							<div className="w-1/4 px-3">
+							<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 								<Label name="Salary" htmlFor="salary" />
 								<TextInput
 									name="salary"
@@ -55,7 +55,7 @@ const Employment = () => {
 									onChange={handleChange}
 								/>
 							</div>
-							<div className="w-1/4 px-3">
+							<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 								<Label name="salaryRate" htmlFor="salaryRate" />
 								<Select
 									name="salaryRate"
@@ -70,7 +70,7 @@ const Employment = () => {
 									<option value="/month">Per Month</option>
 								</Select>
 							</div>
-							<div className="w-1/4 px-3">
+							<div className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
 								<Label name="Title" htmlFor="title" />
 								<TextInput
 									name="title"

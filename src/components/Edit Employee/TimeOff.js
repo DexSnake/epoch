@@ -29,13 +29,13 @@ const TimeOff = () => {
 	return (
 		<React.Fragment>
 			<div className="max-w-6xl mx-auto">
-				<div className="px-10 pt-8">
+				<div className="m-4 sm:m-10">
 					<p className="uppercase text-purp-normal font-semibold">Time Off</p>
 				</div>
 				<EmployeeInfoContainer>
-					<div className="p-8">
-						<div className="flex">
-							<div className="w-1/3 px-3">
+					<div className="px-8 pt-8 pb-2">
+						<div className="flex flex-wrap">
+							<div className="w-full md:w-1/3 px-3 mb-6">
 								<Label name="Available Hours" htmlFor="availableHours" />
 								<TextInput
 									name="availableHours"
@@ -44,11 +44,11 @@ const TimeOff = () => {
 									onChange={handlePtoChange}
 								/>
 							</div>
-							<div className="w-1/3 px-3">
+							<div className="w-full md:w-1/3 px-3 mb-6">
 								<Label name="Pending Hours" htmlFor="pendingHours" />
 								<TextInput name="pendingHours" disabled value={pto ? pto.pendingHours : 0} />
 							</div>
-							<div className="w-1/3 px-3">
+							<div className="w-full md:w-1/3 px-3 mb-6">
 								<Label name="Hours Used" htmlFor="usedHours" />
 								<TextInput name="usedHours" disabled value={pto ? pto.usedHours : 0} />
 							</div>
