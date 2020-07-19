@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "kstg-6225"
+    "production": "epoch-prod",
+    "development": "kstg-6225"
   }
 }

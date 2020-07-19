@@ -5,14 +5,14 @@ import 'firebase/firebase-storage'
 import 'firebase/functions'
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyCojZFGPh8zKvFps-GiqACWAfRhIIZsam0',
-	authDomain: 'kstg-6225.firebaseapp.com',
-	databaseURL: 'https://kstg-6225.firebaseio.com',
-	projectId: 'kstg-6225',
-	storageBucket: 'kstg-6225.appspot.com',
-	messagingSenderId: '127304247581',
-	appId: '1:127304247581:web:0be49bc6fa771c8cd719f4',
-	measurementId: 'G-SH0TY3JJSP'
+	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+	authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+	databaseURL: process.env.REACT_APP_DATABASE_URL,
+	projectId: process.env.REACT_APP_PROJECT_ID,
+	storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+	messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+	appId: process.env.REACT_APP_APP_ID,
+	measurementId: process.env.REACT_APP_MEASURMENT_ID
 }
 
 firebase.initializeApp(firebaseConfig)

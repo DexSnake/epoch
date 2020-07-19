@@ -6,7 +6,7 @@ import { AuthContext } from 'context/Auth'
 import DeactivateEmployeeModal from 'components/Modals/DeactivateEmployeeModal'
 import ReactivateEmployeeModal from 'components/Modals/ReactivateEmployeeModal'
 
-const NewEmployeeHeader = () => {
+const EmployeeHeader = () => {
 	const { currentUser, employeeProfile } = useContext(AuthContext)
 
 	const [showDeactivateEmployeeModal, setShowDeactivateEmployeeModal] = useState(false)
@@ -72,9 +72,7 @@ const NewEmployeeHeader = () => {
 						<p className="text-purp-normal mb-3">
 							Hired on:{' '}
 							<span className="font-semibold">
-								{employeeProfile.startDate
-									? moment(employeeProfile.startDate).format('MMMM DD, YYYY')
-									: null}
+								{moment(employeeProfile.startDate).format('MMMM DD, YYYY')}
 							</span>
 						</p>
 						<p className="text-purp-normal mb-3">
@@ -93,9 +91,8 @@ const NewEmployeeHeader = () => {
 						<p className="text-purp-normal mb-3">
 							DOB:{' '}
 							<span className="font-semibold">
-								{employeeProfile.dateOfBirth
-									? moment(employeeProfile.dateOfBirth).format('MMMM DD, YYYY')
-									: null}
+								{moment(employeeProfile.dateOfBirth).format('MMMM DD, YYYY')} (
+								{moment().diff(employeeProfile.dateOfBirth, 'years')})
 							</span>
 						</p>
 						<p className="text-purp-normal mb-3">
@@ -107,8 +104,8 @@ const NewEmployeeHeader = () => {
 						</p>
 					</div>
 					<div className="absolute top-neg-20 lg:top-0 right-0">
-						{currentUser.accessLevel > 0 ? (
-							employeeProfile.isActive ? (
+						{currentUser.accessLevel > 0 &&
+							(employeeProfile.isActive ? (
 								<button
 									onClick={() => setShowDeactivateEmployeeModal(true)}
 									className="text-purp-light hover:text-red-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease"
@@ -120,15 +117,14 @@ const NewEmployeeHeader = () => {
 									onClick={() => setShowReactivateEmployeeModal(true)}
 									className="text-purp-light hover:text-green-600 font-bold uppercase text-xs focus:outline-none transition duration-200 ease"
 								>
-									Reactivate Employee <Icon path={mdiRestore} size={0.8} className="inline pb-1" />
+									<Icon path={mdiRestore} size={1} />
 								</button>
-							)
-						) : null}
+							))}
 					</div>
 				</div>
 			</div>
 
-			{showDeactivateEmployeeModal ? (
+			{showDeactivateEmployeeModal && (
 				<DeactivateEmployeeModal
 					closeModal={closeDeactivateModal}
 					data={{
@@ -137,12 +133,12 @@ const NewEmployeeHeader = () => {
 						lastName: employeeProfile.lastName
 					}}
 				/>
-			) : null}
-			{showReactivateEmployeeModal ? (
+			)}
+			{showReactivateEmployeeModal && (
 				<ReactivateEmployeeModal closeModal={closeReactivateModal} data={{ id: employeeProfile.id }} />
-			) : null}
+			)}
 		</React.Fragment>
 	)
 }
 
-export default NewEmployeeHeader
+export default EmployeeHeader
