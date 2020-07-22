@@ -47,7 +47,7 @@ const Login = ({ history }) => {
 				</div>
 			</header>
 			<main className="flex flex-grow items-center bg-purp-lightest flex-col">
-				<h1 className="text-purp-normal text-3xl mt-32 mb-6 font-semibold">Login to PTO Tracker</h1>
+				<h1 className="text-purp-normal text-3xl mt-32 mb-6 font-semibold">Login to Epoch</h1>
 				<div className="bg-white p-8 rounded shadow-lg max-w-sm">
 					<p className="text-purp-normal">Enter your email address and password.</p>
 					<form className="pt-4" onSubmit={handleLogin}>

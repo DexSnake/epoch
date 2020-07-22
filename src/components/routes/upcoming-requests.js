@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { AuthContext } from 'context/Auth'
 import Layout from 'components/Layout/Layout'
 import Icon from '@mdi/react'
 import { mdiArrowLeftRight, mdiCalendarCheck, mdiArrowUpDown } from '@mdi/js'
@@ -14,6 +15,7 @@ import UserRequestShort from 'components/skeletons/UserRequestShort'
 import NothingHere from 'images/nothingHere.svg'
 
 const UpcomingRequests = () => {
+	const { currentUser } = useContext(AuthContext)
 	const [requests, setRequests] = useState(null)
 	const [startDate, setStartDate] = useState(new Date())
 	const [endDate, setEndDate] = useState(addDays(new Date(), 60))
@@ -81,7 +83,7 @@ const UpcomingRequests = () => {
 
 					<div className="flex flex-wrap">
 						{requests ? (
-							requests.length > 0 ? (
+							requests.filter((request) => request.userId !== currentUser.uid).length > 0 ? (
 								requests
 									.filter(
 										(request) =>

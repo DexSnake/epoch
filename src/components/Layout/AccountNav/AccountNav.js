@@ -10,6 +10,7 @@ const AccountNav = ({ showProfileMenu }) => {
 
 	const signOut = () => {
 		auth.signOut()
+		window.location.href = '/login'
 	}
 
 	return (
@@ -20,7 +21,7 @@ const AccountNav = ({ showProfileMenu }) => {
 		>
 			<ul className="first:mt-2 last:mb-2">
 				<AccountNavLink linkTo="account" icon={mdiAccount} text="Account" />
-				{currentUser.accessLevel > 0 ? (
+				{currentUser.accessLevel > 2 ? (
 					<AccountNavLink linkTo="users" icon={mdiAccountMultiple} text="Users" />
 				) : null}
 				<AccountNavButton onClick={signOut} icon={mdiLogout} text="Logout" />

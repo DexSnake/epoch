@@ -8,7 +8,7 @@ import EmergencyContacts from './EmergencyContacts'
 import Update from './Update'
 import Requests from './Requests'
 
-const EditEmployeeNav = () => {
+const EditEmployeeNav = ({ id }) => {
 	const { currentUser } = useContext(AuthContext)
 
 	const [openTab, setOpenTab] = useState(1)
@@ -52,15 +52,6 @@ const EditEmployeeNav = () => {
 							Contact
 						</span>
 					</button>
-					<button onClick={() => setOpenTab(5)} className="px-6 mb-2 lg:mb-0 focus:outline-none">
-						<span
-							className={`${
-								openTab === 5 ? 'border-b-2 text-purp-brightest' : 'hover:text-purp-brightest'
-							} border-purp-brightest font-semibold text-purp-normal pb-0 lg:pb-6 tracking-wider uppercase transition duration-200 ease-in-out`}
-						>
-							Documents
-						</span>
-					</button>
 				</div>
 				<div>
 					<Update />
@@ -68,7 +59,7 @@ const EditEmployeeNav = () => {
 			</div>
 			<div className={openTab === 1 ? 'block' : 'hidden'}>
 				<TimeOff />
-				{currentUser.accessLevel > 0 && <Requests />}
+				{currentUser.accessLevel > 0 && currentUser.uid !== id && <Requests />}
 			</div>
 			<div className={openTab === 2 ? 'block' : 'hidden'}>
 				<Personal />
@@ -79,9 +70,6 @@ const EditEmployeeNav = () => {
 			</div>
 			<div className={openTab === 4 ? 'block' : 'hidden'}>
 				<Contact />
-			</div>
-			<div className={openTab === 5 ? 'block' : 'hidden'}>
-				<p>Documents</p>
 			</div>
 		</React.Fragment>
 	)

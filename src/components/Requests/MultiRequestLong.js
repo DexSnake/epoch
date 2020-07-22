@@ -42,7 +42,7 @@ const MultiRequestLong = ({ request }) => {
 						{request.status}
 					</span>
 				</div>
-				{currentUser.accessLevel > 0 ? (
+				{currentUser.accessLevel > 0 && currentUser.uid !== request.userId ? (
 					request.status === 'pending' ? (
 						<div className="w-1/5 px-3 flex justify-end">
 							<button
@@ -92,7 +92,7 @@ const MultiRequestLong = ({ request }) => {
 					<div className="w-1/6 md:w-1/5 px-3 flex justify-end">
 						<Link
 							to={{
-								pathname: `/requests/edit/${request.id}`,
+								pathname: `/request/edit/${request.id}`,
 								state: { data: request }
 							}}
 						>

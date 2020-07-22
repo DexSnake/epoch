@@ -12,7 +12,7 @@ const ChangeProfileImage = () => {
 	const updateUserPhoto = functions.httpsCallable('updateUserPhoto')
 	const handleUpload = () => {
 		setLoading(true)
-		const uploadTask = storage.ref(`profile-images/${profileImage.name}`).put(profileImage)
+		const uploadTask = storage.ref(`profile-images/${currentUser.uid}/${profileImage.name}`).put(profileImage)
 		uploadTask.on(
 			'state_changed',
 			(snapshot) => {},
@@ -21,23 +21,28 @@ const ChangeProfileImage = () => {
 			},
 			() => {
 				storage
-					.ref('profile-images')
+					.ref(`profile-images/${currentUser.uid}/`)
 					.child(profileImage.name)
 					.getDownloadURL()
 					.then((url) => {
-						if (currentUser.accessLevel < 3) {
-							db.collection('Employees')
-								.doc(currentUser.uid)
-								.update({ imageUrl: url })
-								.then(() => {
+						db.collection('Employees')
+							.doc(currentUser.uid)
+							.get()
+							.then((doc) => {
+								if (doc.exists) {
+									db.collection('Employees')
+										.doc(currentUser.uid)
+										.update({ imageUrl: url })
+										.then(() => {
+											setPhotoURL(url)
+										})
+										.catch((error) => {
+											alert(error)
+										})
+								} else {
 									setPhotoURL(url)
-								})
-								.catch((error) => {
-									alert(error)
-								})
-						} else {
-							setPhotoURL(url)
-						}
+								}
+							})
 					})
 			}
 		)

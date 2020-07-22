@@ -105,6 +105,7 @@ const EmployeeHeader = () => {
 					</div>
 					<div className="absolute top-neg-20 lg:top-0 right-0">
 						{currentUser.accessLevel > 0 &&
+							currentUser.uid !== employeeProfile.id &&
 							(employeeProfile.isActive ? (
 								<button
 									onClick={() => setShowDeactivateEmployeeModal(true)}

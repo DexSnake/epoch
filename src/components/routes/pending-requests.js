@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { AuthContext } from 'context/Auth'
 import Layout from 'components/Layout/Layout'
 import { db } from '../../firebase/firebase'
 import Icon from '@mdi/react'
@@ -11,8 +12,8 @@ import UserRequestShort from 'components/skeletons/UserRequestShort'
 import NothingHere from 'images/nothingHere.svg'
 
 const PendingRequests = () => {
+	const { currentUser } = useContext(AuthContext)
 	const [requests, setRequests] = useState(null)
-
 	useEffect(() => {
 		const unsubscribe = db
 			.collection('Requests')
@@ -39,7 +40,7 @@ const PendingRequests = () => {
 					</h1>
 					<div className="flex flex-wrap">
 						{requests ? (
-							requests.length > 0 ? (
+							requests.filter((request) => request.userId !== currentUser.uid).length > 0 ? (
 								requests
 									.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 									.map((request) => {

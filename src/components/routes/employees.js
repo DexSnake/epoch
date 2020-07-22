@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Layout from 'components/Layout/Layout'
+import { AuthContext } from 'context/Auth'
 import Icon from '@mdi/react'
 import { mdiAccountCheck, mdiAccountCancel } from '@mdi/js'
 import Employee from '../Employee'
 import { db } from '../../firebase/firebase'
 import EmployeeCard from '../skeletons/EmployeeCard'
 
-const Employees = () => {
+const Employees = ({ history }) => {
+	const { currentUser } = useContext(AuthContext)
 	const [employees, setEmployees] = useState(null)
 	const [inactiveEmployees, setInactiveEmployees] = useState([])
 	const [requests, setRequests] = useState([])
@@ -53,9 +55,23 @@ const Employees = () => {
 					</h1>
 					<div className="flex flex-wrap">
 						{employees ? (
-							employees.map((employee) => {
-								return <Employee data={employee} requests={requests} key={employee.id} />
-							})
+							employees.length > 0 ? (
+								employees
+									.filter((employee) => employee.id !== currentUser.uid)
+									.map((employee) => {
+										return <Employee data={employee} requests={requests} key={employee.id} />
+									})
+							) : (
+								<p className="text-purp-medium font-semibold text-center text-xl">
+									No employees yet. Try{' '}
+									<button
+										onClick={() => history.push('/add-employee')}
+										className="font-semibold text-center text-xl underline"
+									>
+										adding your first employee.
+									</button>
+								</p>
+							)
 						) : (
 							<>
 								<EmployeeCard />

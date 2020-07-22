@@ -29,7 +29,7 @@ const NewEditEmployee = (props) => {
 	return (
 		<Layout>
 			<EmployeeHeader data={employeeProfile} />
-			<EditEmployeeNav />
+			<EditEmployeeNav id={employeeProfile.id} />
 		</Layout>
 	)
 }

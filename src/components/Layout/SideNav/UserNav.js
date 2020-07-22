@@ -14,7 +14,7 @@ const UserNav = () => {
 			<Link
 				className="focus:outline-none cursor-pointer"
 				to={{
-					pathname: `/employees/edit/${currentUser.uid}`,
+					pathname: `/employee/edit/${currentUser.uid}`,
 					state: { id: currentUser.uid }
 				}}
 			>

@@ -58,9 +58,7 @@ const EditUserDetails = ({ user }) => {
 								name="userRole"
 								value={role.name}
 								onChange={(e) => {
-									if (e.target.value === 'Super Admin') {
-										setRole({ name: 'Super Admin', accessLevel: 3 })
-									} else if (e.target.value === 'Admin') {
+									if (e.target.value === 'Admin') {
 										setRole({ name: 'Admin', accessLevel: 2 })
 									} else if (e.target.value === 'Supervisor') {
 										setRole({ name: 'Supervisor', accessLevel: 1 })
@@ -72,7 +70,6 @@ const EditUserDetails = ({ user }) => {
 								<option value="User">User</option>
 								<option value="Supervisor">Supervisor</option>
 								<option value="Admin">Admin</option>
-								<option value="Super Admin">Super Admin</option>
 							</Select>
 						</div>
 					</div>
@@ -89,15 +86,15 @@ const EditUserDetails = ({ user }) => {
 			<div className="flex justify-end px-6">
 				{user.customClaims.accessLevel > 2 ? null : (
 					<DeleteButton
-						text="Remove User"
-						loadingText="Removing..."
+						text="Delete User"
+						loadingText="Deleting..."
 						onClick={() => setShowModal(true)}
 						size="sm"
 						className="mt-2"
 					/>
 				)}
 			</div>
-			{showModal ? <DeleteUserModal user={user.uid} closeModal={closeModal} /> : null}
+			{showModal ? <DeleteUserModal user={user} closeModal={closeModal} /> : null}
 			<ToastContainer position="top-center" autoClose={2000} />
 		</>
 	)

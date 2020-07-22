@@ -12,7 +12,7 @@ const UserDashboard = () => {
 				<DashboardButton link="/requests" icon={mdiCalendarCheck} text="View My Requests" />
 				<DashboardButton link="/new-request" icon={mdiCalendarPlus} text="Submit New Request" />
 				<DashboardButton
-					link={{ pathname: `/employees/edit/${currentUser.uid}`, state: { id: currentUser.uid } }}
+					link={{ pathname: `/employee/edit/${currentUser.uid}`, state: { id: currentUser.uid } }}
 					icon={mdiAccountEdit}
 					text="Edit Your Profile"
 				/>

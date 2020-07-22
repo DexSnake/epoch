@@ -11,7 +11,7 @@ const Employee = ({ data, requests, inactive }) => {
 			>
 				<Link
 					to={{
-						pathname: `/employees/edit/${data.id}`,
+						pathname: `/employee/edit/${data.id}`,
 						state: { id: data.id }
 					}}
 				>

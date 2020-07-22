@@ -41,7 +41,7 @@ const Employment = () => {
 									showMonthDropdown
 									showYearDropdown
 									dropdownMode="select"
-									disabled={!currentUser.accessLevel > 0}
+									disabled={!currentUser.accessLevel > 0 || currentUser.uid === employeeProfile.id}
 									selected={startDate}
 									onChange={(date) => setState((prevState) => ({ ...prevState, startDate: date }))}
 								/>
@@ -50,7 +50,7 @@ const Employment = () => {
 								<Label name="Salary" htmlFor="salary" />
 								<TextInput
 									name="salary"
-									disabled={!currentUser.accessLevel > 0}
+									disabled={!currentUser.accessLevel > 0 || currentUser.uid === employeeProfile.id}
 									value={salary || ''}
 									onChange={handleChange}
 								/>
@@ -59,7 +59,7 @@ const Employment = () => {
 								<Label name="salaryRate" htmlFor="salaryRate" />
 								<Select
 									name="salaryRate"
-									disabled={!currentUser.accessLevel > 0}
+									disabled={!currentUser.accessLevel > 0 || currentUser.uid === employeeProfile.id}
 									value={salaryRate || ''}
 									onChange={handleChange}
 								>
@@ -74,7 +74,7 @@ const Employment = () => {
 								<Label name="Title" htmlFor="title" />
 								<TextInput
 									name="title"
-									disabled={!currentUser.accessLevel > 0}
+									disabled={!currentUser.accessLevel > 0 || currentUser.uid === employeeProfile.id}
 									value={title || ''}
 									onChange={handleChange}
 								/>

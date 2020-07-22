@@ -39,7 +39,7 @@ const TimeOff = () => {
 								<Label name="Available Hours" htmlFor="availableHours" />
 								<TextInput
 									name="availableHours"
-									disabled={!currentUser.accessLevel > 0}
+									disabled={!currentUser.accessLevel > 0 || currentUser.uid === employeeProfile.id}
 									value={pto ? pto.availableHours : 0}
 									onChange={handlePtoChange}
 								/>

@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useForm } from 'react-hook-form'
+import generatePassword from 'password-generator'
 
 const AddEmployee = (props) => {
 	const initalState = {
@@ -75,8 +76,9 @@ const AddEmployee = (props) => {
 	] = useState(initalState)
 
 	const [loading, setLoading] = useState(false)
-	const userPassword = `${firstName.toLowerCase().charAt(0)}${lastName.toLowerCase()}${ssn.substr(ssn.length - 4)}`
+	const [userPassword, setUserPassword] = useState(generatePassword())
 	const createUser = functions.httpsCallable('createUser')
+	const sendNewUserEmail = functions.httpsCallable('sendNewUserEmail')
 	const setUserPermissions = functions.httpsCallable('setUserPermissions')
 	const { register, errors, handleSubmit, setValue } = useForm({
 		mode: 'onBlur'
@@ -151,11 +153,14 @@ const AddEmployee = (props) => {
 									usedHours: 0
 								}
 							})
-							.then(function () {
-								props.history.push('/employees')
-							})
-							.catch(function (error) {
-								toast.error(error.message)
+							.then(() => {
+								sendNewUserEmail({ email, firstName, userPassword })
+									.then(function () {
+										props.history.push('/employees')
+									})
+									.catch(function (error) {
+										toast.error(error.message)
+									})
 							})
 					})
 					.catch((error) => {

@@ -1,11 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { db, functions } from '../../firebase/firebase'
 import { toast } from 'react-toastify'
-import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
+import Icon from '@mdi/react'
+import { mdiLoading } from '@mdi/js'
 
-const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
+const DeactivateEmployeeModal = ({ user, closeModal, getUsers }) => {
 	const [loading, setLoading] = useState(false)
+	const [confirmDelete, setConfirmDelete] = useState('')
+	const [deactivateButtonStatus, setDeactivateButtonStatus] = useState(true)
 	const removeUser = functions.httpsCallable('removeUser')
+
+	useEffect(() => {
+		if (confirmDelete === user.displayName) {
+			setDeactivateButtonStatus(false)
+		} else {
+			setDeactivateButtonStatus(true)
+		}
+	}, [confirmDelete, user.displayName])
+
+	const goBack = () => {
+		window.location.href = '/users'
+	}
 
 	const handleDelete = (uid) => {
 		setLoading(true)
@@ -24,6 +40,7 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 							setLoading(false)
 							closeModal()
 							toast.success('User Removed')
+							goBack()
 						}
 					})
 					.then(() => {
@@ -57,7 +74,7 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 						style={{ maxHeight: '80vh' }}
 					>
 						<div className="flex items-start p-5 rounded-t bg-purp-lightest">
-							<h3 className="text-2xl text-purp-normal">Remove User?</h3>
+							<h3 className="text-2xl text-purp-normal">Delete User?</h3>
 							<button
 								className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-4xl leading-none outline-none focus:outline-none"
 								onClick={closeModal}
@@ -69,13 +86,24 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 						</div>
 						<div className="relative p-6 flex-auto">
 							<div className="flex flex-col">
-								<p className="font-semibold text-lg mb-2 text-purp-normal">
-									Are you sure you want to remove this user?
+								<p className="font-semibold text-lg mb-1 text-purp-normal">
+									Are you sure you want to delete this user?
 								</p>
 								<p className="text-purp-normal">
 									This will permanently delete the user and all of their data. This action cannot be
 									un-done.
 								</p>
+								<p className="text-purp-normal mt-4">
+									Confirm you want to delete this emplooyee by typing their name:{' '}
+									<span className="font-semibold">{user.displayName}</span>
+								</p>
+								<input
+									type="text"
+									name="confirmDelete"
+									onChange={(e) => setConfirmDelete(e.target.value)}
+									placeholder={user.displayName}
+									className="border border-purp-light px-4 py-2 mt-3 w-64"
+								/>
 							</div>
 						</div>
 						<div className="flex items-center justify-end px-5 pb-5 rounded-b">
@@ -87,13 +115,17 @@ const DeactivateEmployeeModal = ({ user, closeModal, getUsers, history }) => {
 									Cancel
 								</button>
 							)}
-							<SubmitButtonWithLoader
-								onClick={() => handleDelete(user)}
-								text="Remove User"
-								loadingText="Removing..."
-								loading={loading}
-								color="red"
-							/>
+
+							<button
+								type="submit"
+								disabled={deactivateButtonStatus}
+								className={`bg-red-600 text-white font-bold uppercase text-sm px-6 py-3 rounded hover:bg-red-400 outline-none focus:outline-none mr-1 mb-1 transition duration-200 ease ${
+									deactivateButtonStatus ? 'opacity-50 cursor-not-allowed' : null
+								}`}
+								onClick={() => handleDelete(user.uid)}
+							>
+								{loading ? <Icon path={mdiLoading} size={1} spin={(true, 1)} /> : 'Delete User'}
+							</button>
 						</div>
 					</div>
 				</div>
