@@ -14,6 +14,9 @@ import NothingHere from 'images/nothingHere.svg'
 const PendingRequests = () => {
 	const { currentUser } = useContext(AuthContext)
 	const [requests, setRequests] = useState(null)
+
+	console.log(requests, currentUser)
+
 	useEffect(() => {
 		const unsubscribe = db
 			.collection('Requests')
@@ -23,7 +26,7 @@ const PendingRequests = () => {
 					id: doc.id,
 					...doc.data()
 				}))
-				setRequests(newRequests)
+				setRequests(newRequests.filter((request) => request.userId !== currentUser.uid))
 			})
 		return () => {
 			unsubscribe()
@@ -40,7 +43,7 @@ const PendingRequests = () => {
 					</h1>
 					<div className="flex flex-wrap">
 						{requests ? (
-							requests.filter((request) => request.userId !== currentUser.uid).length > 0 ? (
+							requests.length > 0 ? (
 								requests
 									.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 									.map((request) => {

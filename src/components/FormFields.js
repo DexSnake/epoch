@@ -1,4 +1,5 @@
 import React from 'react'
+import chevronDown from 'images/chevron-down.svg'
 
 export const Label = (props) => (
 	<label
@@ -112,8 +113,7 @@ export const Select = (props) => (
 		disabled={props.disabled}
 		ref={props.validation}
 		style={{
-			backgroundImage:
-				'url(https://firebasestorage.googleapis.com/v0/b/kstg-6225.appspot.com/o/images%2Fchevron-down.svg?alt=media&token=b9079f2a-0432-4e54-b26a-60d20d3e5f88)',
+			backgroundImage: `url(${chevronDown})`,
 			backgroundPosition: 'right .7em top 50%',
 			backgroundSize: '.65em auto'
 		}}

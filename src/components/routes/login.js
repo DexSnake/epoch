@@ -2,10 +2,11 @@ import React, { useContext, useState } from 'react'
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebase'
-import { AuthContext } from '../../context/Auth'
+import { AuthContext } from 'context/Auth'
 import { Label, TextInput, PasswordInput } from '../FormFields'
 import { SubmitButtonWithLoader } from '../UI Elements/Buttons'
-import logo from '../../images/epoch-logo.svg'
+import logo from 'images/epoch-logo.svg'
+import icon from 'images/epoch-logo-icon.svg'
 
 const Login = ({ history }) => {
 	const { currentUser } = useContext(AuthContext)
@@ -47,7 +48,8 @@ const Login = ({ history }) => {
 				</div>
 			</header>
 			<main className="flex flex-grow items-center bg-purp-lightest flex-col">
-				<h1 className="text-purp-normal text-3xl mt-32 mb-6 font-semibold">Login to Epoch</h1>
+				<img src={icon} alt="epoch logo icon" className="mt-24 mb-6 h-16 w-16" />
+				<h1 className="text-purp-normal text-3xl mb-6 font-semibold">Login to Epoch</h1>
 				<div className="bg-white p-8 rounded shadow-lg max-w-sm">
 					<p className="text-purp-normal">Enter your email address and password.</p>
 					<form className="pt-4" onSubmit={handleLogin}>

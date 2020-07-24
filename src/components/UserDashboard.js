@@ -10,7 +10,7 @@ const UserDashboard = () => {
 		<div className="max-w-6xl mx-auto">
 			<div className="flex flex-wrap m-4 sm:m-10">
 				<DashboardButton link="/requests" icon={mdiCalendarCheck} text="View My Requests" />
-				<DashboardButton link="/new-request" icon={mdiCalendarPlus} text="Submit New Request" />
+				<DashboardButton link="/add-request" icon={mdiCalendarPlus} text="Submit New Request" />
 				<DashboardButton
 					link={{ pathname: `/employee/edit/${currentUser.uid}`, state: { id: currentUser.uid } }}
 					icon={mdiAccountEdit}

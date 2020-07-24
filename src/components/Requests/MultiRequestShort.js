@@ -16,9 +16,11 @@ const MultiRequestShort = ({ request, footer }) => {
 		requestStyles = 'border-red-500'
 	}
 	return (
-		<div className="w-full lg:w-1/2 xl:w-1/3 px-3 mb-3">
-			<div className={`bg-white shadow-lg rounded mb-3 text-purp-normal border-t-4 ${requestStyles}`}>
-				<div className="p-6">
+		<div className="w-full lg:w-1/2 xl:w-1/3 px-3 mb-6">
+			<div
+				className={`flex flex-col bg-white shadow-lg rounded text-purp-normal border-t-4 h-full ${requestStyles}`}
+			>
+				<div className="p-6 mb-auto">
 					<h4 className="font-semibold text-purp-medium pb-4 text-lg uppercase">
 						<Icon path={mdiCalendarMonth} size={0.9} className="inline mr-2" />
 						Multi-Day Request
@@ -39,9 +41,11 @@ const MultiRequestShort = ({ request, footer }) => {
 						<span className="font-semibold">{request.numberOfHours}</span> hours.
 					</p>
 
-					<p>
-						Comments: <span className="font-semibold">{request.comments}</span>
-					</p>
+					{request.comments && (
+						<p>
+							Comments: <span className="font-semibold">{request.comments}</span>
+						</p>
+					)}
 				</div>
 				{footer ? (
 					<div className="bg-purp-lightest px-6 py-3 flex justify-end">

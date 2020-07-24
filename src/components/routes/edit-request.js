@@ -88,18 +88,20 @@ const EditRequest = (props) => {
 	const handleUpdate = (e) => {
 		e.preventDefault()
 		setLoading(true)
-		let dates = []
+		let startDate = null
+		let endDate = null
 		if (requestType === 'singleDay') {
-			dates.push(requestDate)
+			startDate = requestDate
 		} else {
-			dates.push(requestDates[0].startDate)
-			dates.push(requestDates[0].endDate)
+			startDate = requestDates[0].startDate
+			endDate = requestDates[0].endDate
 		}
 		db.collection('Requests')
 			.doc(data.id)
 			.update({
 				requestType,
-				dates,
+				startDate,
+				endDate,
 				startTime,
 				numberOfHours: parseInt(numberOfHours),
 				comments

@@ -73,7 +73,7 @@ const PasswordReset = () => {
 						</>
 					)}
 				</div>
-				<Link to="/login" className="text-center mt-3 underline font-semibold text-purp-normal">
+				<Link to="/login" className="text-center mt-3 mb-12 underline font-semibold text-purp-normal">
 					Go back to login screen
 				</Link>
 			</main>

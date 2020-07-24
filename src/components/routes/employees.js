@@ -82,15 +82,18 @@ const Employees = ({ history }) => {
 						)}
 					</div>
 				</div>
+
 				{inactiveEmployees.length > 0 ? (
 					<div className="p-10">
 						<h1 className="text-3xl text-purp-normal font-semibold mb-4">
 							<Icon path={mdiAccountCancel} size={2.1} className="inline pb-2 mr-1" />
 							Inactive Employees
 						</h1>
-						{inactiveEmployees.map((employee) => {
-							return <Employee data={employee} requests={requests} inactive key={employee.id} />
-						})}
+						<div className="flex flex-wrap">
+							{inactiveEmployees.map((employee) => {
+								return <Employee data={employee} requests={requests} inactive key={employee.id} />
+							})}
+						</div>
 					</div>
 				) : null}
 			</div>

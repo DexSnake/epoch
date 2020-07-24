@@ -2,14 +2,18 @@ import React, { useState, useEffect, useContext } from 'react'
 import { storage, functions, db } from '../../firebase/firebase'
 import { AuthContext } from '../../context/Auth'
 import Icon from '@mdi/react'
-import { mdiLoading } from '@mdi/js'
+import { mdiLoading, mdiCheckBold, mdiCloseCircleOutline } from '@mdi/js'
+import uploadIcon from 'images/upload-icon.svg'
 
 const ChangeProfileImage = () => {
-	const { currentUser } = useContext(AuthContext)
+	const { currentUser, userProfile } = useContext(AuthContext)
 	const [profileImage, setProfileImage] = useState(null)
 	const [photoURL, setPhotoURL] = useState('')
 	const [loading, setLoading] = useState(false)
 	const updateUserPhoto = functions.httpsCallable('updateUserPhoto')
+
+	console.log(userProfile)
+
 	const handleUpload = () => {
 		setLoading(true)
 		const uploadTask = storage.ref(`profile-images/${currentUser.uid}/${profileImage.name}`).put(profileImage)
@@ -81,8 +85,7 @@ const ChangeProfileImage = () => {
 							<div
 								className="w-full h-full opacity-0 hover:opacity-100 rounded-full transition duration-200 ease-in-out"
 								style={{
-									backgroundImage:
-										'url("https://firebasestorage.googleapis.com/v0/b/kstg-6225.appspot.com/o/images%2Fupload-icon.svg?alt=media&token=9f1ccfe5-41b8-40e0-8e75-0a80d6deb6c8")'
+									backgroundImage: `url(${uploadIcon})`
 								}}
 							>
 								<input
@@ -99,8 +102,7 @@ const ChangeProfileImage = () => {
 							<div
 								className="w-full h-full z-50 opacity-0 hover:opacity-100 rounded-full transition duration-200 ease-in-out"
 								style={{
-									backgroundImage:
-										'url("https://firebasestorage.googleapis.com/v0/b/kstg-6225.appspot.com/o/images%2Fupload-icon.svg?alt=media&token=9f1ccfe5-41b8-40e0-8e75-0a80d6deb6c8")'
+									backgroundImage: `url(${uploadIcon})`
 								}}
 							>
 								<input
@@ -113,7 +115,21 @@ const ChangeProfileImage = () => {
 						</div>
 					)}
 					<div className="mt-16">
-						<h1 className="text-2xl font-semibold ml-4 text-purp-normal">{currentUser.displayName}</h1>
+						<div className="flex items-baseline">
+							<h1 className="text-2xl font-semibold ml-4 text-purp-normal">{currentUser.displayName}</h1>
+							{userProfile.isActive && (
+								<span className="uppercase ml-3 text-sm font-bold text-green-400">
+									<Icon path={mdiCheckBold} size={0.9} className="pb-1 inline" />
+									active
+								</span>
+							)}
+							{!userProfile.isActive && currentUser.accessLevel < 2 && (
+								<span className="uppercase ml-3 text-sm font-bold text-red-400">
+									<Icon path={mdiCloseCircleOutline} size={0.9} className="pb-1 inline" />
+									inactive
+								</span>
+							)}
+						</div>
 						<h2 className="ml-4 text-purp-normal">{currentUser.email}</h2>
 						<h3 className="ml-4 text-purp-normal">{currentUser.role ? currentUser.role : 'Employee'}</h3>
 					</div>

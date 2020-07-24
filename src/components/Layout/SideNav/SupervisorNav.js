@@ -29,7 +29,7 @@ const SupervisorNav = () => {
 					id: doc.id,
 					...doc.data()
 				}))
-				setRequests(newRequests)
+				setRequests(newRequests.filter((request) => request.userId !== currentUser.uid))
 			})
 	}, [])
 
@@ -56,7 +56,7 @@ const SupervisorNav = () => {
 			<div className="border-b-2 w-full border-purp-dark my-3 hidden sm:block" />
 			<Link to="/pending-requests" className="focus:outline-none">
 				<li className="text-purp-light md:py-2 md:pl-6 md:pr-8 relative focus:outline-none hover:bg-purp-dark flex items-center">
-					{requests.filter((request) => request.userId !== currentUser.uid).length > 0 ? (
+					{requests.length > 0 ? (
 						<span className="font-semibold text-sm absolute top-0 ml-6 -mt-3 md:ml-0 md:mt-0 md:top-neg-6 md:right-50 h-6 w-6 bg-red-500 text-white flex items-center justify-center rounded-full">
 							{requests.length}
 						</span>

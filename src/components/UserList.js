@@ -44,6 +44,7 @@ const UserList = ({ currentUser }) => {
 					{users.length > 0 ? (
 						users
 							.filter((user) => user.customClaims.accessLevel < 3)
+							.sort((a, b) => (a.displayName > b.displayName ? 1 : -1))
 							.map((user) => {
 								const matches = user.displayName.match(/\b(\w)/g)
 								const initials = matches.join('')
@@ -119,7 +120,11 @@ const UserList = ({ currentUser }) => {
 																<Icon
 																	path={mdiDelete}
 																	size={1}
-																	className="table-cell md:hidden"
+																	className="table-cell md:hidden cursor-pointer hover:opacity-75"
+																	onClick={() => {
+																		setRemoveUser(user)
+																		setShowModal(true)
+																	}}
 																/>
 															</span>
 														</>

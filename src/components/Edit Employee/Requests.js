@@ -8,8 +8,6 @@ import { mdiArrowLeftRight, mdiArrowUpDown } from '@mdi/js'
 import { addDays } from 'date-fns'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import SingleRequestLong from '../Requests/SingleRequestLong'
-import MultiRequestLong from '../Requests/MultiRequestLong'
 import UserRequest from 'components/skeletons/UserRequest'
 import SingleRequestShort from 'components/Requests/SingleRequestShort'
 import MultiRequestShort from 'components/Requests/MultiRequestShort'
@@ -96,9 +94,9 @@ const Requests = () => {
 									.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
 									.map((request) => {
 										return request.requestType === 'singleDay' ? (
-											<SingleRequestShort request={request} key={request.id} />
+											<SingleRequestShort request={request} key={request.id} footer />
 										) : (
-											<MultiRequestShort request={request} key={request.id} />
+											<MultiRequestShort request={request} key={request.id} footer />
 										)
 									})
 							) : (

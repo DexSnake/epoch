@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Select, Label } from './FormFields'
+import Icon from '@mdi/react'
+import { mdiCheckBold, mdiCloseCircleOutline } from '@mdi/js'
 import { functions } from '../firebase/firebase'
 import { SubmitButtonWithLoader, DeleteButton } from './UI Elements/Buttons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import DeleteUserModal from './Modals/DeleteUserModal'
+import { AuthContext } from 'context/Auth'
 
 const EditUserDetails = ({ user }) => {
+	const { currentUser } = useContext(AuthContext)
 	const [role, setRole] = useState({ name: user.customClaims.role, accessLevel: user.customClaims.accessLevel })
 	const [loading, setLoading] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const setUserPermissions = functions.httpsCallable('setUserPermissions')
-
 	const matches = user.displayName.match(/\b(\w)/g)
 	const initials = matches.join('')
 
@@ -49,10 +52,25 @@ const EditUserDetails = ({ user }) => {
 							</div>
 						)}
 					</div>
-					<div>
-						<h1 className="text-2xl font-semibold ml-4 text-purp-normal">{user.displayName}</h1>
+					<div className="w-full">
+						<div className="flex items-baseline">
+							<h1 className="text-2xl font-semibold ml-4 text-purp-normal mr-3">{user.displayName}</h1>
+							{!user.disabled && (
+								<span className="uppercase text-sm font-bold text-green-400">
+									<Icon path={mdiCheckBold} size={0.9} className="pb-1 inline" />
+									active
+								</span>
+							)}
+							{user.disabled && (
+								<span className="uppercase text-sm font-bold text-red-400">
+									<Icon path={mdiCloseCircleOutline} size={0.9} className="pb-1 inline" />
+									inactive
+								</span>
+							)}
+						</div>
+
 						<h2 className="ml-4 text-purp-normal">{user.email}</h2>
-						<div className="ml-4 mt-2">
+						<div className="ml-4 mt-2 w-48">
 							<Label name="User Role" htmlFor="userRole" />
 							<Select
 								name="userRole"
@@ -73,7 +91,7 @@ const EditUserDetails = ({ user }) => {
 							</Select>
 						</div>
 					</div>
-					<div className="w-full flex flex-col justify-end items-end mt-4 md:mt-0">
+					<div className="flex flex-col justify-end items-end mt-4 md:mt-0">
 						<SubmitButtonWithLoader
 							onClick={handleSubmit}
 							text="Update"
@@ -84,7 +102,7 @@ const EditUserDetails = ({ user }) => {
 				</div>
 			</div>
 			<div className="flex justify-end px-6">
-				{user.customClaims.accessLevel > 2 ? null : (
+				{user.uid === currentUser.uid ? null : (
 					<DeleteButton
 						text="Delete User"
 						loadingText="Deleting..."

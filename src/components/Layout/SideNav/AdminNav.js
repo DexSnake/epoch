@@ -33,6 +33,7 @@ const AdminNav = () => {
 			<NavLink linkTo="" icon={mdiMonitorDashboard} text="Dashboard" />
 			<NavLink linkTo="add-employee" icon={mdiAccountPlus} text="Add Employee" />
 			<NavLink linkTo="employees" icon={mdiAccountGroup} text="Employee List" />
+			<div className="border-b-2 w-full border-purp-dark my-3 hidden sm:block" />
 			<Link to="/pending-requests" className="focus:outline-none">
 				<li className="text-purp-light md:py-2 md:pl-6 md:pr-8 relative focus:outline-none hover:bg-purp-dark flex items-center">
 					{requests.length > 0 ? (

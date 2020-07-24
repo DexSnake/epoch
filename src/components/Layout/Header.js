@@ -1,10 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from 'images/epoch-logo.svg'
 import { AuthContext } from 'context/Auth'
+import AccountNav from './AccountNav/AccountNav'
 
 const Header = ({ onClick }) => {
 	const { currentUser } = useContext(AuthContext)
+	const [showProfileMenu, setShowProfileMenu] = useState(false)
 
 	const matches = currentUser.displayName.match(/\b(\w)/g)
 	const initials = matches.join('')
@@ -15,9 +17,12 @@ const Header = ({ onClick }) => {
 				<Link to="/" className="focus:outline-none">
 					<img src={logo} className="h-8" alt="epoch logo" />
 				</Link>
-				<div className="flex">
+				<div className="flex relative">
 					<div>
-						<button onClick={onClick} className="flex items-center focus:outline-none">
+						<button
+							onClick={() => setShowProfileMenu(!showProfileMenu)}
+							className="flex items-center focus:outline-none"
+						>
 							<p className="hidden sm:block text-purp-light hover:text-white text-lg mr-3">
 								{currentUser.displayName}
 							</p>
@@ -30,6 +35,7 @@ const Header = ({ onClick }) => {
 							)}
 						</button>
 					</div>
+					<AccountNav showProfileMenu={showProfileMenu} />
 				</div>
 			</div>
 		</header>

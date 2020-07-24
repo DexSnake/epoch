@@ -19636,6 +19636,13 @@ video {
   left: 35px;
 }
 
+.inset-44 {
+  top: 44px;
+  right: 44px;
+  bottom: 44px;
+  left: 44px;
+}
+
 .inset-50 {
   top: 50px;
   right: 50px;
@@ -19736,6 +19743,16 @@ video {
 .inset-x-35 {
   right: 35px;
   left: 35px;
+}
+
+.inset-y-44 {
+  top: 44px;
+  bottom: 44px;
+}
+
+.inset-x-44 {
+  right: 44px;
+  left: 44px;
 }
 
 .inset-y-50 {
@@ -19892,6 +19909,22 @@ video {
 
 .left-35 {
   left: 35px;
+}
+
+.top-44 {
+  top: 44px;
+}
+
+.right-44 {
+  right: 44px;
+}
+
+.bottom-44 {
+  bottom: 44px;
+}
+
+.left-44 {
+  left: 44px;
 }
 
 .top-50 {
@@ -45457,6 +45490,13 @@ video {
     left: 35px;
   }
 
+  .xs\:inset-44 {
+    top: 44px;
+    right: 44px;
+    bottom: 44px;
+    left: 44px;
+  }
+
   .xs\:inset-50 {
     top: 50px;
     right: 50px;
@@ -45557,6 +45597,16 @@ video {
   .xs\:inset-x-35 {
     right: 35px;
     left: 35px;
+  }
+
+  .xs\:inset-y-44 {
+    top: 44px;
+    bottom: 44px;
+  }
+
+  .xs\:inset-x-44 {
+    right: 44px;
+    left: 44px;
   }
 
   .xs\:inset-y-50 {
@@ -45713,6 +45763,22 @@ video {
 
   .xs\:left-35 {
     left: 35px;
+  }
+
+  .xs\:top-44 {
+    top: 44px;
+  }
+
+  .xs\:right-44 {
+    right: 44px;
+  }
+
+  .xs\:bottom-44 {
+    bottom: 44px;
+  }
+
+  .xs\:left-44 {
+    left: 44px;
   }
 
   .xs\:top-50 {
@@ -71271,6 +71337,13 @@ video {
     left: 35px;
   }
 
+  .sm\:inset-44 {
+    top: 44px;
+    right: 44px;
+    bottom: 44px;
+    left: 44px;
+  }
+
   .sm\:inset-50 {
     top: 50px;
     right: 50px;
@@ -71371,6 +71444,16 @@ video {
   .sm\:inset-x-35 {
     right: 35px;
     left: 35px;
+  }
+
+  .sm\:inset-y-44 {
+    top: 44px;
+    bottom: 44px;
+  }
+
+  .sm\:inset-x-44 {
+    right: 44px;
+    left: 44px;
   }
 
   .sm\:inset-y-50 {
@@ -71527,6 +71610,22 @@ video {
 
   .sm\:left-35 {
     left: 35px;
+  }
+
+  .sm\:top-44 {
+    top: 44px;
+  }
+
+  .sm\:right-44 {
+    right: 44px;
+  }
+
+  .sm\:bottom-44 {
+    bottom: 44px;
+  }
+
+  .sm\:left-44 {
+    left: 44px;
   }
 
   .sm\:top-50 {
@@ -97085,6 +97184,13 @@ video {
     left: 35px;
   }
 
+  .md\:inset-44 {
+    top: 44px;
+    right: 44px;
+    bottom: 44px;
+    left: 44px;
+  }
+
   .md\:inset-50 {
     top: 50px;
     right: 50px;
@@ -97185,6 +97291,16 @@ video {
   .md\:inset-x-35 {
     right: 35px;
     left: 35px;
+  }
+
+  .md\:inset-y-44 {
+    top: 44px;
+    bottom: 44px;
+  }
+
+  .md\:inset-x-44 {
+    right: 44px;
+    left: 44px;
   }
 
   .md\:inset-y-50 {
@@ -97341,6 +97457,22 @@ video {
 
   .md\:left-35 {
     left: 35px;
+  }
+
+  .md\:top-44 {
+    top: 44px;
+  }
+
+  .md\:right-44 {
+    right: 44px;
+  }
+
+  .md\:bottom-44 {
+    bottom: 44px;
+  }
+
+  .md\:left-44 {
+    left: 44px;
   }
 
   .md\:top-50 {
@@ -122899,6 +123031,13 @@ video {
     left: 35px;
   }
 
+  .lg\:inset-44 {
+    top: 44px;
+    right: 44px;
+    bottom: 44px;
+    left: 44px;
+  }
+
   .lg\:inset-50 {
     top: 50px;
     right: 50px;
@@ -122999,6 +123138,16 @@ video {
   .lg\:inset-x-35 {
     right: 35px;
     left: 35px;
+  }
+
+  .lg\:inset-y-44 {
+    top: 44px;
+    bottom: 44px;
+  }
+
+  .lg\:inset-x-44 {
+    right: 44px;
+    left: 44px;
   }
 
   .lg\:inset-y-50 {
@@ -123155,6 +123304,22 @@ video {
 
   .lg\:left-35 {
     left: 35px;
+  }
+
+  .lg\:top-44 {
+    top: 44px;
+  }
+
+  .lg\:right-44 {
+    right: 44px;
+  }
+
+  .lg\:bottom-44 {
+    bottom: 44px;
+  }
+
+  .lg\:left-44 {
+    left: 44px;
   }
 
   .lg\:top-50 {
@@ -148713,6 +148878,13 @@ video {
     left: 35px;
   }
 
+  .xl\:inset-44 {
+    top: 44px;
+    right: 44px;
+    bottom: 44px;
+    left: 44px;
+  }
+
   .xl\:inset-50 {
     top: 50px;
     right: 50px;
@@ -148813,6 +148985,16 @@ video {
   .xl\:inset-x-35 {
     right: 35px;
     left: 35px;
+  }
+
+  .xl\:inset-y-44 {
+    top: 44px;
+    bottom: 44px;
+  }
+
+  .xl\:inset-x-44 {
+    right: 44px;
+    left: 44px;
   }
 
   .xl\:inset-y-50 {
@@ -148969,6 +149151,22 @@ video {
 
   .xl\:left-35 {
     left: 35px;
+  }
+
+  .xl\:top-44 {
+    top: 44px;
+  }
+
+  .xl\:right-44 {
+    right: 44px;
+  }
+
+  .xl\:bottom-44 {
+    bottom: 44px;
+  }
+
+  .xl\:left-44 {
+    left: 44px;
   }
 
   .xl\:top-50 {

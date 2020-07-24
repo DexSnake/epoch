@@ -29,7 +29,7 @@ const UpcomingRequests = () => {
 					id: doc.id,
 					...doc.data()
 				}))
-				setRequests(newRequests)
+				setRequests(newRequests.filter((request) => request.userId !== currentUser.uid))
 			})
 		return () => {
 			unsubscribe()
@@ -83,7 +83,7 @@ const UpcomingRequests = () => {
 
 					<div className="flex flex-wrap">
 						{requests ? (
-							requests.filter((request) => request.userId !== currentUser.uid).length > 0 ? (
+							requests.length > 0 ? (
 								requests
 									.filter(
 										(request) =>
