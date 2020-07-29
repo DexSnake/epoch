@@ -39,10 +39,10 @@ exports.getAllUsers = functions.https.onCall((data, context) => {
 
 exports.sendAdminEmail = functions.https.onCall((data, context) => {
 	const emailData = {
-		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
+		from: 'Epoch <pto@kevinsmithgroup.com>',
 		to: data.email,
 		subject: "You've got admin privleges!",
-		text: 'You have been granted admin access to the KSTG PTO Tracker.',
+		text: 'You have been granted admin access to Epoch.',
 		template: 'template.new.admin',
 		'v:password': data.password
 	}
@@ -53,7 +53,7 @@ exports.sendAdminEmail = functions.https.onCall((data, context) => {
 
 exports.sendNewUserEmail = functions.https.onCall((data, context) => {
 	const emailData = {
-		from: 'Epoch <tbutler@kevinsmithgroup.com>',
+		from: 'Epoch <pto@kevinsmithgroup.com>',
 		to: data.email,
 		subject: 'Welcome to Epoch!',
 		text: `Your Epoch account is ready. Your temporary password is ${data.userPassword}`,

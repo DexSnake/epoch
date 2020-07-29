@@ -5,8 +5,8 @@ const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN })
 
 exports.sendRequestEmail = functions.https.onCall((data, context) => {
 	const emailData = {
-		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
-		to: 'travisrbutler@gmail.com',
+		from: 'Epoch <pto@kevinsmithgroup.com>',
+		to: 'asitsis@kevinsmithgroup.com',
 		subject: `New PTO Request from ${data.firstName}`,
 		text: `${data.firstName} has submitted a new PTO request for the following date(s):`,
 		template: 'template.new.request',
@@ -23,8 +23,8 @@ exports.sendRequestEmail = functions.https.onCall((data, context) => {
 
 exports.sendRequestEmailMulti = functions.https.onCall((data, context) => {
 	const emailData = {
-		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
-		to: 'travisrbutler@gmail.com',
+		from: 'Epoch <pto@kevinsmithgroup.com>',
+		to: 'asitsis@kevinsmithgroup.com',
 		subject: `New PTO Request from ${data.firstName}`,
 		text: `${data.firstName} has submitted a new PTO request for the following date(s):`,
 		template: 'template.new.request.multi',
@@ -41,7 +41,7 @@ exports.sendRequestEmailMulti = functions.https.onCall((data, context) => {
 
 exports.sendRequestApprovedEmail = functions.https.onCall((data, context) => {
 	const emailData = {
-		from: 'PTO Tracker <tbutler@kevinsmithgroup.com>',
+		from: 'Epoch <pto@kevinsmithgroup.com>',
 		to: data.email,
 		subject: 'Your request has been approved!',
 		text: `Hi ${data.firstName}, just letting you know that your pto request has been approved!`,
