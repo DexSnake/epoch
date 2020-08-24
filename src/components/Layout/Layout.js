@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { AuthContext } from 'context/Auth'
 import UserNav from 'components/Layout/SideNav/UserNav'
 import AdminNav from 'components/Layout/SideNav/AdminNav'

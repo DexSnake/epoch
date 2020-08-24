@@ -31,7 +31,7 @@ const SupervisorNav = () => {
 				}))
 				setRequests(newRequests.filter((request) => request.userId !== currentUser.uid))
 			})
-	}, [])
+	}, [currentUser.uid])
 
 	return (
 		<ul className="flex flex-wrap justify-between px-4 py-3 md:px-0 md:py-0 md:block">

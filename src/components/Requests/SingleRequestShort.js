@@ -5,7 +5,6 @@ import { mdiCalendar } from '@mdi/js'
 import { handleApprove } from './handleApprove'
 import { handleDeny } from './handleDeny'
 import { ApproveButton } from 'components/UI Elements/Buttons'
-import Requests from 'components/Edit Employee/Requests'
 
 const SingleRequestShort = ({ request, footer }) => {
 	let requestStyles

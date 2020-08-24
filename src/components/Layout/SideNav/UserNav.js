@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
-import { mdiAccount, mdiMonitorDashboard, mdiCalendarPlus, mdiCalendarAccount } from '@mdi/js'
+import { mdiAccount, mdiMonitorDashboard, mdiCalendarPlus, mdiCalendarAccount, mdiClock } from '@mdi/js'
 import { AuthContext } from '../../../context/Auth'
 import NavLink from './NavLink'
 
@@ -11,6 +11,7 @@ const UserNav = () => {
 	return (
 		<ul className="flex flex-wrap justify-between px-4 py-3 md:px-0 md:py-0 md:block">
 			<NavLink linkTo="" icon={mdiMonitorDashboard} text="Dashboard" />
+			<NavLink linkTo="time-clock" icon={mdiClock} text="Time Clock" />
 			<Link
 				className="focus:outline-none cursor-pointer"
 				to={{

@@ -14,16 +14,16 @@ const UserList = ({ currentUser }) => {
 	const [showModal, setShowModal] = useState(false)
 	const [removeUser, setRemoveUser] = useState(null)
 	const getAllUsers = functions.httpsCallable('getAllUsers')
-	console.log(users)
-	useEffect(() => {
-		getUsers()
-	}, [])
 
 	const getUsers = () => {
 		getAllUsers().then((result) => {
 			setUsers(result.data.users)
 		})
 	}
+
+	useEffect(() => {
+		getUsers()
+	}, [])
 
 	const closeModal = () => {
 		setShowModal(false)

@@ -34,7 +34,7 @@ const UpcomingRequests = () => {
 		return () => {
 			unsubscribe()
 		}
-	}, [])
+	}, [currentUser.uid])
 
 	console.log(requests && requests.filter((request) => request.startDate.toDate() > addDays(startDate, 20)))
 

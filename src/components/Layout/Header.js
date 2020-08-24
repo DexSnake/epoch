@@ -4,12 +4,17 @@ import logo from 'images/epoch-logo.svg'
 import { AuthContext } from 'context/Auth'
 import AccountNav from './AccountNav/AccountNav'
 
-const Header = ({ onClick }) => {
-	const { currentUser } = useContext(AuthContext)
+const Header = () => {
+	const { currentUser, userStatus } = useContext(AuthContext)
 	const [showProfileMenu, setShowProfileMenu] = useState(false)
 
 	const matches = currentUser.displayName.match(/\b(\w)/g)
 	const initials = matches.join('')
+
+	let status
+	if (userStatus === 'Clocked In') status = 'green'
+	else if (userStatus === 'On Lunch') status = 'yellow'
+	else status = 'red'
 
 	return (
 		<header>
@@ -18,7 +23,7 @@ const Header = ({ onClick }) => {
 					<img src={logo} className="h-8" alt="epoch logo" />
 				</Link>
 				<div className="flex relative">
-					<div>
+					<div className="relative">
 						<button
 							onClick={() => setShowProfileMenu(!showProfileMenu)}
 							className="flex items-center focus:outline-none"
@@ -34,6 +39,9 @@ const Header = ({ onClick }) => {
 								</span>
 							)}
 						</button>
+						<div
+							className={`h-3 w-3 bg-${status}-500 rounded-full absolute bottom-0 right-neg-4 border border-purp-dark`}
+						></div>
 					</div>
 					<AccountNav showProfileMenu={showProfileMenu} />
 				</div>

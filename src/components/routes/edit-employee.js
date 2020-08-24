@@ -25,7 +25,7 @@ const NewEditEmployee = (props) => {
 		return () => {
 			unsubscribe()
 		}
-	}, [data.id])
+	}, [data.id, setProfile])
 	return (
 		<Layout>
 			<EmployeeHeader data={employeeProfile} />

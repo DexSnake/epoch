@@ -66,7 +66,7 @@ const ChangeProfileImage = () => {
 				window.location.reload()
 			})
 		}
-	}, [photoURL])
+	}, [photoURL, currentUser.uid])
 
 	const matches = currentUser.displayName.match(/\b(\w)/g)
 	const initials = matches.join('')

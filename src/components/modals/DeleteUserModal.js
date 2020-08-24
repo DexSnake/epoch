@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
 import { db, functions } from '../../firebase/firebase'
 import { toast } from 'react-toastify'
 import Icon from '@mdi/react'

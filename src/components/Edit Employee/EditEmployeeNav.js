@@ -7,6 +7,7 @@ import Contact from './Contact'
 import EmergencyContacts from './EmergencyContacts'
 import Update from './Update'
 import Requests from './Requests'
+import TimeClock from './TimeClock'
 
 const EditEmployeeNav = ({ id }) => {
 	const { currentUser } = useContext(AuthContext)
@@ -52,6 +53,17 @@ const EditEmployeeNav = ({ id }) => {
 							Contact
 						</span>
 					</button>
+					{currentUser.uid === id ? null : (
+						<button onClick={() => setOpenTab(5)} className="px-6 mb-2 lg:mb-0 focus:outline-none">
+							<span
+								className={`${
+									openTab === 5 ? 'border-b-2 text-purp-brightest' : 'hover:text-purp-brightest'
+								} border-purp-brightest font-semibold text-purp-normal pb-0 lg:pb-6 tracking-wider uppercase transition duration-200 ease-in-out`}
+							>
+								Time Clock
+							</span>
+						</button>
+					)}
 				</div>
 				<div>
 					<Update />
@@ -70,6 +82,9 @@ const EditEmployeeNav = ({ id }) => {
 			</div>
 			<div className={openTab === 4 ? 'block' : 'hidden'}>
 				<Contact />
+			</div>
+			<div className={openTab === 5 ? 'block' : 'hidden'}>
+				{currentUser.uid === id ? null : <TimeClock id={id} />}
 			</div>
 		</React.Fragment>
 	)

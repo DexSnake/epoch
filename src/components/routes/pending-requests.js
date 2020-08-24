@@ -31,7 +31,7 @@ const PendingRequests = () => {
 		return () => {
 			unsubscribe()
 		}
-	}, [])
+	}, [currentUser.uid])
 
 	return (
 		<Layout>

@@ -29,7 +29,7 @@ const DeniedRequests = () => {
 		return () => {
 			unsubscribe()
 		}
-	}, [])
+	}, [currentUser.uid])
 
 	return (
 		<Layout>
