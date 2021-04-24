@@ -1,4 +1,4 @@
-### KSTG PTO Tracker
+### Epoch
 
 A custom human resources and time tracking application built for a small team. The app features users accounts with multiple levels of access, real time updates, and a robust level of employee management. 
 
